@@ -105,9 +105,8 @@ dependencies {
     compile "com.google.code.gson:gson:${libraries.gson}"
 
     // Google Dagger
-    compile "com.google.dagger:dagger-android:${libraries.dagger}"
-    compile "com.google.dagger:dagger-android-support:${libraries.dagger}"
-    annotationProcessor "com.google.dagger:dagger-android-processor:${libraries.dagger}"
+    compile "com.google.dagger:dagger:${libraries.dagger}"
+    annotationProcessor "com.google.dagger:dagger-compiler:${libraries.dagger}"
 
     // Google's auto-value. Annotations are used only during compilation time, as well as
     // annotation processor which hoops up into compilation process

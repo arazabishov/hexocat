@@ -8,6 +8,7 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import hu.supercluster.paperwork.Paperwork;
 
 @Module
 @Singleton
@@ -22,5 +23,11 @@ public final class AppModule {
     @Singleton
     Context context() {
         return app;
+    }
+
+    @Provides
+    @Singleton
+    Paperwork paperwork(@NonNull Context context) {
+        return new Paperwork(context);
     }
 }

@@ -1,21 +1,28 @@
 package com.abishov.hexocat;
 
-import android.app.Activity;
 import android.app.Application;
 import android.os.StrictMode;
+import android.support.annotation.NonNull;
 
+import com.abishov.hexocat.commons.utils.CrashReportingTree;
 import com.squareup.leakcanary.LeakCanary;
+import com.squareup.leakcanary.RefWatcher;
 
 import javax.inject.Inject;
 
-import dagger.android.AndroidInjector;
-import dagger.android.DispatchingAndroidInjector;
-import dagger.android.HasActivityInjector;
+import hu.supercluster.paperwork.Paperwork;
+import timber.log.Timber;
 
-public class Hexocat extends Application implements HasActivityInjector {
+public class Hexocat extends Application {
+
+    @NonNull
+    AppComponent appComponent;
+
+    @NonNull
+    RefWatcher refWatcher;
 
     @Inject
-    DispatchingAndroidInjector<Activity> activityInjector;
+    Paperwork paperwork;
 
     @Override
     public void onCreate() {
@@ -27,12 +34,16 @@ public class Hexocat extends Application implements HasActivityInjector {
             return;
         }
 
+        setupAppComponent();
+        setUpLeakCanary();
+        setUpTimber();
+
         // Do not allow to do any work on the
         // main thread. Detect activity leaks.
-        setUpStrictMode();
+        setupStrictMode();
     }
 
-    private void setUpStrictMode() {
+    private void setupStrictMode() {
         if (BuildConfig.DEBUG) {
             StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
                     .detectAll()
@@ -45,8 +56,42 @@ public class Hexocat extends Application implements HasActivityInjector {
         }
     }
 
-    @Override
-    public AndroidInjector<Activity> activityInjector() {
-        return activityInjector;
+    private void setupAppComponent() {
+        appComponent = prepareAppComponent();
+        appComponent.inject(this);
+    }
+
+    private void setUpLeakCanary() {
+        if (BuildConfig.DEBUG) {
+            refWatcher = LeakCanary.install(this);
+        } else {
+            refWatcher = RefWatcher.DISABLED;
+        }
+    }
+
+    private void setUpTimber() {
+        if (BuildConfig.DEBUG) {
+            // Verbose logging for debug builds.
+            Timber.plant(new Timber.DebugTree());
+        } else {
+            Timber.plant(new CrashReportingTree(paperwork));
+        }
+    }
+
+    @NonNull
+    protected AppComponent prepareAppComponent() {
+        return DaggerAppComponent.builder()
+                .appModule(new AppModule(this))
+                .build();
+    }
+
+    @NonNull
+    public AppComponent appComponent() {
+        return appComponent;
+    }
+
+    @NonNull
+    public RefWatcher refWatcher() {
+        return refWatcher;
     }
 }
