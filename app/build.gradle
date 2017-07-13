@@ -22,7 +22,7 @@ android {
     buildToolsVersion versions.tools
 
     defaultConfig {
-        applicationId "org.hexocat.android"
+        applicationId "com.abishov.android"
         minSdkVersion versions.minsdk
         targetSdkVersion versions.sdk
         versionCode versionMajor * 10000 + versionMinor * 1000 + versionPatch * 100 + versionBuild

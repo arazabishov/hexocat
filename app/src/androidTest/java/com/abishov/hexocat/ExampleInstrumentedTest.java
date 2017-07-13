@@ -1,4 +1,4 @@
-package org.hexocat.android;
+package com.abishov.hexocat;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -20,6 +20,6 @@ public class ExampleInstrumentedTest {
     public void useAppContext() throws Exception {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
-        assertEquals("org.hexocat.android.debug", appContext.getPackageName());
+        assertEquals("com.abishov.android.debug", appContext.getPackageName());
     }
 }

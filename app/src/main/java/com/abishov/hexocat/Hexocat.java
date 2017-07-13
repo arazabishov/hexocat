@@ -1,4 +1,4 @@
-package org.hexocat.android;
+package com.abishov.hexocat;
 
 import android.app.Activity;
 import android.app.Application;
