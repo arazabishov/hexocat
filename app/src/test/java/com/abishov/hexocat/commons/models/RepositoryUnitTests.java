@@ -1,4 +1,7 @@
-package com.abishov.hexocat.search;
+package com.abishov.hexocat.commons.models;
+
+import com.abishov.hexocat.commons.models.Organization;
+import com.abishov.hexocat.commons.models.Repository;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

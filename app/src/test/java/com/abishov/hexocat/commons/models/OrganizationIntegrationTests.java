@@ -1,6 +1,7 @@
-package com.abishov.hexocat.search;
+package com.abishov.hexocat.commons.models;
 
 import com.abishov.hexocat.Inject;
+import com.abishov.hexocat.commons.models.Organization;
 import com.google.gson.Gson;
 
 import org.junit.Test;

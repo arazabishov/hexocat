@@ -1,4 +1,4 @@
-package com.abishov.hexocat.search;
+package com.abishov.hexocat.commons.models;
 
 import android.support.annotation.NonNull;
 
