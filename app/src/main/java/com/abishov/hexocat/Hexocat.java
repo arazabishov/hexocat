@@ -3,7 +3,11 @@ package com.abishov.hexocat;
 import android.app.Application;
 import android.os.StrictMode;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
 
+import com.abishov.hexocat.commons.network.NetworkComponent;
+import com.abishov.hexocat.commons.network.NetworkModule;
 import com.abishov.hexocat.commons.utils.CrashReportingTree;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
@@ -11,12 +15,16 @@ import com.squareup.leakcanary.RefWatcher;
 import javax.inject.Inject;
 
 import hu.supercluster.paperwork.Paperwork;
+import okhttp3.HttpUrl;
 import timber.log.Timber;
 
 public class Hexocat extends Application {
 
     @NonNull
     AppComponent appComponent;
+
+    @Nullable
+    NetworkComponent networkComponent;
 
     @NonNull
     RefWatcher refWatcher;
@@ -35,6 +43,7 @@ public class Hexocat extends Application {
         }
 
         setupAppComponent();
+        setupNetworkComponent();
         setUpLeakCanary();
         setUpTimber();
 
@@ -59,6 +68,10 @@ public class Hexocat extends Application {
     private void setupAppComponent() {
         appComponent = prepareAppComponent();
         appComponent.inject(this);
+    }
+
+    private void setupNetworkComponent() {
+        networkComponent = prepareNetworkComponent();
     }
 
     private void setUpLeakCanary() {
@@ -86,8 +99,24 @@ public class Hexocat extends Application {
     }
 
     @NonNull
+    @VisibleForTesting
+    protected NetworkComponent prepareNetworkComponent() {
+        return appComponent.plus(new NetworkModule(
+                HttpUrl.parse("http://api.github.com")));
+    }
+
+    @NonNull
     public AppComponent appComponent() {
         return appComponent;
+    }
+
+    @NonNull
+    public NetworkComponent networkComponent() {
+        if (networkComponent == null) {
+            networkComponent = prepareNetworkComponent();
+        }
+
+        return networkComponent;
     }
 
     @NonNull

@@ -8,6 +8,7 @@ import dagger.Module;
 import dagger.Provides;
 
 @Module
+@Singleton
 public final class SchedulerModule {
 
     @NonNull
@@ -21,7 +22,6 @@ public final class SchedulerModule {
         this.provider = provider;
     }
 
-    @NonNull
     @Provides
     @Singleton
     SchedulerProvider schedulerProvider() {
