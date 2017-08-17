@@ -3,7 +3,7 @@ package com.abishov.hexocat.home.trending;
 import android.support.annotation.NonNull;
 
 import com.abishov.hexocat.commons.schedulers.SchedulerProvider;
-import com.abishov.hexocat.commons.ui.Presenter;
+import com.abishov.hexocat.commons.views.Presenter;
 import com.abishov.hexocat.commons.utils.OnErrorHandler;
 
 import io.reactivex.disposables.CompositeDisposable;

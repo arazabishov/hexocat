@@ -1,4 +1,4 @@
-package com.abishov.hexocat.commons.ui;
+package com.abishov.hexocat.commons.views;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;

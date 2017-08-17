@@ -15,14 +15,21 @@ public final class TrendingModule {
 
     @Provides
     @PerFragment
+    QueryDateProvider dateProvider() {
+        return new QueryDateProvider();
+    }
+
+    @Provides
+    @PerFragment
     TrendingService trendingService(@NonNull Retrofit retrofit) {
         return retrofit.create(TrendingService.class);
     }
 
     @Provides
     @PerFragment
-    TrendingRepository trendingRepository(@NonNull TrendingService trendingService) {
-        return new TrendingRepository(trendingService);
+    TrendingRepository trendingRepository(@NonNull TrendingService trendingService,
+            @NonNull QueryDateProvider queryDateProvider) {
+        return new TrendingRepository(trendingService, queryDateProvider);
     }
 
     @Provides

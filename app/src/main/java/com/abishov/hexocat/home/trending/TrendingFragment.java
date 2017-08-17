@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 
 import com.abishov.hexocat.Hexocat;
 import com.abishov.hexocat.R;
-import com.abishov.hexocat.commons.ui.BaseFragment;
+import com.abishov.hexocat.commons.views.BaseFragment;
 
 import java.util.List;
 

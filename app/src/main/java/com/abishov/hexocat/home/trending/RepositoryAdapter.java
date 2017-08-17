@@ -23,7 +23,7 @@ final class RepositoryAdapter extends RecyclerView.Adapter<RepositoryAdapter.Rep
     @NonNull
     private final List<RepositoryViewModel> repositories;
 
-    public RepositoryAdapter(@NonNull LayoutInflater layoutInflater) {
+    RepositoryAdapter(@NonNull LayoutInflater layoutInflater) {
         this.layoutInflater = layoutInflater;
         this.repositories = new ArrayList<>();
     }
@@ -56,7 +56,7 @@ final class RepositoryAdapter extends RecyclerView.Adapter<RepositoryAdapter.Rep
         @BindView(R.id.textview_repository_name)
         TextView textViewRepositoryName;
 
-        public RepositoryViewHolder(View itemView) {
+        RepositoryViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }

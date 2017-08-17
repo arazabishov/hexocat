@@ -1,6 +1,6 @@
 package com.abishov.hexocat.home.trending;
 
-import com.abishov.hexocat.commons.ui.View;
+import com.abishov.hexocat.commons.views.View;
 
 import java.util.List;
 
