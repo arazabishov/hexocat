@@ -16,6 +16,6 @@ class QueryDateProvider {
         calendar.add(Calendar.DATE, -7);
 
         // Retrieve date and format it.
-        return (new SimpleDateFormat(DATE_FORMAT, Locale.US)).format(calendar.getTime());
+        return new SimpleDateFormat(DATE_FORMAT, Locale.US).format(calendar.getTime());
     }
 }
