@@ -2,6 +2,8 @@ package com.abishov.hexocat.home.trending;
 
 import android.support.annotation.NonNull;
 
+import com.abishov.hexocat.commons.models.Repository;
+
 import java.util.List;
 import java.util.Locale;
 
@@ -9,7 +11,7 @@ import javax.annotation.Nonnull;
 
 import io.reactivex.Observable;
 
-final class TrendingRepository {
+class TrendingRepository {
 
     @Nonnull
     private final TrendingService service;
@@ -24,12 +26,11 @@ final class TrendingRepository {
     }
 
     @Nonnull
-    Observable<List<RepositoryViewModel>> trendingRepositories() {
+    Observable<List<Repository>> trendingRepositories() {
         String queryFilter = String.format(Locale.US, "created:>%s",
                 queryDateProvider.weekBeforeToday());
         return service.trendingRepositories(queryFilter)
                 .switchMap(pager -> Observable.fromIterable(pager.items())
-                        .map(repo -> RepositoryViewModel.create(repo.name()))
                         .toList().toObservable());
     }
 }

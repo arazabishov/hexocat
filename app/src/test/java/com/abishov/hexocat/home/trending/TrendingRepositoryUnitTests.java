@@ -39,9 +39,6 @@ public final class TrendingRepositoryUnitTests {
     // The pager with repositories returned by the service.
     private Pager<Repository> repositoryPager;
 
-    // Corresponding RepositoryViewModels.
-    private List<RepositoryViewModel> repositoryViewModels;
-
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
@@ -55,9 +52,6 @@ public final class TrendingRepositoryUnitTests {
                         "test_html_url_one", "test_description_one", owner),
                 Repository.create("test_repository_two",
                         "test_html_url_two", "test_description_two", owner)));
-        repositoryViewModels = Arrays.asList(
-                RepositoryViewModel.create("test_repository_one"),
-                RepositoryViewModel.create("test_repository_two"));
 
         when(trendingService.trendingRepositories("created:>2017-08-10")).thenReturn(subject);
         when(queryDateProvider.weekBeforeToday()).thenReturn("2017-08-10");
@@ -65,7 +59,7 @@ public final class TrendingRepositoryUnitTests {
 
     @Test
     public void trendingRepositoriesMustCallTrendingServiceWithCorrectFilter() {
-        TestObserver<List<RepositoryViewModel>> testObserver =
+        TestObserver<List<Repository>> testObserver =
                 trendingRepository.trendingRepositories().test();
 
         subject.onNext(repositoryPager);
@@ -75,7 +69,7 @@ public final class TrendingRepositoryUnitTests {
         testObserver.assertComplete();
         testObserver.assertValueCount(1);
 
-        assertThat(testObserver.values().get(0)).isEqualTo(repositoryViewModels);
+        assertThat(testObserver.values().get(0)).isEqualTo(repositoryPager.items());
 
         verify(queryDateProvider, times(1)).weekBeforeToday();
         verify(trendingService, times(1)).trendingRepositories("created:>2017-08-10");
