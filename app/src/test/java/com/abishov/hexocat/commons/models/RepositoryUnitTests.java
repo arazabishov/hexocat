@@ -1,8 +1,5 @@
 package com.abishov.hexocat.commons.models;
 
-import com.abishov.hexocat.commons.models.Organization;
-import com.abishov.hexocat.commons.models.Repository;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -30,17 +27,6 @@ public class RepositoryUnitTests {
         try {
             Repository.create("test_name", null,
                     "test_description", mock(Organization.class));
-            fail("NullPointerException was expected, but nothing was thrown.");
-        } catch (NullPointerException nullPointerException) {
-            // noop
-        }
-    }
-
-    @Test
-    public void createMustThrowOnNullDescription() {
-        try {
-            Repository.create("test_name", "test_html_url",
-                    null, mock(Organization.class));
             fail("NullPointerException was expected, but nothing was thrown.");
         } catch (NullPointerException nullPointerException) {
             // noop
