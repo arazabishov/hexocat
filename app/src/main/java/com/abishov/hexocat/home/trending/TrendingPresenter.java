@@ -22,7 +22,7 @@ final class TrendingPresenter implements Presenter<TrendingView> {
     private final CompositeDisposable compositeDisposable;
 
     TrendingPresenter(@NonNull SchedulerProvider schedulerProvider,
-            @NonNull TrendingRepository trendingRepository) {
+                      @NonNull TrendingRepository trendingRepository) {
         this.schedulerProvider = schedulerProvider;
         this.trendingRepository = trendingRepository;
         this.compositeDisposable = new CompositeDisposable();
@@ -33,8 +33,12 @@ final class TrendingPresenter implements Presenter<TrendingView> {
         compositeDisposable.add(trendingRepository.trendingRepositories()
                 .subscribeOn(schedulerProvider.io())
                 .switchMap(repositories -> Observable.fromIterable(repositories)
-                        .map(repo -> RepositoryViewModel.create(repo.name(),
-                                repo.description() == null ? "-" : repo.description()))
+                        .map(repo -> {
+                            String description = repo.description() == null ?
+                                    "-" : repo.description();
+                            return RepositoryViewModel.create(repo.name(),
+                                    description, repo.owner().avatarUrl());
+                        })
                         .toList().toObservable())
                 .map(ViewState::success)
                 .startWith(ViewState.progress())

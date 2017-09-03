@@ -58,15 +58,17 @@ public class TrendingPresenterUnitTests {
         trendingPresenter = new TrendingPresenter(
                 new TrampolineSchedulersProvider(), trendingRepository);
 
-        Organization owner = Organization.create("test_login", "test_html_url");
+        Organization owner = Organization.create("test_login", "test_html_url", "test_avatar_url");
         repositories = Arrays.asList(
                 Repository.create("test_repository_one",
                         "test_html_url_one", "test_description_one", owner),
                 Repository.create("test_repository_two",
                         "test_html_url_two", "test_description_two", owner));
         repositoryViewModels = Arrays.asList(
-                RepositoryViewModel.create("test_repository_one", "test_description_one"),
-                RepositoryViewModel.create("test_repository_two", "test_description_two"));
+                RepositoryViewModel.create("test_repository_one",
+                        "test_description_one", "test_avatar_url"),
+                RepositoryViewModel.create("test_repository_two",
+                        "test_description_two", "test_avatar_url"));
 
         when(trendingRepository.trendingRepositories()).thenReturn(listResults);
     }

@@ -46,7 +46,8 @@ public final class TrendingRepositoryUnitTests {
         subject = PublishSubject.create();
         trendingRepository = new TrendingRepository(trendingService, queryDateProvider);
 
-        Organization owner = Organization.create("test_login", "test_html_url");
+        Organization owner = Organization.create("test_login",
+                "test_html_url", "test_avatar_url");
         repositoryPager = Pager.create(Arrays.asList(
                 Repository.create("test_repository_one",
                         "test_html_url_one", "test_description_one", owner),
