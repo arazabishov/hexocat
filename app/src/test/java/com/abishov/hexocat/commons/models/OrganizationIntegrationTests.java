@@ -38,5 +38,6 @@ public class OrganizationIntegrationTests {
 
         assertThat(organization.login()).isEqualTo("CaMnter");
         assertThat(organization.htmlUrl()).isEqualTo("https://github.com/CaMnter");
+        assertThat(organization.avatarUrl()).isEqualTo("https://avatars0.githubusercontent.com/u/10336931?v=3");
     }
 }

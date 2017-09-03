@@ -11,6 +11,7 @@ import com.google.gson.annotations.SerializedName;
 public abstract class Organization {
     private static final String LOGIN = "login";
     private static final String HTML_URL = "html_url";
+    private static final String AVATAR_URL = "avatar_url";
 
     @NonNull
     @SerializedName(LOGIN)
@@ -21,9 +22,13 @@ public abstract class Organization {
     public abstract String htmlUrl();
 
     @NonNull
-    public static Organization create(@NonNull String login,
-            @NonNull String htmlUrl) {
-        return new AutoValue_Organization(login, htmlUrl);
+    @SerializedName(AVATAR_URL)
+    public abstract String avatarUrl();
+
+    @NonNull
+    public static Organization create(@NonNull String login, @NonNull String htmlUrl,
+                                      @NonNull String avatarUrl) {
+        return new AutoValue_Organization(login, htmlUrl, avatarUrl);
     }
 
     @NonNull
