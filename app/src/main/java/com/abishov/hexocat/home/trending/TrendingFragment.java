@@ -15,6 +15,7 @@ import com.abishov.hexocat.Hexocat;
 import com.abishov.hexocat.R;
 import com.abishov.hexocat.commons.views.BaseFragment;
 import com.abishov.hexocat.commons.views.ViewState;
+import com.squareup.picasso.Picasso;
 
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
@@ -33,6 +34,9 @@ public final class TrendingFragment extends BaseFragment implements TrendingView
     @Inject
     TrendingPresenter trendingPresenter;
 
+    @Inject
+    Picasso picasso;
+
     @Nonnull
     public static TrendingFragment create() {
         return new TrendingFragment();
@@ -50,7 +54,7 @@ public final class TrendingFragment extends BaseFragment implements TrendingView
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
-            @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+                             @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_trending, container, false);
     }
 
@@ -59,7 +63,7 @@ public final class TrendingFragment extends BaseFragment implements TrendingView
         bind(this, view);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        repositoryAdapter = new RepositoryAdapter(LayoutInflater.from(getActivity()));
+        repositoryAdapter = new RepositoryAdapter(LayoutInflater.from(getActivity()), picasso);
         recyclerViewTrending.setLayoutManager(layoutManager);
         recyclerViewTrending.setAdapter(repositoryAdapter);
     }
