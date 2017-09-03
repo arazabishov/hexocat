@@ -119,6 +119,7 @@ dependencies {
     annotationProcessor "com.ryanharter.auto.value:auto-value-parcel:${libraries.autovalueparcel}"
 
     // Square libraries
+    compile "com.squareup.picasso:picasso:${libraries.picasso}"
     compile "com.squareup.okhttp3:okhttp:${libraries.okhttp}"
     compile "com.squareup.okhttp3:logging-interceptor:${libraries.okhttp}"
     compile "com.squareup.retrofit2:retrofit:${libraries.retrofit}"
@@ -130,9 +131,13 @@ dependencies {
     // Jake Wharton libraries
     compile "com.jakewharton.rxbinding2:rxbinding:${libraries.rxbindings}"
     compile "com.jakewharton.rxbinding2:rxbinding-appcompat-v7:${libraries.rxbindings}"
+    compile "com.jakewharton.picasso:picasso2-okhttp3-downloader:${libraries.okpicasso}"
     compile "com.jakewharton.timber:timber:${libraries.timber}"
     compile "com.jakewharton:butterknife:${libraries.butterknife}"
     annotationProcessor "com.jakewharton:butterknife-compiler:${libraries.butterknife}"
+
+    // Other
+    compile "de.hdodenhof:circleimageview:${libraries.circleview}"
 
     // Plugin dependencies
     provided "com.google.code.findbugs:annotations:${libraries.findbugs}"
