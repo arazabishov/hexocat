@@ -38,6 +38,7 @@ final class RepositoryAdapter extends RecyclerView.Adapter<RepositoryAdapter.Rep
     public void onBindViewHolder(RepositoryViewHolder holder, int position) {
         RepositoryViewModel repository = repositories.get(position);
         holder.textViewRepositoryName.setText(repository.name());
+        holder.textViewRepositoryDescription.setText(repository.description());
     }
 
     @Override
@@ -55,6 +56,9 @@ final class RepositoryAdapter extends RecyclerView.Adapter<RepositoryAdapter.Rep
 
         @BindView(R.id.textview_repository_name)
         TextView textViewRepositoryName;
+
+        @BindView(R.id.textview_repository_description)
+        TextView textViewRepositoryDescription;
 
         RepositoryViewHolder(View itemView) {
             super(itemView);
