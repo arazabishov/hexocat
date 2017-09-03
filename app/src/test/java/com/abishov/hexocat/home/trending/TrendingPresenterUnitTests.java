@@ -65,8 +65,8 @@ public class TrendingPresenterUnitTests {
                 Repository.create("test_repository_two",
                         "test_html_url_two", "test_description_two", owner));
         repositoryViewModels = Arrays.asList(
-                RepositoryViewModel.create("test_repository_one"),
-                RepositoryViewModel.create("test_repository_two"));
+                RepositoryViewModel.create("test_repository_one", "test_description_one"),
+                RepositoryViewModel.create("test_repository_two", "test_description_two"));
 
         when(trendingRepository.trendingRepositories()).thenReturn(listResults);
     }

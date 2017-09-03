@@ -13,7 +13,17 @@ public class RepositoryViewModelUnitTests {
     @Test
     public void createMustThrowOnNullName() {
         try {
-            RepositoryViewModel.create(null);
+            RepositoryViewModel.create(null, "test_description");
+            fail("NullPointerException was expected, but nothing was thrown.");
+        } catch (NullPointerException nullPointerException) {
+            // noop
+        }
+    }
+
+    @Test
+    public void createMustThrowOnNullDescription() {
+        try {
+            RepositoryViewModel.create("test_name", null);
             fail("NullPointerException was expected, but nothing was thrown.");
         } catch (NullPointerException nullPointerException) {
             // noop
@@ -22,8 +32,10 @@ public class RepositoryViewModelUnitTests {
 
     @Test
     public void equalsAndHashcodeMustConformToTheContract() {
-        RepositoryViewModel repositoryOne = RepositoryViewModel.create("test_name");
-        RepositoryViewModel repositoryTwo = RepositoryViewModel.create("test_name");
+        RepositoryViewModel repositoryOne = RepositoryViewModel
+                .create("test_name", "test_description");
+        RepositoryViewModel repositoryTwo = RepositoryViewModel
+                .create("test_name", "test_description");
 
         assertThat(repositoryOne).isEqualTo(repositoryTwo);
         assertThat(repositoryTwo).isEqualTo(repositoryOne);
@@ -31,7 +43,9 @@ public class RepositoryViewModelUnitTests {
 
     @Test
     public void propertiesMustBePropagatedCorrectly() {
-        RepositoryViewModel repository = RepositoryViewModel.create("test_name");
+        RepositoryViewModel repository = RepositoryViewModel
+                .create("test_name", "test_description");
         assertThat(repository.name()).isEqualTo("test_name");
+        assertThat(repository.description()).isEqualTo("test_description");
     }
 }

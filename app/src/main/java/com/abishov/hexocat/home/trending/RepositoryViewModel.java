@@ -11,8 +11,11 @@ abstract class RepositoryViewModel {
     abstract String name();
 
     @NonNull
-    static RepositoryViewModel create(@NonNull String name) {
-        return new AutoValue_RepositoryViewModel(name);
+    abstract String description();
+
+    @NonNull
+    static RepositoryViewModel create(@NonNull String name, @NonNull String description) {
+        return new AutoValue_RepositoryViewModel(name, description);
     }
 }
 

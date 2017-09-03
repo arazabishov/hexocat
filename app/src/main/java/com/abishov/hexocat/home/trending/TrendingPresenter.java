@@ -33,7 +33,8 @@ final class TrendingPresenter implements Presenter<TrendingView> {
         compositeDisposable.add(trendingRepository.trendingRepositories()
                 .subscribeOn(schedulerProvider.io())
                 .switchMap(repositories -> Observable.fromIterable(repositories)
-                        .map(repo -> RepositoryViewModel.create(repo.name()))
+                        .map(repo -> RepositoryViewModel.create(repo.name(),
+                                repo.description() == null ? "-" : repo.description()))
                         .toList().toObservable())
                 .map(ViewState::success)
                 .startWith(ViewState.progress())
