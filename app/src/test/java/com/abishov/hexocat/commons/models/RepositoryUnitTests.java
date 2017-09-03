@@ -47,7 +47,7 @@ public class RepositoryUnitTests {
     @Test
     public void equalsAndHashcodeMustConformToTheContract() {
         Organization owner = Organization.create(
-                "test_login", "test_html_url");
+                "test_login", "test_html_url", "test_avatar_url");
         Repository repositoryOne = Repository.create("test_name",
                 "test_html_url", "test_description", owner);
         Repository repositoryTwo = Repository.create("test_name",
@@ -60,7 +60,7 @@ public class RepositoryUnitTests {
     @Test
     public void propertiesMustBePropagatedCorrectly() {
         Organization owner = Organization.create(
-                "test_login", "test_html_url");
+                "test_login", "test_html_url", "test_avatar_url");
         Repository repository = Repository.create("test_name",
                 "test_html_url", "test_description", owner);
 

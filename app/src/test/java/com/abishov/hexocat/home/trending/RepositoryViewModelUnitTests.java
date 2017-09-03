@@ -13,7 +13,7 @@ public class RepositoryViewModelUnitTests {
     @Test
     public void createMustThrowOnNullName() {
         try {
-            RepositoryViewModel.create(null, "test_description");
+            RepositoryViewModel.create(null, "test_description", "test_avatar_url");
             fail("NullPointerException was expected, but nothing was thrown.");
         } catch (NullPointerException nullPointerException) {
             // noop
@@ -23,7 +23,17 @@ public class RepositoryViewModelUnitTests {
     @Test
     public void createMustThrowOnNullDescription() {
         try {
-            RepositoryViewModel.create("test_name", null);
+            RepositoryViewModel.create("test_name", null, "test_avatar_url");
+            fail("NullPointerException was expected, but nothing was thrown.");
+        } catch (NullPointerException nullPointerException) {
+            // noop
+        }
+    }
+
+    @Test
+    public void createMustThrowOnNullAvatarUrl() {
+        try {
+            RepositoryViewModel.create("test_name", "test_description", null);
             fail("NullPointerException was expected, but nothing was thrown.");
         } catch (NullPointerException nullPointerException) {
             // noop
@@ -33,9 +43,9 @@ public class RepositoryViewModelUnitTests {
     @Test
     public void equalsAndHashcodeMustConformToTheContract() {
         RepositoryViewModel repositoryOne = RepositoryViewModel
-                .create("test_name", "test_description");
+                .create("test_name", "test_description", "test_avatar_url");
         RepositoryViewModel repositoryTwo = RepositoryViewModel
-                .create("test_name", "test_description");
+                .create("test_name", "test_description", "test_avatar_url");
 
         assertThat(repositoryOne).isEqualTo(repositoryTwo);
         assertThat(repositoryTwo).isEqualTo(repositoryOne);
@@ -44,8 +54,9 @@ public class RepositoryViewModelUnitTests {
     @Test
     public void propertiesMustBePropagatedCorrectly() {
         RepositoryViewModel repository = RepositoryViewModel
-                .create("test_name", "test_description");
+                .create("test_name", "test_description", "test_avatar_url");
         assertThat(repository.name()).isEqualTo("test_name");
         assertThat(repository.description()).isEqualTo("test_description");
+        assertThat(repository.avatarUrl()).isEqualTo("test_avatar_url");
     }
 }
