@@ -7,6 +7,9 @@ import com.abishov.hexocat.commons.dagger.PerSession;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.TypeAdapterFactory;
+import com.jakewharton.picasso.OkHttp3Downloader;
+import com.squareup.picasso.Downloader;
+import com.squareup.picasso.Picasso;
 
 import java.util.concurrent.TimeUnit;
 
@@ -101,13 +104,27 @@ public final class NetworkModule {
     @Provides
     @PerSession
     Retrofit retrofit(@NonNull Converter.Factory factory,
-            @NonNull CallAdapter.Factory rxJavaAdapterFactory,
-            @NonNull OkHttpClient okHttpClient) {
+                      @NonNull CallAdapter.Factory rxJavaAdapterFactory,
+                      @NonNull OkHttpClient okHttpClient) {
         return new Retrofit.Builder()
                 .baseUrl(baseUrl)
                 .addConverterFactory(factory)
                 .addCallAdapterFactory(rxJavaAdapterFactory)
                 .client(okHttpClient)
+                .build();
+    }
+
+    @Provides
+    @PerSession
+    Downloader okHttpPicasso(@NonNull OkHttpClient okClient) {
+        return new OkHttp3Downloader(okClient);
+    }
+
+    @Provides
+    @PerSession
+    Picasso picasso(@NonNull Context context, @NonNull Downloader downloader) {
+        return new Picasso.Builder(context)
+                .downloader(downloader)
                 .build();
     }
 }
