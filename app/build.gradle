@@ -1,5 +1,4 @@
 apply plugin: "com.android.application"
-apply plugin: "me.tatarka.retrolambda"
 apply plugin: "org.sonarqube"
 apply plugin: "spoon"
 apply from: rootProject.file("plugins/android-checkstyle.gradle")
@@ -88,79 +87,79 @@ spoon {
 }
 
 dependencies {
-    compile "hu.supercluster:paperwork:${libraries.paperwork}"
+    implementation "hu.supercluster:paperwork:${libraries.paperwork}"
 
     // Support libraries
-    compile "com.android.support:design:${libraries.support}"
-    compile "com.android.support:appcompat-v7:${libraries.support}"
-    compile "com.android.support:support-annotations:${libraries.support}"
-    compile "com.android.support:recyclerview-v7:${libraries.support}"
+    implementation "com.android.support:design:${libraries.support}"
+    implementation "com.android.support:appcompat-v7:${libraries.support}"
+    implementation "com.android.support:support-annotations:${libraries.support}"
+    implementation "com.android.support:recyclerview-v7:${libraries.support}"
 
     // ReactiveX
-    compile "io.reactivex.rxjava2:rxandroid:${libraries.rxandroid}"
-    compile "io.reactivex.rxjava2:rxjava:${libraries.rxjava}"
+    implementation "io.reactivex.rxjava2:rxandroid:${libraries.rxandroid}"
+    implementation "io.reactivex.rxjava2:rxjava:${libraries.rxjava}"
 
     // Google libraries
-    compile "com.google.code.gson:gson:${libraries.gson}"
+    implementation "com.google.code.gson:gson:${libraries.gson}"
 
     // Google Dagger
-    compile "com.google.dagger:dagger:${libraries.dagger}"
+    implementation "com.google.dagger:dagger:${libraries.dagger}"
     annotationProcessor "com.google.dagger:dagger-compiler:${libraries.dagger}"
 
     // Google's auto-value. Annotations are used only during compilation time, as well as
     // annotation processor which hoops up into compilation process
-    provided "com.google.auto.value:auto-value:${libraries.autovalue}"
+    compileOnly "com.google.auto.value:auto-value:${libraries.autovalue}"
     annotationProcessor "com.google.auto.value:auto-value:${libraries.autovalue}"
 
     // Extension which generates mappers for work with cursors
-    provided "com.ryanharter.auto.value:auto-value-gson:${libraries.autovaluegson}"
+    compileOnly "com.ryanharter.auto.value:auto-value-gson:${libraries.autovaluegson}"
     annotationProcessor "com.ryanharter.auto.value:auto-value-gson:${libraries.autovaluegson}"
     annotationProcessor "com.ryanharter.auto.value:auto-value-parcel:${libraries.autovalueparcel}"
 
     // Square libraries
-    compile "com.squareup.picasso:picasso:${libraries.picasso}"
-    compile "com.squareup.okhttp3:okhttp:${libraries.okhttp}"
-    compile "com.squareup.okhttp3:logging-interceptor:${libraries.okhttp}"
-    compile "com.squareup.retrofit2:retrofit:${libraries.retrofit}"
-    compile "com.squareup.retrofit2:converter-gson:${libraries.retrofit}"
-    compile "com.squareup.retrofit2:adapter-rxjava2:${libraries.retrofit}"
-    debugCompile "com.squareup.leakcanary:leakcanary-android:${libraries.leakcanary}"
-    releaseCompile "com.squareup.leakcanary:leakcanary-android-no-op:${libraries.leakcanary}"
+    implementation "com.squareup.picasso:picasso:${libraries.picasso}"
+    implementation "com.squareup.okhttp3:okhttp:${libraries.okhttp}"
+    implementation "com.squareup.okhttp3:logging-interceptor:${libraries.okhttp}"
+    implementation "com.squareup.retrofit2:retrofit:${libraries.retrofit}"
+    implementation "com.squareup.retrofit2:converter-gson:${libraries.retrofit}"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:${libraries.retrofit}"
+    debugImplementation "com.squareup.leakcanary:leakcanary-android:${libraries.leakcanary}"
+    releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:${libraries.leakcanary}"
 
     // Jake Wharton libraries
-    compile "com.jakewharton.rxbinding2:rxbinding:${libraries.rxbindings}"
-    compile "com.jakewharton.rxbinding2:rxbinding-appcompat-v7:${libraries.rxbindings}"
-    compile "com.jakewharton.picasso:picasso2-okhttp3-downloader:${libraries.okpicasso}"
-    compile "com.jakewharton.timber:timber:${libraries.timber}"
-    compile "com.jakewharton:butterknife:${libraries.butterknife}"
+    implementation "com.jakewharton.rxbinding2:rxbinding:${libraries.rxbindings}"
+    implementation "com.jakewharton.rxbinding2:rxbinding-appcompat-v7:${libraries.rxbindings}"
+    implementation "com.jakewharton.picasso:picasso2-okhttp3-downloader:${libraries.okpicasso}"
+    implementation "com.jakewharton.timber:timber:${libraries.timber}"
+    implementation "com.jakewharton:butterknife:${libraries.butterknife}"
     annotationProcessor "com.jakewharton:butterknife-compiler:${libraries.butterknife}"
 
     // Plugin dependencies
-    provided "com.google.code.findbugs:annotations:${libraries.findbugs}"
+    compileOnly "com.google.code.findbugs:annotations:${libraries.findbugs}"
 
     // Test dependencies
-    testCompile "junit:junit:${libraries.junit}"
-    testCompile "org.assertj:assertj-core:${libraries.assertj}"
-    testCompile "org.mockito:mockito-core:${libraries.mockito}"
-    testCompile "com.squareup.leakcanary:leakcanary-android-no-op:${libraries.leakcanary}"
-    testCompile "nl.jqno.equalsverifier:equalsverifier:${libraries.equalsverifier}"
+    testImplementation "junit:junit:${libraries.junit}"
+    testImplementation "org.assertj:assertj-core:${libraries.assertj}"
+    testImplementation "org.mockito:mockito-core:${libraries.mockito}"
+    testImplementation "com.squareup.leakcanary:leakcanary-android-no-op:${libraries.leakcanary}"
+    testImplementation "nl.jqno.equalsverifier:equalsverifier:${libraries.equalsverifier}"
 
     // Spoon client which allows to capture screenshots during instrumentation tests
-    androidTestCompile "com.squareup.spoon:spoon-client:${libraries.spoon}"
-    androidTestCompile "com.squareup.okhttp3:mockwebserver:${libraries.okhttp}"
-    androidTestCompile "org.mockito:mockito-android:${libraries.mockito}"
-    androidTestCompile "org.assertj:assertj-core:${libraries.assertj}"
+    androidTestImplementation "com.squareup.spoon:spoon-client:${libraries.spoon}"
+    androidTestImplementation "com.squareup.okhttp3:mockwebserver:${libraries.okhttp}"
+    androidTestImplementation "org.mockito:mockito-android:${libraries.mockito}"
+    androidTestImplementation "org.assertj:assertj-core:${libraries.assertj}"
 
-    androidTestCompile("com.android.support.test.espresso:espresso-idling-resource:${libraries.espresso}") {
+    androidTestImplementation("com.android.support.test.espresso:espresso-idling-resource:${libraries.espresso}") {
         exclude module: "support-annotations"
     }
-    androidTestCompile("com.android.support.test.espresso:espresso-core:${libraries.espresso}") {
+    androidTestImplementation("com.android.support.test.espresso:espresso-core:${libraries.espresso}") {
         exclude module: "support-annotations"
     }
-    androidTestCompile("com.android.support.test.espresso:espresso-intents:${libraries.espresso}") {
+    androidTestImplementation("com.android.support.test.espresso:espresso-intents:${libraries.espresso}") {
         exclude module: "support-annotations"
     }
-    androidTestCompile("com.android.support.test.espresso:espresso-contrib:${libraries.espresso}") {
+    androidTestImplementation("com.android.support.test.espresso:espresso-contrib:${libraries.espresso}") {
         // Causes IncompatibleClassChangeError
         exclude module: "support-annotations"
         exclude module: "recyclerview-v7"
