@@ -5,33 +5,31 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.abishov.hexocat.R;
+import com.abishov.hexocat.commons.views.CircleTransformation;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Transformation;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import de.hdodenhof.circleimageview.CircleImageView;
 
 final class RepositoryAdapter extends RecyclerView.Adapter<RepositoryAdapter.RepositoryViewHolder> {
-
-    @NonNull
     private final LayoutInflater layoutInflater;
-
-    @NonNull
     private final Picasso picasso;
-
-    @NonNull
     private final List<RepositoryViewModel> repositories;
+    private final Transformation transformation;
 
     RepositoryAdapter(@NonNull LayoutInflater layoutInflater, @NonNull Picasso picasso) {
         this.layoutInflater = layoutInflater;
         this.picasso = picasso;
         this.repositories = new ArrayList<>();
+        this.transformation = new CircleTransformation();
     }
 
     @Override
@@ -42,13 +40,7 @@ final class RepositoryAdapter extends RecyclerView.Adapter<RepositoryAdapter.Rep
 
     @Override
     public void onBindViewHolder(RepositoryViewHolder holder, int position) {
-        RepositoryViewModel repository = repositories.get(position);
-        holder.textViewRepositoryName.setText(repository.name());
-        holder.textViewRepositoryDescription.setText(repository.description());
-
-        picasso.load(repository.avatarUrl())
-                .fit().centerCrop()
-                .into(holder.imageViewLogo);
+        holder.update(repositories.get(position));
     }
 
     @Override
@@ -62,10 +54,10 @@ final class RepositoryAdapter extends RecyclerView.Adapter<RepositoryAdapter.Rep
         notifyDataSetChanged();
     }
 
-    static class RepositoryViewHolder extends RecyclerView.ViewHolder {
+    class RepositoryViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.imageview_owner_logo)
-        CircleImageView imageViewLogo;
+        ImageView imageViewLogo;
 
         @BindView(R.id.textview_repository_name)
         TextView textViewRepositoryName;
@@ -76,6 +68,16 @@ final class RepositoryAdapter extends RecyclerView.Adapter<RepositoryAdapter.Rep
         RepositoryViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+        }
+
+        void update(RepositoryViewModel viewModel) {
+            textViewRepositoryName.setText(viewModel.name());
+            textViewRepositoryDescription.setText(viewModel.description());
+
+            picasso.load(viewModel.avatarUrl())
+                    .transform(transformation)
+                    .fit().centerCrop()
+                    .into(imageViewLogo);
         }
     }
 }
