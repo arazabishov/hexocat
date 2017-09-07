@@ -4,7 +4,7 @@ buildscript {
     repositories {
         jcenter()
 
-        // required by retrolambda
+        // Required by retrolambda
         mavenCentral()
 
         // Required by build-scan and error-prone plugins.
@@ -18,7 +18,7 @@ buildscript {
 
         // provides insight on how many method references
         // are present in dex file
-        classpath "com.getkeepsafe.dexcount:dexcount-gradle-plugin:0.6.4"
+        classpath "com.getkeepsafe.dexcount:dexcount-gradle-plugin:0.7.3"
 
         // semantic, static analysis of the source code
         classpath "net.ltgt.gradle:gradle-errorprone-plugin:0.0.10"
@@ -49,6 +49,11 @@ buildScan {
 allprojects {
     repositories {
         jcenter()
+
+        // Repository for support dependencies
+        maven {
+            url("https://maven.google.com")
+        }
     }
 }
 
@@ -58,15 +63,15 @@ task clean(type: Delete) {
 
 ext {
     versions = [
-            sdk   : 25,
-            tools : "25.0.2",
+            sdk   : 26,
+            tools : "26.0.1",
             minsdk: 16
     ]
 
     libraries = [
             gson           : "2.8.1",
             dagger         : "2.11",
-            support        : "25.3.1",
+            support        : "26.0.2",
             picasso        : "2.5.2",
             okpicasso      : "1.1.0",
             paperwork      : "1.2.7",
