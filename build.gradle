@@ -11,10 +11,15 @@ buildscript {
         maven {
             url("https://plugins.gradle.org/m2/")
         }
+
+        // Repository for support dependencies
+        maven {
+            url("https://maven.google.com")
+        }
     }
 
     dependencies {
-        classpath "com.android.tools.build:gradle:2.3.3"
+        classpath "com.android.tools.build:gradle:3.0.0-beta4"
 
         // provides insight on how many method references
         // are present in dex file
@@ -24,14 +29,11 @@ buildscript {
         classpath "net.ltgt.gradle:gradle-errorprone-plugin:0.0.10"
 
         // enables cloud features of gradle plugin
-        classpath "com.gradle:build-scan-plugin:1.7.4"
+        classpath "com.gradle:build-scan-plugin:1.9"
 
         // allows to set BuildConfig fields during compilation
         // without breaking incremental compilation
         classpath "hu.supercluster:paperwork-plugin:1.2.7"
-
-        // provides missing implementation of lambdas from java 8
-        classpath "me.tatarka:gradle-retrolambda:3.6.1"
 
         // generates test reports with screenshots
         classpath "com.stanfy.spoon:spoon-gradle-plugin:1.2.2"
@@ -76,7 +78,7 @@ ext {
             okpicasso      : "1.1.0",
             paperwork      : "1.2.7",
             timber         : "4.5.1",
-            leakcanary     : "1.5.2",
+            leakcanary     : "1.5.1",
             rxjava         : "2.1.0",
             rxandroid      : "2.0.1",
             rxbindings     : "2.0.0",
