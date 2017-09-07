@@ -135,9 +135,6 @@ dependencies {
     compile "com.jakewharton:butterknife:${libraries.butterknife}"
     annotationProcessor "com.jakewharton:butterknife-compiler:${libraries.butterknife}"
 
-    // Other
-    compile "de.hdodenhof:circleimageview:${libraries.circleview}"
-
     // Plugin dependencies
     provided "com.google.code.findbugs:annotations:${libraries.findbugs}"
 

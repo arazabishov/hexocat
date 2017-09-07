@@ -87,7 +87,6 @@ ext {
             autovaluegson  : "0.4.6",
             autovalueparcel: "0.2.5",
             findbugs       : "3.0.1",
-            circleview     : "2.1.0",
 
             // test dependencies
             equalsverifier : "2.3",
