@@ -71,7 +71,7 @@ ext {
             okpicasso      : "1.1.0",
             paperwork      : "1.2.7",
             timber         : "4.5.1",
-            leakcanary     : "1.5.1",
+            leakcanary     : "1.5.2",
             rxjava         : "2.1.0",
             rxandroid      : "2.0.1",
             rxbindings     : "2.0.0",
