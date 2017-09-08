@@ -1,3 +1,4 @@
+apply plugin: "com.github.ben-manes.versions"
 apply plugin: "com.gradle.build-scan"
 
 buildscript {
@@ -40,6 +41,9 @@ buildscript {
 
         // static analysis tool
         classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.5"
+
+        // check the latest version of the artifacts
+        classpath "com.github.ben-manes:gradle-versions-plugin:0.15.0"
     }
 }
 
