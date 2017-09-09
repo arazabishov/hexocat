@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Hexocat</string>
+
+    <!-- Bottom navigation -->
+    <string name="home_item_trending">Trending</string>
+    <string name="home_item_favorites">Favorites</string>
 </resources>
