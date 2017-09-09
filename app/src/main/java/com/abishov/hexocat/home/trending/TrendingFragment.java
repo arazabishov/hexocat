@@ -24,6 +24,7 @@ import butterknife.BindView;
 import io.reactivex.functions.Consumer;
 
 public final class TrendingFragment extends BaseFragment implements TrendingView {
+    public static final String TAG = TrendingFragment.class.getSimpleName();
 
     @BindView(R.id.recyclerview_trending)
     RecyclerView recyclerViewTrending;
@@ -54,7 +55,7 @@ public final class TrendingFragment extends BaseFragment implements TrendingView
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
-                             @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+            @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_trending, container, false);
     }
 
