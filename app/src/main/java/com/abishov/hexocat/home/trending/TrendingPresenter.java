@@ -30,33 +30,36 @@ final class TrendingPresenter implements Presenter<TrendingView, TrendingViewSta
 
     @Override
     public void onAttach(@NonNull TrendingView view, @Nullable TrendingViewState viewState) {
-        Observable<TrendingViewState> viewStateObservable;
-        if (viewState == null) {
-            // use scan to reduce state changes
-            viewStateObservable = trendingRepository.trendingRepositories()
-                    .subscribeOn(schedulerProvider.io())
-                    .switchMap(repositories -> Observable.fromIterable(repositories)
-                            .map(repo -> {
-                                String description = repo.description() == null ?
-                                        "-" : repo.description();
-                                return RepositoryViewModel.create(repo.name(),
-                                        description, repo.owner().avatarUrl());
-                            })
-                            .toList().toObservable())
-                    .map(TrendingViewState::success)
-                    .startWith(TrendingViewState.progress())
-                    .onErrorReturn(TrendingViewState::failure)
-                    .observeOn(schedulerProvider.ui());
-        } else {
-            viewStateObservable = Observable.just(viewState);
-        }
+        Observable<TrendingViewState> viewStateObservable = viewState == null ?
+                fetchRepositories() : Observable.just(viewState);
 
         compositeDisposable.add(viewStateObservable
+                .subscribe(view.renderRepositories(), OnErrorHandler.create()));
+
+        compositeDisposable.add(view.retryActions()
+                .switchMap(event -> fetchRepositories())
                 .subscribe(view.renderRepositories(), OnErrorHandler.create()));
     }
 
     @Override
     public void onDetach() {
         compositeDisposable.clear();
+    }
+
+    private Observable<TrendingViewState> fetchRepositories() {
+        return trendingRepository.trendingRepositories()
+                .subscribeOn(schedulerProvider.io())
+                .switchMap(repositories -> Observable.fromIterable(repositories)
+                        .map(repo -> {
+                            String description = repo.description() == null ?
+                                    "-" : repo.description();
+                            return RepositoryViewModel.create(repo.name(),
+                                    description, repo.owner().avatarUrl());
+                        })
+                        .toList().toObservable())
+                .map(TrendingViewState::success)
+                .startWith(TrendingViewState.progress())
+                .onErrorReturn(TrendingViewState::failure)
+                .observeOn(schedulerProvider.ui());
     }
 }

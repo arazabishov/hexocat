@@ -124,7 +124,6 @@ public final class TrendingFragment extends BaseFragment implements TrendingView
             buttonRetry.setVisibility(state.isFailure() ? View.VISIBLE : View.GONE);
 
             if (state.isSuccess()) {
-                // ToDo: use diff util to update the list
                 repositoryAdapter.swap(state.items());
             } else if (state.isFailure()) {
                 Toast.makeText(getActivity(),
