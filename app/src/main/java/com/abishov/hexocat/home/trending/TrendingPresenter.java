@@ -1,6 +1,7 @@
 package com.abishov.hexocat.home.trending;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.abishov.hexocat.commons.schedulers.SchedulerProvider;
 import com.abishov.hexocat.commons.utils.OnErrorHandler;
@@ -10,7 +11,7 @@ import com.abishov.hexocat.commons.views.ViewState;
 import io.reactivex.Observable;
 import io.reactivex.disposables.CompositeDisposable;
 
-final class TrendingPresenter implements Presenter<TrendingView> {
+final class TrendingPresenter implements Presenter<TrendingView, TrendingViewState> {
 
     @NonNull
     private final SchedulerProvider schedulerProvider;
@@ -22,28 +23,36 @@ final class TrendingPresenter implements Presenter<TrendingView> {
     private final CompositeDisposable compositeDisposable;
 
     TrendingPresenter(@NonNull SchedulerProvider schedulerProvider,
-                      @NonNull TrendingRepository trendingRepository) {
+            @NonNull TrendingRepository trendingRepository) {
         this.schedulerProvider = schedulerProvider;
         this.trendingRepository = trendingRepository;
         this.compositeDisposable = new CompositeDisposable();
     }
 
     @Override
-    public void onAttach(@NonNull TrendingView view) {
-        compositeDisposable.add(trendingRepository.trendingRepositories()
-                .subscribeOn(schedulerProvider.io())
-                .switchMap(repositories -> Observable.fromIterable(repositories)
-                        .map(repo -> {
-                            String description = repo.description() == null ?
-                                    "-" : repo.description();
-                            return RepositoryViewModel.create(repo.name(),
-                                    description, repo.owner().avatarUrl());
-                        })
-                        .toList().toObservable())
-                .map(ViewState::success)
-                .startWith(ViewState.progress())
-                .onErrorReturn(ViewState::failure)
-                .observeOn(schedulerProvider.ui())
+    public void onAttach(@NonNull TrendingView view, @Nullable TrendingViewState viewState) {
+        Observable<TrendingViewState> viewStateObservable;
+        if (viewState == null) {
+            // use scan to reduce state changes
+            viewStateObservable = trendingRepository.trendingRepositories()
+                    .subscribeOn(schedulerProvider.io())
+                    .switchMap(repositories -> Observable.fromIterable(repositories)
+                            .map(repo -> {
+                                String description = repo.description() == null ?
+                                        "-" : repo.description();
+                                return RepositoryViewModel.create(repo.name(),
+                                        description, repo.owner().avatarUrl());
+                            })
+                            .toList().toObservable())
+                    .map(TrendingViewState::success)
+                    .startWith(TrendingViewState.progress())
+                    .onErrorReturn(TrendingViewState::failure)
+                    .observeOn(schedulerProvider.ui());
+        } else {
+            viewStateObservable = Observable.just(viewState);
+        }
+
+        compositeDisposable.add(viewStateObservable
                 .subscribe(view.renderRepositories(), OnErrorHandler.create()));
     }
 
