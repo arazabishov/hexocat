@@ -1,4 +1,4 @@
-package com.abishov.hexocat.commons.views;
+package com.abishov.hexocat.home.trending;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -7,25 +7,15 @@ import org.junit.runners.JUnit4;
 import java.util.ArrayList;
 import java.util.List;
 
-import nl.jqno.equalsverifier.EqualsVerifier;
-import nl.jqno.equalsverifier.Warning;
-
 import static org.assertj.core.api.Java6Assertions.assertThat;
 import static org.assertj.core.api.Java6Assertions.fail;
 
 @RunWith(JUnit4.class)
-public class ViewStateUnitTests {
-
-    @Test
-    public void equalsAndHashcodeMethodsMustConformToContract() {
-        EqualsVerifier.forClass(ViewState.idle().getClass())
-                .suppress(Warning.NULL_FIELDS)
-                .verify();
-    }
+public class TrendingViewStateUnitTests {
 
     @Test
     public void idleMustPropagateCorrectProperties() {
-        ViewState viewState = ViewState.idle();
+        TrendingViewState viewState = TrendingViewState.idle();
         assertThat(viewState.isIdle()).isTrue();
         assertThat(viewState.isInProgress()).isFalse();
         assertThat(viewState.isSuccess()).isFalse();
@@ -44,7 +34,7 @@ public class ViewStateUnitTests {
 
     @Test
     public void inProgressMustPropagateCorrectProperties() {
-        ViewState viewState = ViewState.progress();
+        TrendingViewState viewState = TrendingViewState.progress();
         assertThat(viewState.isIdle()).isFalse();
         assertThat(viewState.isInProgress()).isTrue();
         assertThat(viewState.isSuccess()).isFalse();
@@ -63,10 +53,15 @@ public class ViewStateUnitTests {
 
     @Test
     public void successMustPropagateCorrectProperties() {
-        List<String> items = new ArrayList<>();
-        items.add("test_state");
+        RepositoryViewModel viewModelOne = RepositoryViewModel.create("test_name_one",
+                "test_description_one", "test_avatar_one");
+        RepositoryViewModel viewModelTwo = RepositoryViewModel.create("test_name_two",
+                "test_description_two", "test_avatar_two");
 
-        ViewState<String> viewState = ViewState.success(items);
+        List<RepositoryViewModel> items = new ArrayList<>();
+        items.add(viewModelOne);
+
+        TrendingViewState viewState = TrendingViewState.success(items);
 
         assertThat(viewState.isIdle()).isFalse();
         assertThat(viewState.isInProgress()).isFalse();
@@ -74,12 +69,12 @@ public class ViewStateUnitTests {
         assertThat(viewState.isFailure()).isFalse();
         assertThat(viewState.error()).isEmpty();
         assertThat(viewState.items().size()).isEqualTo(1);
-        assertThat(viewState.items().get(0)).isEqualTo("test_state");
+        assertThat(viewState.items().get(0)).isEqualTo(viewModelOne);
 
         // create must make deep copy of items
-        items.add("test_state_two");
+        items.add(viewModelTwo);
         assertThat(viewState.items().size()).isEqualTo(1);
-        assertThat(viewState.items().get(0)).isEqualTo("test_state");
+        assertThat(viewState.items().get(0)).isEqualTo(viewModelOne);
 
         // items collection must be immutable
         try {
@@ -92,7 +87,7 @@ public class ViewStateUnitTests {
 
     @Test
     public void errorMustPropagateCorrectProperties() {
-        ViewState<String> viewState = ViewState
+        TrendingViewState viewState = TrendingViewState
                 .failure(new RuntimeException("oops"));
 
         assertThat(viewState.isIdle()).isFalse();
