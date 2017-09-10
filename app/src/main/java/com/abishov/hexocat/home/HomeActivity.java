@@ -50,18 +50,12 @@ public final class HomeActivity extends AppCompatActivity {
 
     private boolean matchFragment(@IdRes int fragmentId) {
         if (fragmentId == R.id.item_trending) {
-            trendingFragment = getSupportFragmentManager()
-                    .findFragmentByTag(TrendingFragment.TAG);
-
             if (trendingFragment == null) {
                 trendingFragment = TrendingFragment.create();
             }
 
             attachFragment(trendingFragment, TrendingFragment.TAG);
         } else {
-            favoritesFragment = getSupportFragmentManager()
-                    .findFragmentByTag(TAG);
-
             if (favoritesFragment == null) {
                 favoritesFragment = new Fragment();
             }
