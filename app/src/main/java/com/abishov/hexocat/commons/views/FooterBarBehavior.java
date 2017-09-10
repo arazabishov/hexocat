@@ -14,8 +14,8 @@ import android.view.View;
  */
 public final class FooterBarBehavior extends Behavior<BottomNavigationView> {
 
-    // Required to instantiate as a default behavior.
     public FooterBarBehavior() {
+        // Required to instantiate as a default behavior.
     }
 
     // Required to attach behavior via XML.

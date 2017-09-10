@@ -13,7 +13,9 @@ import static android.graphics.Paint.ANTI_ALIAS_FLAG;
 import static android.graphics.Shader.TileMode.CLAMP;
 
 public final class CircleTransformation implements Transformation {
+
     public CircleTransformation() {
+        // Required to instantiate as a default behavior.
     }
 
     @Override
