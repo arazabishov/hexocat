@@ -1,4 +1,4 @@
-package com.abishov.hexocat.commons.models;
+package com.abishov.hexocat.models;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
@@ -14,7 +14,7 @@ import java.util.Collections;
 import java.util.List;
 
 @AutoValue
-public abstract class Pager<T> {
+public abstract class PagerApiModel<T> {
 
     @NonNull
     @SerializedName("items")
@@ -22,14 +22,13 @@ public abstract class Pager<T> {
 
     @NonNull
     @VisibleForTesting
-    public static <E> Pager<E> create(@NonNull List<E> items) {
-        return new AutoValue_Pager<>(Collections
-                .unmodifiableList(new ArrayList<>(items)));
+    public static <E> PagerApiModel<E> create(@NonNull List<E> items) {
+        return new AutoValue_PagerApiModel<>(Collections.unmodifiableList(new ArrayList<>(items)));
     }
 
     @NonNull
-    public static <T> TypeAdapter<Pager<T>> typeAdapter(@NonNull Gson gson,
-            @NonNull TypeToken<? extends Pager<T>> typeToken) {
-        return new AutoValue_Pager.GsonTypeAdapter<>(gson, typeToken);
+    public static <T> TypeAdapter<PagerApiModel<T>> typeAdapter(@NonNull Gson gson,
+            @NonNull TypeToken<? extends PagerApiModel<T>> typeToken) {
+        return new AutoValue_PagerApiModel.GsonTypeAdapter<>(gson, typeToken);
     }
 }
