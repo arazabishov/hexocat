@@ -1,15 +1,16 @@
-package com.abishov.hexocat.commons.models;
+package com.abishov.hexocat.models.repository;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.abishov.hexocat.models.organization.OrganizationApiModel;
 import com.google.auto.value.AutoValue;
 import com.google.gson.Gson;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.SerializedName;
 
 @AutoValue
-public abstract class Repository {
+public abstract class RepositoryApiModel {
     private static final String NAME = "name";
     private static final String HTML_URL = "html_url";
     private static final String DESCRIPTION = "description";
@@ -29,16 +30,16 @@ public abstract class Repository {
 
     @NonNull
     @SerializedName(OWNER)
-    public abstract Organization owner();
+    public abstract OrganizationApiModel owner();
 
     @NonNull
-    public static Repository create(@NonNull String name, @NonNull String htmlUrl,
-            @Nullable String description, @NonNull Organization owner) {
-        return new AutoValue_Repository(name, htmlUrl, description, owner);
+    public static RepositoryApiModel create(@NonNull String name, @NonNull String htmlUrl,
+            @Nullable String description, @NonNull OrganizationApiModel owner) {
+        return new AutoValue_RepositoryApiModel(name, htmlUrl, description, owner);
     }
 
     @NonNull
-    public static TypeAdapter<Repository> typeAdapter(@NonNull Gson gson) {
-        return new AutoValue_Repository.GsonTypeAdapter(gson);
+    public static TypeAdapter<RepositoryApiModel> typeAdapter(@NonNull Gson gson) {
+        return new AutoValue_RepositoryApiModel.GsonTypeAdapter(gson);
     }
 }

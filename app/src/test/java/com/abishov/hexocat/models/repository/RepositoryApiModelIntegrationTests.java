@@ -1,7 +1,7 @@
-package com.abishov.hexocat.commons.models;
+package com.abishov.hexocat.models.repository;
 
 import com.abishov.hexocat.Inject;
-import com.abishov.hexocat.commons.models.Repository;
+import com.abishov.hexocat.models.repository.RepositoryApiModel;
 import com.google.gson.Gson;
 
 import org.junit.Test;
@@ -11,12 +11,12 @@ import org.junit.runners.JUnit4;
 import static org.assertj.core.api.Java6Assertions.assertThat;
 
 @RunWith(JUnit4.class)
-public class RepositoryIntegrationTests {
+public class RepositoryApiModelIntegrationTests {
 
     @Test
     public void payloadMustMapToModelCorrectly() {
         Gson gson = Inject.gson();
-        Repository repository = gson.fromJson("{\n" +
+        RepositoryApiModel repositoryApiModel = gson.fromJson("{\n" +
                 "      \"id\": 892275,\n" +
                 "      \"name\": \"retrofit\",\n" +
                 "      \"html_url\": \"https://github.com/square/retrofit\",\n" +
@@ -37,20 +37,20 @@ public class RepositoryIntegrationTests {
                 "        \"repos_url\": \"https://api.github.com/users/square/repos\",\n" +
                 "        \"events_url\": \"https://api.github.com/users/square/events{/privacy}\",\n" +
                 "        \"received_events_url\": \"https://api.github.com/users/square/received_events\",\n" +
-                "        \"type\": \"Organization\",\n" +
+                "        \"type\": \"OrganizationApiModel\",\n" +
                 "        \"site_admin\": false\n" +
                 "      }" +
-                "}", Repository.class);
+                "}", RepositoryApiModel.class);
 
-        assertThat(repository.name())
+        assertThat(repositoryApiModel.name())
                 .isEqualTo("retrofit");
-        assertThat(repository.htmlUrl())
+        assertThat(repositoryApiModel.htmlUrl())
                 .isEqualTo("https://github.com/square/retrofit");
-        assertThat(repository.description())
+        assertThat(repositoryApiModel.description())
                 .isEqualTo("Type-safe HTTP client for Android and Java by Square, Inc.");
-        assertThat(repository.owner().login())
+        assertThat(repositoryApiModel.owner().login())
                 .isEqualTo("square");
-        assertThat(repository.owner().htmlUrl())
+        assertThat(repositoryApiModel.owner().htmlUrl())
                 .isEqualTo("https://github.com/square");
     }
 }
