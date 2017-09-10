@@ -1,7 +1,7 @@
-package com.abishov.hexocat.commons.models;
+package com.abishov.hexocat.models.organization;
 
 import com.abishov.hexocat.Inject;
-import com.abishov.hexocat.commons.models.Organization;
+import com.abishov.hexocat.models.organization.OrganizationApiModel;
 import com.google.gson.Gson;
 
 import org.junit.Test;
@@ -11,12 +11,12 @@ import org.junit.runners.JUnit4;
 import static org.assertj.core.api.Java6Assertions.assertThat;
 
 @RunWith(JUnit4.class)
-public class OrganizationIntegrationTests {
+public class OrganizationApiModelIntegrationTests {
 
     @Test
     public void payloadMustMapToModelCorrectly() {
         Gson gson = Inject.gson();
-        Organization organization = gson.fromJson("{\n" +
+        OrganizationApiModel organizationApiModel = gson.fromJson("{\n" +
                 "    \"login\": \"CaMnter\",\n" +
                 "    \"id\": 10336931,\n" +
                 "    \"avatar_url\": \"https://avatars0.githubusercontent.com/u/10336931?v=3\",\n" +
@@ -34,10 +34,10 @@ public class OrganizationIntegrationTests {
                 "    \"received_events_url\": \"https://api.github.com/users/CaMnter/received_events\",\n" +
                 "    \"type\": \"User\",\n" +
                 "    \"site_admin\": false\n" +
-                "      }", Organization.class);
+                "      }", OrganizationApiModel.class);
 
-        assertThat(organization.login()).isEqualTo("CaMnter");
-        assertThat(organization.htmlUrl()).isEqualTo("https://github.com/CaMnter");
-        assertThat(organization.avatarUrl()).isEqualTo("https://avatars0.githubusercontent.com/u/10336931?v=3");
+        assertThat(organizationApiModel.login()).isEqualTo("CaMnter");
+        assertThat(organizationApiModel.htmlUrl()).isEqualTo("https://github.com/CaMnter");
+        assertThat(organizationApiModel.avatarUrl()).isEqualTo("https://avatars0.githubusercontent.com/u/10336931?v=3");
     }
 }
