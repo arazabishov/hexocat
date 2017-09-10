@@ -10,17 +10,21 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.abishov.hexocat.Hexocat;
 import com.abishov.hexocat.R;
 import com.abishov.hexocat.commons.views.BaseFragment;
+import com.jakewharton.rxbinding2.view.RxView;
 import com.squareup.picasso.Picasso;
 
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
 
 import butterknife.BindView;
+import io.reactivex.Observable;
 import io.reactivex.functions.Consumer;
 
 public final class TrendingFragment extends BaseFragment implements TrendingView {
@@ -32,22 +36,21 @@ public final class TrendingFragment extends BaseFragment implements TrendingView
     @BindView(R.id.recyclerview_trending)
     RecyclerView recyclerViewTrending;
 
+    @BindView(R.id.progressbar_trending)
+    ProgressBar progressBarLoading;
+
+    @BindView(R.id.button_retry)
+    Button buttonRetry;
+
     @Inject
     TrendingPresenter trendingPresenter;
 
     @Inject
     Picasso picasso;
 
-    @Nullable
     private RepositoryAdapter repositoryAdapter;
-
-    @Nullable
     private TrendingViewState viewState;
-
-    @Nullable
     private Parcelable recyclerViewState;
-
-    @Nullable
     private RecyclerView.LayoutManager recyclerViewLayoutManager;
 
     @Nonnull
@@ -76,14 +79,13 @@ public final class TrendingFragment extends BaseFragment implements TrendingView
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         bind(this, view);
 
-        recyclerViewLayoutManager = new LinearLayoutManager(getActivity());
-        repositoryAdapter = new RepositoryAdapter(LayoutInflater.from(getActivity()), picasso);
-        recyclerViewTrending.setLayoutManager(recyclerViewLayoutManager);
-        recyclerViewTrending.setAdapter(repositoryAdapter);
+        setupRecyclerView(savedInstanceState);
+
+        progressBarLoading.setVisibility(View.GONE);
+        buttonRetry.setVisibility(View.GONE);
 
         if (savedInstanceState != null) {
             viewState = savedInstanceState.getParcelable(STATE_VIEW);
-            recyclerViewState = savedInstanceState.getParcelable(STATE_RECYCLER_VIEW);
         }
 
         trendingPresenter.onAttach(this, viewState);
@@ -106,24 +108,27 @@ public final class TrendingFragment extends BaseFragment implements TrendingView
         trendingPresenter.onDetach();
     }
 
+    @Override
+    public Observable<Object> retryActions() {
+        return RxView.clicks(buttonRetry);
+    }
+
     @Nonnull
     @Override
     public Consumer<TrendingViewState> renderRepositories() {
         return state -> {
             viewState = state;
 
+            recyclerViewTrending.setVisibility(state.isSuccess() ? View.VISIBLE : View.GONE);
+            progressBarLoading.setVisibility(state.isInProgress() ? View.VISIBLE : View.GONE);
+            buttonRetry.setVisibility(state.isFailure() ? View.VISIBLE : View.GONE);
+
             if (state.isSuccess()) {
-                // use diff util to update the list
+                // ToDo: use diff util to update the list
                 repositoryAdapter.swap(state.items());
             } else if (state.isFailure()) {
                 Toast.makeText(getActivity(),
                         state.error(), Toast.LENGTH_SHORT).show();
-            } else if (state.isInProgress()) {
-                Toast.makeText(getActivity(),
-                        "In progress", Toast.LENGTH_SHORT).show();
-            } else if (state.isIdle()) {
-                Toast.makeText(getActivity(),
-                        "Idle", Toast.LENGTH_SHORT).show();
             }
 
             if (recyclerViewState != null) {
@@ -131,5 +136,16 @@ public final class TrendingFragment extends BaseFragment implements TrendingView
                 recyclerViewState = null;
             }
         };
+    }
+
+    private void setupRecyclerView(Bundle savedInstanceState) {
+        if (savedInstanceState != null) {
+            recyclerViewState = savedInstanceState.getParcelable(STATE_RECYCLER_VIEW);
+        }
+
+        repositoryAdapter = new RepositoryAdapter(LayoutInflater.from(getActivity()), picasso);
+        recyclerViewLayoutManager = new LinearLayoutManager(getActivity());
+        recyclerViewTrending.setLayoutManager(recyclerViewLayoutManager);
+        recyclerViewTrending.setAdapter(repositoryAdapter);
     }
 }
