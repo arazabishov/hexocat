@@ -3,7 +3,6 @@ package com.abishov.hexocat.home.trending;
 import com.abishov.hexocat.commons.models.Organization;
 import com.abishov.hexocat.commons.models.Repository;
 import com.abishov.hexocat.commons.schedulers.TrampolineSchedulersProvider;
-import com.abishov.hexocat.commons.views.ViewState;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -36,7 +35,7 @@ public class TrendingPresenterUnitTests {
     private TrendingRepository trendingRepository;
 
     @Captor
-    private ArgumentCaptor<ViewState<RepositoryViewModel>> repositoriesConsumer;
+    private ArgumentCaptor<TrendingViewState> repositoriesConsumer;
 
     // Faking behaviour of the trendingRepository.
     private BehaviorSubject<List<Repository>> listResults;
@@ -75,7 +74,7 @@ public class TrendingPresenterUnitTests {
 
     @Test
     public void presenterMustPropagateCorrectStatesOnSuccess() throws Exception {
-        trendingPresenter.onAttach(trendingView);
+        trendingPresenter.onAttach(trendingView, null);
         assertThat(listResults.hasObservers()).isTrue();
 
         listResults.onNext(repositories);
@@ -84,7 +83,7 @@ public class TrendingPresenterUnitTests {
         verify(trendingView.renderRepositories(), times(2))
                 .accept(repositoriesConsumer.capture());
 
-        ViewState<RepositoryViewModel> viewStateProgress =
+        TrendingViewState viewStateProgress =
                 repositoriesConsumer.getAllValues().get(0);
 
         assertThat(viewStateProgress.isSuccess()).isFalse();
@@ -92,7 +91,7 @@ public class TrendingPresenterUnitTests {
         assertThat(viewStateProgress.isFailure()).isFalse();
         assertThat(viewStateProgress.isIdle()).isFalse();
 
-        ViewState<RepositoryViewModel> viewStateSuccess =
+        TrendingViewState viewStateSuccess =
                 repositoriesConsumer.getAllValues().get(1);
 
         assertThat(viewStateSuccess.isSuccess()).isTrue();
@@ -104,7 +103,7 @@ public class TrendingPresenterUnitTests {
 
     @Test
     public void presenterMustPropagateCorrectStatesOnFailure() throws Exception {
-        trendingPresenter.onAttach(trendingView);
+        trendingPresenter.onAttach(trendingView, null);
         assertThat(listResults.hasObservers()).isTrue();
 
         listResults.onError(new Throwable("test_message"));
@@ -113,7 +112,7 @@ public class TrendingPresenterUnitTests {
         verify(trendingView.renderRepositories(), times(2))
                 .accept(repositoriesConsumer.capture());
 
-        ViewState<RepositoryViewModel> viewStateProgress =
+        TrendingViewState viewStateProgress =
                 repositoriesConsumer.getAllValues().get(0);
 
         assertThat(viewStateProgress.isSuccess()).isFalse();
@@ -121,7 +120,7 @@ public class TrendingPresenterUnitTests {
         assertThat(viewStateProgress.isFailure()).isFalse();
         assertThat(viewStateProgress.isIdle()).isFalse();
 
-        ViewState<RepositoryViewModel> viewStateSuccess =
+        TrendingViewState viewStateSuccess =
                 repositoriesConsumer.getAllValues().get(1);
 
         assertThat(viewStateSuccess.isSuccess()).isFalse();
@@ -133,7 +132,7 @@ public class TrendingPresenterUnitTests {
 
     @Test
     public void presenterMustPropagateCorrectStatesWhenNoItems() throws Exception {
-        trendingPresenter.onAttach(trendingView);
+        trendingPresenter.onAttach(trendingView, null);
         assertThat(listResults.hasObservers()).isTrue();
 
         listResults.onNext(new ArrayList<>());
@@ -142,16 +141,14 @@ public class TrendingPresenterUnitTests {
         verify(trendingView.renderRepositories(), times(2))
                 .accept(repositoriesConsumer.capture());
 
-        ViewState<RepositoryViewModel> viewStateProgress =
-                repositoriesConsumer.getAllValues().get(0);
+        TrendingViewState viewStateProgress = repositoriesConsumer.getAllValues().get(0);
 
         assertThat(viewStateProgress.isSuccess()).isFalse();
         assertThat(viewStateProgress.isInProgress()).isTrue();
         assertThat(viewStateProgress.isFailure()).isFalse();
         assertThat(viewStateProgress.isIdle()).isFalse();
 
-        ViewState<RepositoryViewModel> viewStateSuccess =
-                repositoriesConsumer.getAllValues().get(1);
+        TrendingViewState viewStateSuccess = repositoriesConsumer.getAllValues().get(1);
 
         assertThat(viewStateSuccess.isSuccess()).isTrue();
         assertThat(viewStateSuccess.isInProgress()).isFalse();
@@ -164,7 +161,7 @@ public class TrendingPresenterUnitTests {
     public void presenterMustUnsubscribeFromViewOnDetach() {
         assertThat(listResults.hasObservers()).isFalse();
 
-        trendingPresenter.onAttach(trendingView);
+        trendingPresenter.onAttach(trendingView, null);
         assertThat(listResults.hasObservers()).isTrue();
 
         trendingPresenter.onDetach();
