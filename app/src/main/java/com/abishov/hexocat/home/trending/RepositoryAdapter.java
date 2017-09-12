@@ -1,7 +1,13 @@
 package com.abishov.hexocat.home.trending;
 
+import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
+import android.support.v4.widget.TextViewCompat;
 import android.support.v7.widget.RecyclerView;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,14 +71,43 @@ final class RepositoryAdapter extends RecyclerView.Adapter<RepositoryAdapter.Rep
         @BindView(R.id.textview_repository_description)
         TextView textViewRepositoryDescription;
 
+        @BindView(R.id.textview_repository_forks)
+        TextView textViewForks;
+
+        @BindView(R.id.textview_repository_stars)
+        TextView textViewStars;
+
         RepositoryViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+
+            Context ctx = itemView.getContext();
+
+            Drawable drawableForks = DrawableCompat.wrap(
+                    ContextCompat.getDrawable(ctx, R.drawable.ic_fork));
+            Drawable drawableStars = DrawableCompat.wrap(
+                    ContextCompat.getDrawable(ctx, R.drawable.ic_star));
+
+            TypedValue textColorAttribute = new TypedValue();
+            ctx.getTheme().resolveAttribute(android.R.attr.textColorSecondary,
+                    textColorAttribute, true);
+            int textColorAttributeValue = ContextCompat.getColor(
+                    itemView.getContext(), textColorAttribute.resourceId);
+
+            DrawableCompat.setTint(drawableForks.mutate(), textColorAttributeValue);
+            DrawableCompat.setTint(drawableStars.mutate(), textColorAttributeValue);
+
+            TextViewCompat.setCompoundDrawablesRelativeWithIntrinsicBounds(textViewForks,
+                    drawableForks, null, null, null);
+            TextViewCompat.setCompoundDrawablesRelativeWithIntrinsicBounds(textViewStars,
+                    drawableStars, null, null, null);
         }
 
         void update(RepositoryViewModel viewModel) {
             textViewRepositoryName.setText(viewModel.name());
             textViewRepositoryDescription.setText(viewModel.description());
+            textViewForks.setText(viewModel.forks());
+            textViewStars.setText(viewModel.stars());
 
             picasso.load(viewModel.avatarUrl())
                     .transform(transformation)
