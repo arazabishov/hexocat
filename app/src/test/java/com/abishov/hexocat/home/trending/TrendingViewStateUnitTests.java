@@ -54,9 +54,9 @@ public class TrendingViewStateUnitTests {
     @Test
     public void successMustPropagateCorrectProperties() {
         RepositoryViewModel viewModelOne = RepositoryViewModel.create("test_name_one",
-                "test_description_one", "test_avatar_one");
+                "test_description_one", "5", "10", "test_avatar_one");
         RepositoryViewModel viewModelTwo = RepositoryViewModel.create("test_name_two",
-                "test_description_two", "test_avatar_two");
+                "test_description_two", "3", "4", "test_avatar_two");
 
         List<RepositoryViewModel> items = new ArrayList<>();
         items.add(viewModelOne);
