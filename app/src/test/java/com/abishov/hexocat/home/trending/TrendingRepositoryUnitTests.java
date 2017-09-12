@@ -50,9 +50,9 @@ public final class TrendingRepositoryUnitTests {
                 "test_html_url", "test_avatar_url");
         repositoryPager = PagerApiModel.create(Arrays.asList(
                 RepositoryApiModel.create("test_repository_one",
-                        "test_html_url_one", "test_description_one", owner),
+                        "test_html_url_one", 5, 10, "test_description_one", owner),
                 RepositoryApiModel.create("test_repository_two",
-                        "test_html_url_two", "test_description_two", owner)));
+                        "test_html_url_two", 4, 3, "test_description_two", owner)));
 
         when(trendingService.trendingRepositories("created:>2017-08-10")).thenReturn(subject);
         when(queryDateProvider.weekBeforeToday()).thenReturn("2017-08-10");

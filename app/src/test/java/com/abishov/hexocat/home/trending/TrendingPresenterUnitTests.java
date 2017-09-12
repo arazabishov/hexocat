@@ -1,8 +1,8 @@
 package com.abishov.hexocat.home.trending;
 
+import com.abishov.hexocat.commons.schedulers.TrampolineSchedulersProvider;
 import com.abishov.hexocat.models.organization.OrganizationApiModel;
 import com.abishov.hexocat.models.repository.RepositoryApiModel;
-import com.abishov.hexocat.commons.schedulers.TrampolineSchedulersProvider;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -60,14 +60,14 @@ public class TrendingPresenterUnitTests {
         OrganizationApiModel owner = OrganizationApiModel.create("test_login", "test_html_url", "test_avatar_url");
         repositories = Arrays.asList(
                 RepositoryApiModel.create("test_repository_one",
-                        "test_html_url_one", "test_description_one", owner),
+                        "test_html_url_one", 5, 10, "test_description_one", owner),
                 RepositoryApiModel.create("test_repository_two",
-                        "test_html_url_two", "test_description_two", owner));
+                        "test_html_url_two", 7, 11, "test_description_two", owner));
         repositoryViewModels = Arrays.asList(
-                RepositoryViewModel.create("test_repository_one",
-                        "test_description_one", "test_avatar_url"),
-                RepositoryViewModel.create("test_repository_two",
-                        "test_description_two", "test_avatar_url"));
+                RepositoryViewModel.create("test_repository_one", "test_description_one",
+                        "5", "10", "test_avatar_url"),
+                RepositoryViewModel.create("test_repository_two", "test_description_two",
+                        "7", "11", "test_avatar_url"));
 
         when(trendingRepository.trendingRepositories()).thenReturn(listResults);
     }

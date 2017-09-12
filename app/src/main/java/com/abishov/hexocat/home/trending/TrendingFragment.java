@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -146,5 +147,7 @@ public final class TrendingFragment extends BaseFragment implements TrendingView
         recyclerViewLayoutManager = new LinearLayoutManager(getActivity());
         recyclerViewTrending.setLayoutManager(recyclerViewLayoutManager);
         recyclerViewTrending.setAdapter(repositoryAdapter);
+        recyclerViewTrending.addItemDecoration(new DividerItemDecoration(
+                recyclerViewTrending.getContext(), DividerItemDecoration.VERTICAL));
     }
 }
