@@ -20,14 +20,14 @@ buildscript {
     }
 
     dependencies {
-        classpath "com.android.tools.build:gradle:3.0.0-beta5"
+        classpath "com.android.tools.build:gradle:3.0.0-beta6"
 
         // provides insight on how many method references
         // are present in dex file
         classpath "com.getkeepsafe.dexcount:dexcount-gradle-plugin:0.7.3"
 
         // semantic, static analysis of the source code
-        classpath "net.ltgt.gradle:gradle-errorprone-plugin:0.0.10"
+        classpath "net.ltgt.gradle:gradle-errorprone-plugin:0.0.11"
 
         // enables cloud features of gradle plugin
         classpath "com.gradle:build-scan-plugin:1.9"
