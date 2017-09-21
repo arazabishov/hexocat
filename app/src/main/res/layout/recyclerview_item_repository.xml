@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.abishov.hexocat.home.trending.TrendingItemView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -36,7 +37,6 @@
 
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/textview_repository_description"
-        style="@style/Base.TextAppearance.AppCompat.Medium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/textview_repository_name"
@@ -44,7 +44,7 @@
         android:layout_toRightOf="@id/imageview_owner_logo"
         android:ellipsize="end"
         android:maxLines="3"
-        android:textColor="?android:attr/textColorSecondary"
+        android:textColor="?android:attr/textColorPrimary"
         android:textSize="@dimen/recyclerview_item_text_medium"
         app:fontFamily="@font/roboto_regular"
         tools:text="ArazAbishov - A sample Android application." />
@@ -86,4 +86,4 @@
             app:fontFamily="@font/roboto_regular"
             tools:text="45" />
     </LinearLayout>
-</RelativeLayout>
+</com.abishov.hexocat.home.trending.TrendingItemView>
