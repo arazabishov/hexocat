@@ -1,8 +1,8 @@
 package com.abishov.hexocat.home.trending;
 
-import com.abishov.hexocat.commons.models.Organization;
-import com.abishov.hexocat.commons.models.Pager;
-import com.abishov.hexocat.commons.models.Repository;
+import com.abishov.hexocat.models.PagerApiModel;
+import com.abishov.hexocat.models.organization.OrganizationApiModel;
+import com.abishov.hexocat.models.repository.RepositoryApiModel;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -34,10 +34,10 @@ public final class TrendingRepositoryUnitTests {
     private TrendingRepository trendingRepository;
 
     // Used to simulate behaviour of the Observable.
-    private PublishSubject<Pager<Repository>> subject;
+    private PublishSubject<PagerApiModel<RepositoryApiModel>> subject;
 
     // The pager with repositories returned by the service.
-    private Pager<Repository> repositoryPager;
+    private PagerApiModel<RepositoryApiModel> repositoryPager;
 
     @Before
     public void setUp() throws Exception {
@@ -46,13 +46,13 @@ public final class TrendingRepositoryUnitTests {
         subject = PublishSubject.create();
         trendingRepository = new TrendingRepository(trendingService, queryDateProvider);
 
-        Organization owner = Organization.create("test_login",
+        OrganizationApiModel owner = OrganizationApiModel.create("test_login",
                 "test_html_url", "test_avatar_url");
-        repositoryPager = Pager.create(Arrays.asList(
-                Repository.create("test_repository_one",
-                        "test_html_url_one", "test_description_one", owner),
-                Repository.create("test_repository_two",
-                        "test_html_url_two", "test_description_two", owner)));
+        repositoryPager = PagerApiModel.create(Arrays.asList(
+                RepositoryApiModel.create("test_repository_one",
+                        "test_html_url_one", 5, 10, "test_description_one", owner),
+                RepositoryApiModel.create("test_repository_two",
+                        "test_html_url_two", 4, 3, "test_description_two", owner)));
 
         when(trendingService.trendingRepositories("created:>2017-08-10")).thenReturn(subject);
         when(queryDateProvider.weekBeforeToday()).thenReturn("2017-08-10");
@@ -60,7 +60,7 @@ public final class TrendingRepositoryUnitTests {
 
     @Test
     public void trendingRepositoriesMustCallTrendingServiceWithCorrectFilter() {
-        TestObserver<List<Repository>> testObserver =
+        TestObserver<List<RepositoryApiModel>> testObserver =
                 trendingRepository.trendingRepositories().test();
 
         subject.onNext(repositoryPager);

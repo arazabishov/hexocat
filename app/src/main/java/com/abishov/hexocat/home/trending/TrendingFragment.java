@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -27,7 +28,7 @@ import butterknife.BindView;
 import io.reactivex.Observable;
 import io.reactivex.functions.Consumer;
 
-public final class TrendingFragment extends BaseFragment implements TrendingView {
+public final class TrendingFragment extends BaseFragment implements TrendingView, RepositoryAdapter.TrendingViewClickListener {
     public static final String TAG = TrendingFragment.class.getSimpleName();
 
     private static final String STATE_VIEW = "state:trendingViewState";
@@ -124,7 +125,7 @@ public final class TrendingFragment extends BaseFragment implements TrendingView
             buttonRetry.setVisibility(state.isFailure() ? View.VISIBLE : View.GONE);
 
             if (state.isSuccess()) {
-                repositoryAdapter.swap(state.items());
+                repositoryAdapter.accept(state.items());
             } else if (state.isFailure()) {
                 Toast.makeText(getActivity(),
                         state.error(), Toast.LENGTH_SHORT).show();
@@ -137,14 +138,21 @@ public final class TrendingFragment extends BaseFragment implements TrendingView
         };
     }
 
+    @Override
+    public void onRepositoryClick(TrendingViewModel repository) {
+        Toast.makeText(getActivity(), repository.name(), Toast.LENGTH_SHORT).show();
+    }
+
     private void setupRecyclerView(Bundle savedInstanceState) {
         if (savedInstanceState != null) {
             recyclerViewState = savedInstanceState.getParcelable(STATE_RECYCLER_VIEW);
         }
 
-        repositoryAdapter = new RepositoryAdapter(LayoutInflater.from(getActivity()), picasso);
+        repositoryAdapter = new RepositoryAdapter(LayoutInflater.from(getActivity()), picasso, this);
         recyclerViewLayoutManager = new LinearLayoutManager(getActivity());
         recyclerViewTrending.setLayoutManager(recyclerViewLayoutManager);
         recyclerViewTrending.setAdapter(repositoryAdapter);
+        recyclerViewTrending.addItemDecoration(new DividerItemDecoration(
+                recyclerViewTrending.getContext(), DividerItemDecoration.VERTICAL));
     }
 }

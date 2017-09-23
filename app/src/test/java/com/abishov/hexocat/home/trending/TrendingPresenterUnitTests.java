@@ -1,8 +1,8 @@
 package com.abishov.hexocat.home.trending;
 
-import com.abishov.hexocat.commons.models.Organization;
-import com.abishov.hexocat.commons.models.Repository;
 import com.abishov.hexocat.commons.schedulers.TrampolineSchedulersProvider;
+import com.abishov.hexocat.models.organization.OrganizationApiModel;
+import com.abishov.hexocat.models.repository.RepositoryApiModel;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -38,13 +38,13 @@ public class TrendingPresenterUnitTests {
     private ArgumentCaptor<TrendingViewState> repositoriesConsumer;
 
     // Faking behaviour of the trendingRepository.
-    private BehaviorSubject<List<Repository>> listResults;
+    private BehaviorSubject<List<RepositoryApiModel>> listResults;
 
     // Some dummy data.
-    private List<Repository> repositories;
+    private List<RepositoryApiModel> repositories;
 
     // ViewModels corresponding to dummy data.
-    private List<RepositoryViewModel> repositoryViewModels;
+    private List<TrendingViewModel> trendingViewModels;
 
     // Class under testing.
     private TrendingPresenter trendingPresenter;
@@ -57,17 +57,17 @@ public class TrendingPresenterUnitTests {
         trendingPresenter = new TrendingPresenter(
                 new TrampolineSchedulersProvider(), trendingRepository);
 
-        Organization owner = Organization.create("test_login", "test_html_url", "test_avatar_url");
+        OrganizationApiModel owner = OrganizationApiModel.create("test_login", "test_html_url", "test_avatar_url");
         repositories = Arrays.asList(
-                Repository.create("test_repository_one",
-                        "test_html_url_one", "test_description_one", owner),
-                Repository.create("test_repository_two",
-                        "test_html_url_two", "test_description_two", owner));
-        repositoryViewModels = Arrays.asList(
-                RepositoryViewModel.create("test_repository_one",
-                        "test_description_one", "test_avatar_url"),
-                RepositoryViewModel.create("test_repository_two",
-                        "test_description_two", "test_avatar_url"));
+                RepositoryApiModel.create("test_repository_one",
+                        "test_html_url_one", 5, 10, "test_description_one", owner),
+                RepositoryApiModel.create("test_repository_two",
+                        "test_html_url_two", 7, 11, "test_description_two", owner));
+        trendingViewModels = Arrays.asList(
+                TrendingViewModel.create("test_repository_one", "test_description_one",
+                        "5", "10", "test_avatar_url", "test_login"),
+                TrendingViewModel.create("test_repository_two", "test_description_two",
+                        "7", "11", "test_avatar_url", "test_login"));
 
         when(trendingRepository.trendingRepositories()).thenReturn(listResults);
     }
@@ -98,7 +98,7 @@ public class TrendingPresenterUnitTests {
         assertThat(viewStateSuccess.isInProgress()).isFalse();
         assertThat(viewStateSuccess.isFailure()).isFalse();
         assertThat(viewStateSuccess.isIdle()).isFalse();
-        assertThat(viewStateSuccess.items()).isEqualTo(repositoryViewModels);
+        assertThat(viewStateSuccess.items()).isEqualTo(trendingViewModels);
     }
 
     @Test

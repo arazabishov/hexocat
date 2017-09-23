@@ -14,7 +14,7 @@ import java.util.List;
 abstract class TrendingViewState implements ViewState, Parcelable {
 
     @NonNull
-    abstract List<RepositoryViewModel> items();
+    abstract List<TrendingViewModel> items();
 
     @NonNull
     static TrendingViewState idle() {
@@ -29,8 +29,8 @@ abstract class TrendingViewState implements ViewState, Parcelable {
     }
 
     @NonNull
-    static TrendingViewState success(@NonNull List<RepositoryViewModel> items) {
-        List<RepositoryViewModel> deepCopy = Collections.unmodifiableList(new ArrayList<>(items));
+    static TrendingViewState success(@NonNull List<TrendingViewModel> items) {
+        List<TrendingViewModel> deepCopy = Collections.unmodifiableList(new ArrayList<>(items));
         return new AutoValue_TrendingViewState(false, false, true, false, "", deepCopy);
     }
 

@@ -1,6 +1,7 @@
-package com.abishov.hexocat.commons.models;
+package com.abishov.hexocat.models;
 
 import com.abishov.hexocat.Inject;
+import com.abishov.hexocat.models.PagerApiModel;
 import com.google.gson.reflect.TypeToken;
 
 import org.junit.Test;
@@ -12,12 +13,12 @@ import java.lang.reflect.Type;
 import static org.assertj.core.api.Java6Assertions.assertThat;
 
 @RunWith(JUnit4.class)
-public class PagerIntegrationTests {
+public class PagerApiModelIntegrationTests {
 
     @Test
     public void payloadMustMapToModelCorrectly() {
-        Type stringTypeToken = new TypeToken<Pager<String>>() {}.getType();
-        Pager<String> pager = Inject.gson().fromJson("{\n" +
+        Type stringTypeToken = new TypeToken<PagerApiModel<String>>() {}.getType();
+        PagerApiModel<String> pagerApiModel = Inject.gson().fromJson("{\n" +
                 "  \"total_count\": 7044,\n" +
                 "  \"incomplete_results\": false,\n" +
                 "  \"items\": [" +
@@ -27,9 +28,9 @@ public class PagerIntegrationTests {
                 "   ]" +
                 "}", stringTypeToken);
 
-        assertThat(pager.items().size()).isEqualTo(3);
-        assertThat(pager.items().get(0)).isEqualTo("test_item_one");
-        assertThat(pager.items().get(1)).isEqualTo("test_item_two");
-        assertThat(pager.items().get(2)).isEqualTo("test_item_three");
+        assertThat(pagerApiModel.items().size()).isEqualTo(3);
+        assertThat(pagerApiModel.items().get(0)).isEqualTo("test_item_one");
+        assertThat(pagerApiModel.items().get(1)).isEqualTo("test_item_two");
+        assertThat(pagerApiModel.items().get(2)).isEqualTo("test_item_three");
     }
 }
