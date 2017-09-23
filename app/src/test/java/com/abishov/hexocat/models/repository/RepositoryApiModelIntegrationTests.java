@@ -1,7 +1,6 @@
 package com.abishov.hexocat.models.repository;
 
 import com.abishov.hexocat.Inject;
-import com.abishov.hexocat.models.repository.RepositoryApiModel;
 import com.google.gson.Gson;
 
 import org.junit.Test;
@@ -19,6 +18,8 @@ public class RepositoryApiModelIntegrationTests {
         RepositoryApiModel repositoryApiModel = gson.fromJson("{\n" +
                 "      \"id\": 892275,\n" +
                 "      \"name\": \"retrofit\",\n" +
+                "      \"forks\": 222," +
+                "      \"stargazers_count\": 777," +
                 "      \"html_url\": \"https://github.com/square/retrofit\",\n" +
                 "      \"description\": \"Type-safe HTTP client for Android and Java by Square, Inc.\"," +
                 "      \"owner\": {\n" +
@@ -42,15 +43,12 @@ public class RepositoryApiModelIntegrationTests {
                 "      }" +
                 "}", RepositoryApiModel.class);
 
-        assertThat(repositoryApiModel.name())
-                .isEqualTo("retrofit");
-        assertThat(repositoryApiModel.htmlUrl())
-                .isEqualTo("https://github.com/square/retrofit");
-        assertThat(repositoryApiModel.description())
-                .isEqualTo("Type-safe HTTP client for Android and Java by Square, Inc.");
-        assertThat(repositoryApiModel.owner().login())
-                .isEqualTo("square");
-        assertThat(repositoryApiModel.owner().htmlUrl())
-                .isEqualTo("https://github.com/square");
+        assertThat(repositoryApiModel.name()).isEqualTo("retrofit");
+        assertThat(repositoryApiModel.forks()).isEqualTo(222);
+        assertThat(repositoryApiModel.stars()).isEqualTo(777);
+        assertThat(repositoryApiModel.htmlUrl()).isEqualTo("https://github.com/square/retrofit");
+        assertThat(repositoryApiModel.description()).isEqualTo("Type-safe HTTP client for Android and Java by Square, Inc.");
+        assertThat(repositoryApiModel.owner().login()).isEqualTo("square");
+        assertThat(repositoryApiModel.owner().htmlUrl()).isEqualTo("https://github.com/square");
     }
 }
