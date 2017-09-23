@@ -65,9 +65,9 @@ public class TrendingPresenterUnitTests {
                         "test_html_url_two", 7, 11, "test_description_two", owner));
         trendingViewModels = Arrays.asList(
                 TrendingViewModel.create("test_repository_one", "test_description_one",
-                        "5", "10", "test_avatar_url", "test_login_one"),
+                        "5", "10", "test_avatar_url", "test_login"),
                 TrendingViewModel.create("test_repository_two", "test_description_two",
-                        "7", "11", "test_avatar_url", "test_login_two"));
+                        "7", "11", "test_avatar_url", "test_login"));
 
         when(trendingRepository.trendingRepositories()).thenReturn(listResults);
     }
