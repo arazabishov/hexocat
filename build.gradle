@@ -77,7 +77,7 @@ ext {
     libraries = [
             gson           : "2.8.1",
             dagger         : "2.11",
-            support        : "26.0.2",
+            support        : "26.1.0",
             picasso        : "2.5.2",
             okpicasso      : "1.1.0",
             paperwork      : "1.2.7",
@@ -86,7 +86,7 @@ ext {
             rxjava         : "2.1.0",
             rxandroid      : "2.0.1",
             rxbindings     : "2.0.0",
-            butterknife    : "8.6.0",
+            butterknife    : "8.8.1",
             okhttp         : "3.8.0",
             retrofit       : "2.3.0",
             autovalue      : "1.4.1",
