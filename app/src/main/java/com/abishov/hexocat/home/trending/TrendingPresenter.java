@@ -51,12 +51,11 @@ final class TrendingPresenter implements Presenter<TrendingView, TrendingViewSta
                 .subscribeOn(schedulerProvider.io())
                 .switchMap(repositories -> Observable.fromIterable(repositories)
                         .map(repo -> {
-                            String description = repo.description() == null ?
-                                    "-" : repo.description();
+                            String description = repo.description() == null ? "" : repo.description();
                             String forks = String.valueOf(repo.forks());
                             String stars = String.valueOf(repo.stars());
-                            return RepositoryViewModel.create(repo.name(), description,
-                                    forks, stars, repo.owner().avatarUrl());
+                            return TrendingViewModel.create(repo.name(), description,
+                                    forks, stars, repo.owner().avatarUrl(), repo.owner().login());
                         })
                         .toList().toObservable())
                 .map(TrendingViewState::success)
