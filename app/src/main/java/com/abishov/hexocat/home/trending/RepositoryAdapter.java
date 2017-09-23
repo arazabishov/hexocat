@@ -1,12 +1,9 @@
 package com.abishov.hexocat.home.trending;
 
-import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.RecyclerView.Adapter;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.abishov.hexocat.R;
 import com.abishov.hexocat.commons.views.CircleTransformation;
@@ -16,31 +13,32 @@ import com.squareup.picasso.Transformation;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
+import io.reactivex.functions.Consumer;
 
-final class RepositoryAdapter extends RecyclerView.Adapter<RepositoryAdapter.RepositoryViewHolder> {
+final class RepositoryAdapter extends Adapter<RepositoryAdapter.RepositoryViewHolder> implements Consumer<List<TrendingViewModel>> {
     private final LayoutInflater layoutInflater;
     private final Picasso picasso;
-    private final List<RepositoryViewModel> repositories;
+    private final List<TrendingViewModel> repositories;
     private final Transformation transformation;
+    private final TrendingViewClickListener trendingViewClickListener;
 
-    RepositoryAdapter(@NonNull LayoutInflater layoutInflater, @NonNull Picasso picasso) {
+    RepositoryAdapter(LayoutInflater layoutInflater, Picasso picasso, TrendingViewClickListener clickListener) {
         this.layoutInflater = layoutInflater;
         this.picasso = picasso;
+        this.trendingViewClickListener = clickListener;
         this.repositories = new ArrayList<>();
         this.transformation = new CircleTransformation();
     }
 
     @Override
     public RepositoryViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new RepositoryViewHolder(layoutInflater.inflate(
+        return new RepositoryViewHolder((TrendingItemView) layoutInflater.inflate(
                 R.layout.recyclerview_item_repository, parent, false));
     }
 
     @Override
     public void onBindViewHolder(RepositoryViewHolder holder, int position) {
-        holder.update(repositories.get(position));
+        holder.bindTo(repositories.get(position));
     }
 
     @Override
@@ -48,44 +46,31 @@ final class RepositoryAdapter extends RecyclerView.Adapter<RepositoryAdapter.Rep
         return repositories.size();
     }
 
-    void swap(@NonNull List<RepositoryViewModel> repositories) {
-        this.repositories.clear();
-        this.repositories.addAll(repositories);
+    @Override
+    public void accept(List<TrendingViewModel> trendingViewModels) throws Exception {
+        repositories.clear();
+        repositories.addAll(trendingViewModels);
         notifyDataSetChanged();
     }
 
+    public interface TrendingViewClickListener {
+        void onRepositoryClick(TrendingViewModel repository);
+    }
+
     class RepositoryViewHolder extends RecyclerView.ViewHolder {
+        private final TrendingItemView trendingItemView;
 
-        @BindView(R.id.imageview_owner_logo)
-        ImageView imageViewLogo;
-
-        @BindView(R.id.textview_repository_name)
-        TextView textViewRepositoryName;
-
-        @BindView(R.id.textview_repository_description)
-        TextView textViewRepositoryDescription;
-
-        @BindView(R.id.textview_repository_forks)
-        TextView textViewForks;
-
-        @BindView(R.id.textview_repository_stars)
-        TextView textViewStars;
-
-        RepositoryViewHolder(View itemView) {
+        RepositoryViewHolder(TrendingItemView itemView) {
             super(itemView);
-            ButterKnife.bind(this, itemView);
+            trendingItemView = itemView;
+            trendingItemView.setOnClickListener(v -> {
+                TrendingViewModel repository = repositories.get(getAdapterPosition());
+                trendingViewClickListener.onRepositoryClick(repository);
+            });
         }
 
-        void update(RepositoryViewModel viewModel) {
-            textViewRepositoryName.setText(viewModel.name());
-            textViewRepositoryDescription.setText(viewModel.description());
-            textViewForks.setText(viewModel.forks());
-            textViewStars.setText(viewModel.stars());
-
-            picasso.load(viewModel.avatarUrl())
-                    .transform(transformation)
-                    .fit().centerCrop()
-                    .into(imageViewLogo);
+        void bindTo(TrendingViewModel viewModel) {
+            trendingItemView.bindTo(viewModel, picasso, transformation);
         }
     }
 }
