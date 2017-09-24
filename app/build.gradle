@@ -128,6 +128,7 @@ dependencies {
 
     // Jake Wharton libraries
     implementation "com.jakewharton.rxbinding2:rxbinding:${libraries.rxbindings}"
+    implementation "com.jakewharton.rxbinding2:rxbinding-support-v4:${libraries.rxbindings}"
     implementation "com.jakewharton.rxbinding2:rxbinding-appcompat-v7:${libraries.rxbindings}"
     implementation "com.jakewharton.picasso:picasso2-okhttp3-downloader:${libraries.okpicasso}"
     implementation "com.jakewharton.timber:timber:${libraries.timber}"
