@@ -3,6 +3,7 @@
 
     <!-- Bottom navigation -->
     <string name="home_item_trending">Trending</string>
+    <string name="home_item_search">Search</string>
     <string name="home_item_favorites">Favorites</string>
     <string name="home_action_retry">Retry</string>
 </resources>
