@@ -1,7 +1,5 @@
 package com.abishov.hexocat.home.trending;
 
-import android.support.annotation.NonNull;
-
 import com.abishov.hexocat.commons.dagger.PerFragment;
 import com.abishov.hexocat.commons.schedulers.SchedulerProvider;
 
@@ -21,21 +19,21 @@ public final class TrendingModule {
 
     @Provides
     @PerFragment
-    TrendingService trendingService(@NonNull Retrofit retrofit) {
+    TrendingService trendingService(Retrofit retrofit) {
         return retrofit.create(TrendingService.class);
     }
 
     @Provides
     @PerFragment
-    TrendingRepository trendingRepository(@NonNull TrendingService trendingService,
-            @NonNull QueryDateProvider queryDateProvider) {
+    TrendingRepository trendingRepository(TrendingService trendingService,
+            QueryDateProvider queryDateProvider) {
         return new TrendingRepository(trendingService, queryDateProvider);
     }
 
     @Provides
     @PerFragment
-    TrendingPresenter trendingPresenter(@NonNull SchedulerProvider schedulerProvider,
-            @NonNull TrendingRepository trendingRepository) {
+    TrendingPresenter trendingPresenter(SchedulerProvider schedulerProvider,
+            TrendingRepository trendingRepository) {
         return new TrendingPresenter(schedulerProvider, trendingRepository);
     }
 }

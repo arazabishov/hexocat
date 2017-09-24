@@ -1,7 +1,6 @@
 package com.abishov.hexocat.commons.network;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 
 import com.abishov.hexocat.commons.dagger.PerSession;
 import com.google.gson.Gson;
@@ -32,47 +31,41 @@ import timber.log.Timber;
 public final class NetworkModule {
     private static final String OK_HTTP = "OkHttp";
 
-    @NonNull
     private final HttpUrl baseUrl;
 
-    public NetworkModule(@NonNull HttpUrl baseUrl) {
+    public NetworkModule(HttpUrl baseUrl) {
         this.baseUrl = baseUrl;
     }
 
-    @NonNull
     @Provides
     @PerSession
     TypeAdapterFactory gsonAdapterFactory() {
         return HexocatAdapterFactory.create();
     }
 
-    @NonNull
     @Provides
     @PerSession
     CallAdapter.Factory rxJavaAdapterFactory() {
         return RxJava2CallAdapterFactory.create();
     }
 
-    @NonNull
     @Provides
     @PerSession
-    Gson gson(@NonNull TypeAdapterFactory adapterFactory) {
+    Gson gson(TypeAdapterFactory adapterFactory) {
         return new GsonBuilder()
                 .registerTypeAdapterFactory(adapterFactory)
                 .create();
     }
 
-    @NonNull
     @Provides
     @PerSession
-    Cache okHttpCache(@NonNull Context context) {
+    Cache okHttpCache(Context context) {
         return new Cache(context.getCacheDir(), 10 * 1024 * 1024); // 10 MiBs
     }
 
-    @NonNull
     @Provides
     @PerSession
-    Interceptor okHttpLogging(@NonNull Cache cache) {
+    Interceptor okHttpLogging(Cache cache) {
         return new HttpLoggingInterceptor(message -> {
             Timber.tag(OK_HTTP).d(message);
             Timber.tag(OK_HTTP).v("Cache: requests=[%s], network=[%s], hits=[%s]",
@@ -80,10 +73,9 @@ public final class NetworkModule {
         }).setLevel(HttpLoggingInterceptor.Level.BASIC);
     }
 
-    @NonNull
     @Provides
     @PerSession
-    OkHttpClient okHttpClient(@NonNull Interceptor logger, @NonNull Cache cache) {
+    OkHttpClient okHttpClient(Interceptor logger, Cache cache) {
         return new OkHttpClient.Builder()
                 .addInterceptor(logger)
                 .cache(cache)
@@ -93,19 +85,17 @@ public final class NetworkModule {
                 .build();
     }
 
-    @NonNull
     @Provides
     @PerSession
-    Converter.Factory gsonFactory(@NonNull Gson gson) {
+    Converter.Factory gsonFactory(Gson gson) {
         return GsonConverterFactory.create(gson);
     }
 
-    @NonNull
     @Provides
     @PerSession
-    Retrofit retrofit(@NonNull Converter.Factory factory,
-                      @NonNull CallAdapter.Factory rxJavaAdapterFactory,
-                      @NonNull OkHttpClient okHttpClient) {
+    Retrofit retrofit(Converter.Factory factory,
+            CallAdapter.Factory rxJavaAdapterFactory,
+            OkHttpClient okHttpClient) {
         return new Retrofit.Builder()
                 .baseUrl(baseUrl)
                 .addConverterFactory(factory)
@@ -116,13 +106,13 @@ public final class NetworkModule {
 
     @Provides
     @PerSession
-    Downloader okHttpPicasso(@NonNull OkHttpClient okClient) {
+    Downloader okHttpPicasso(OkHttpClient okClient) {
         return new OkHttp3Downloader(okClient);
     }
 
     @Provides
     @PerSession
-    Picasso picasso(@NonNull Context context, @NonNull Downloader downloader) {
+    Picasso picasso(Context context, Downloader downloader) {
         return new Picasso.Builder(context)
                 .downloader(downloader)
                 .build();

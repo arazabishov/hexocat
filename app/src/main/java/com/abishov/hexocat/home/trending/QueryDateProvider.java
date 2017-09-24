@@ -4,12 +4,9 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
-import javax.annotation.Nonnull;
-
 class QueryDateProvider {
     private static final String DATE_FORMAT = "yyyy-MM-dd";
 
-    @Nonnull
     String weekBeforeToday() {
         // Move calendar seven days back.
         Calendar calendar = Calendar.getInstance();

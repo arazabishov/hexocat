@@ -1,7 +1,5 @@
 package com.abishov.hexocat;
 
-import android.support.annotation.NonNull;
-
 import com.abishov.hexocat.commons.network.HexocatAdapterFactory;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -14,7 +12,6 @@ public final class Inject {
         // no instances
     }
 
-    @NonNull
     public static Gson gson() {
         return new GsonBuilder()
                 .registerTypeAdapterFactory(HexocatAdapterFactory.create())

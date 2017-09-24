@@ -1,7 +1,6 @@
 package com.abishov.hexocat.models.organization;
 
 import com.abishov.hexocat.Inject;
-import com.abishov.hexocat.models.organization.OrganizationApiModel;
 import com.google.gson.Gson;
 
 import org.junit.Test;

@@ -116,7 +116,6 @@ public final class TrendingFragment extends BaseFragment implements TrendingView
         return RxView.clicks(buttonRetry);
     }
 
-    @Nonnull
     @Override
     public Consumer<TrendingViewState> renderRepositories() {
         return state -> {

@@ -1,6 +1,5 @@
 package com.abishov.hexocat.commons.views;
 
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 
@@ -28,7 +27,7 @@ public abstract class BaseFragment extends Fragment {
         }
     }
 
-    protected void bind(@NonNull Object target, @NonNull android.view.View view) {
+    protected void bind(Object target, android.view.View view) {
         unbinder = ButterKnife.bind(target, view);
     }
 }

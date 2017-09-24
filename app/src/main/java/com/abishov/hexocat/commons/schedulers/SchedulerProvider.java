@@ -1,7 +1,5 @@
 package com.abishov.hexocat.commons.schedulers;
 
-import android.support.annotation.NonNull;
-
 import io.reactivex.Scheduler;
 
 /**
@@ -9,13 +7,9 @@ import io.reactivex.Scheduler;
  * them unit-testable.
  */
 public interface SchedulerProvider {
-
-    @NonNull
     Scheduler computation();
 
-    @NonNull
     Scheduler io();
 
-    @NonNull
     Scheduler ui();
 }

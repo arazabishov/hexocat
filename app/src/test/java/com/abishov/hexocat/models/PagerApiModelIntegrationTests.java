@@ -1,7 +1,6 @@
 package com.abishov.hexocat.models;
 
 import com.abishov.hexocat.Inject;
-import com.abishov.hexocat.models.PagerApiModel;
 import com.google.gson.reflect.TypeToken;
 
 import org.junit.Test;

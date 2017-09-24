@@ -1,6 +1,5 @@
 package com.abishov.hexocat.home.trending;
 
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.abishov.hexocat.commons.schedulers.SchedulerProvider;
@@ -12,25 +11,19 @@ import io.reactivex.Observable;
 import io.reactivex.disposables.CompositeDisposable;
 
 final class TrendingPresenter implements Presenter<TrendingView, TrendingViewState> {
-
-    @NonNull
     private final SchedulerProvider schedulerProvider;
-
-    @NonNull
     private final TrendingRepository trendingRepository;
-
-    @NonNull
     private final CompositeDisposable compositeDisposable;
 
-    TrendingPresenter(@NonNull SchedulerProvider schedulerProvider,
-            @NonNull TrendingRepository trendingRepository) {
+    TrendingPresenter(SchedulerProvider schedulerProvider,
+            TrendingRepository trendingRepository) {
         this.schedulerProvider = schedulerProvider;
         this.trendingRepository = trendingRepository;
         this.compositeDisposable = new CompositeDisposable();
     }
 
     @Override
-    public void onAttach(@NonNull TrendingView view, @Nullable TrendingViewState viewState) {
+    public void onAttach(TrendingView view, @Nullable TrendingViewState viewState) {
         Observable<TrendingViewState> viewStateObservable = viewState == null ?
                 fetchRepositories() : Observable.just(viewState);
 

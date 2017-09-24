@@ -1,6 +1,5 @@
 package com.abishov.hexocat.commons.utils;
 
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
@@ -10,17 +9,14 @@ import hu.supercluster.paperwork.Paperwork;
 import timber.log.Timber;
 
 public final class CrashReportingTree extends Timber.Tree {
-
-    @NonNull
     private final Paperwork paperwork;
 
-    public CrashReportingTree(@NonNull Paperwork paperwork) {
+    public CrashReportingTree(Paperwork paperwork) {
         this.paperwork = paperwork;
     }
 
     @Override
-    protected void log(int priority, String tag,
-            @NonNull String message, @Nullable Throwable throwable) {
+    protected void log(int priority, String tag, String message, @Nullable Throwable throwable) {
         if (priority == Log.VERBOSE || priority == Log.DEBUG) {
             return;
         }

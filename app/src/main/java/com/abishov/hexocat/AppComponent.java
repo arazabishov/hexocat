@@ -1,7 +1,5 @@
 package com.abishov.hexocat;
 
-import android.support.annotation.NonNull;
-
 import com.abishov.hexocat.commons.network.NetworkComponent;
 import com.abishov.hexocat.commons.network.NetworkModule;
 import com.abishov.hexocat.commons.schedulers.SchedulerModule;
@@ -15,8 +13,7 @@ import dagger.Component;
         AppModule.class, SchedulerModule.class
 })
 public interface AppComponent {
-    void inject(@NonNull Hexocat hexocat);
+    void inject(Hexocat hexocat);
 
-    @NonNull
-    NetworkComponent plus(@NonNull NetworkModule networkModule);
+    NetworkComponent plus(NetworkModule networkModule);
 }

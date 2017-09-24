@@ -2,7 +2,6 @@ package com.abishov.hexocat;
 
 import android.app.Application;
 import android.content.Context;
-import android.support.annotation.NonNull;
 
 import javax.inject.Singleton;
 
@@ -12,10 +11,10 @@ import hu.supercluster.paperwork.Paperwork;
 
 @Singleton
 @Module
-public final class AppModule {
+final class AppModule {
     private final Application app;
 
-    public AppModule(@NonNull Application app) {
+    AppModule(Application app) {
         this.app = app;
     }
 
@@ -27,7 +26,7 @@ public final class AppModule {
 
     @Provides
     @Singleton
-    Paperwork paperwork(@NonNull Context context) {
+    Paperwork paperwork(Context context) {
         return new Paperwork(context);
     }
 }

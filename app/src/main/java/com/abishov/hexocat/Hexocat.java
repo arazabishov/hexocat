@@ -2,8 +2,6 @@ package com.abishov.hexocat;
 
 import android.app.Application;
 import android.os.StrictMode;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 
 import com.abishov.hexocat.commons.network.NetworkComponent;
@@ -19,15 +17,9 @@ import okhttp3.HttpUrl;
 import timber.log.Timber;
 
 public class Hexocat extends Application {
-
-    @NonNull
-    AppComponent appComponent;
-
-    @Nullable
-    NetworkComponent networkComponent;
-
-    @NonNull
-    RefWatcher refWatcher;
+    private AppComponent appComponent;
+    private NetworkComponent networkComponent;
+    private RefWatcher refWatcher;
 
     @Inject
     Paperwork paperwork;
@@ -91,26 +83,22 @@ public class Hexocat extends Application {
         }
     }
 
-    @NonNull
     protected AppComponent prepareAppComponent() {
         return DaggerAppComponent.builder()
                 .appModule(new AppModule(this))
                 .build();
     }
 
-    @NonNull
     @VisibleForTesting
     protected NetworkComponent prepareNetworkComponent() {
         return appComponent.plus(new NetworkModule(
                 HttpUrl.parse("http://api.github.com")));
     }
 
-    @NonNull
     public AppComponent appComponent() {
         return appComponent;
     }
 
-    @NonNull
     public NetworkComponent networkComponent() {
         if (networkComponent == null) {
             networkComponent = prepareNetworkComponent();
@@ -119,7 +107,6 @@ public class Hexocat extends Application {
         return networkComponent;
     }
 
-    @NonNull
     public RefWatcher refWatcher() {
         return refWatcher;
     }
