@@ -3,7 +3,6 @@ package com.abishov.hexocat.home.trending;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -23,7 +22,6 @@ import com.abishov.hexocat.home.repository.RepositoryViewModel;
 import com.jakewharton.rxbinding2.view.RxView;
 import com.squareup.picasso.Picasso;
 
-import javax.annotation.Nonnull;
 import javax.inject.Inject;
 
 import butterknife.BindView;
@@ -56,7 +54,7 @@ public final class TrendingFragment extends BaseFragment implements TrendingView
     private Parcelable recyclerViewState;
     private RecyclerView.LayoutManager recyclerViewLayoutManager;
 
-    @Nonnull
+
     public static TrendingFragment create() {
         return new TrendingFragment();
     }
@@ -72,7 +70,7 @@ public final class TrendingFragment extends BaseFragment implements TrendingView
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater,
+    public View onCreateView(LayoutInflater inflater,
             @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_trending, container, false);
     }
