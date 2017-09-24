@@ -5,7 +5,7 @@ import android.os.Parcelable;
 import com.google.auto.value.AutoValue;
 
 @AutoValue
-public abstract class TrendingViewModel implements Parcelable {
+public abstract class RepositoryViewModel implements Parcelable {
 
     public abstract String name();
 
@@ -19,9 +19,9 @@ public abstract class TrendingViewModel implements Parcelable {
 
     public abstract String login();
 
-    public static TrendingViewModel create(String name, String description,
+    public static RepositoryViewModel create(String name, String description,
             String forks, String stars, String ownerAvatar, String login) {
-        return new AutoValue_TrendingViewModel(name, description, forks,
+        return new AutoValue_RepositoryViewModel(name, description, forks,
                 stars, ownerAvatar, login);
     }
 }

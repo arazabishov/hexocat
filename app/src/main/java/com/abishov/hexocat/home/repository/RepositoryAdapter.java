@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import com.abishov.hexocat.R;
 import com.abishov.hexocat.commons.views.CircleTransformation;
 import com.abishov.hexocat.home.trending.TrendingItemView;
-import com.abishov.hexocat.home.trending.TrendingViewModel;
+import com.abishov.hexocat.home.trending.RepositoryViewModel;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 
@@ -17,10 +17,10 @@ import java.util.List;
 
 import io.reactivex.functions.Consumer;
 
-public final class RepositoryAdapter extends Adapter<RepositoryAdapter.RepositoryViewHolder> implements Consumer<List<TrendingViewModel>> {
+public final class RepositoryAdapter extends Adapter<RepositoryAdapter.RepositoryViewHolder> implements Consumer<List<RepositoryViewModel>> {
     private final LayoutInflater layoutInflater;
     private final Picasso picasso;
-    private final List<TrendingViewModel> repositories;
+    private final List<RepositoryViewModel> repositories;
     private final Transformation transformation;
     private final TrendingViewClickListener trendingViewClickListener;
 
@@ -49,14 +49,14 @@ public final class RepositoryAdapter extends Adapter<RepositoryAdapter.Repositor
     }
 
     @Override
-    public void accept(List<TrendingViewModel> trendingViewModels) throws Exception {
+    public void accept(List<RepositoryViewModel> repositoryViewModels) throws Exception {
         repositories.clear();
-        repositories.addAll(trendingViewModels);
+        repositories.addAll(repositoryViewModels);
         notifyDataSetChanged();
     }
 
     public interface TrendingViewClickListener {
-        void onRepositoryClick(TrendingViewModel repository);
+        void onRepositoryClick(RepositoryViewModel repository);
     }
 
     class RepositoryViewHolder extends RecyclerView.ViewHolder {
@@ -66,12 +66,12 @@ public final class RepositoryAdapter extends Adapter<RepositoryAdapter.Repositor
             super(itemView);
             trendingItemView = itemView;
             trendingItemView.setOnClickListener(v -> {
-                TrendingViewModel repository = repositories.get(getAdapterPosition());
+                RepositoryViewModel repository = repositories.get(getAdapterPosition());
                 trendingViewClickListener.onRepositoryClick(repository);
             });
         }
 
-        void bindTo(TrendingViewModel viewModel) {
+        void bindTo(RepositoryViewModel viewModel) {
             trendingItemView.bindTo(viewModel, picasso, transformation);
         }
     }

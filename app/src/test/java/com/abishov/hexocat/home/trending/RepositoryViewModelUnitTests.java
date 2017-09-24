@@ -8,12 +8,12 @@ import static org.assertj.core.api.Java6Assertions.assertThat;
 import static org.assertj.core.api.Java6Assertions.fail;
 
 @RunWith(JUnit4.class)
-public class TrendingViewModelUnitTests {
+public class RepositoryViewModelUnitTests {
 
     @Test
     public void createMustThrowOnNullName() {
         try {
-            TrendingViewModel.create(null, "test_description",
+            RepositoryViewModel.create(null, "test_description",
                     "5", "10", "test_avatar_url", "test_login");
             fail("NullPointerException was expected, but nothing was thrown.");
         } catch (NullPointerException nullPointerException) {
@@ -24,7 +24,7 @@ public class TrendingViewModelUnitTests {
     @Test
     public void createMustThrowOnNullDescription() {
         try {
-            TrendingViewModel.create("test_name", null,
+            RepositoryViewModel.create("test_name", null,
                     "5", "10", "test_avatar_url", "test_login");
             fail("NullPointerException was expected, but nothing was thrown.");
         } catch (NullPointerException nullPointerException) {
@@ -35,7 +35,7 @@ public class TrendingViewModelUnitTests {
     @Test
     public void createMustThrowOnForksName() {
         try {
-            TrendingViewModel.create("test_name", "test_description",
+            RepositoryViewModel.create("test_name", "test_description",
                     null, "10", "test_avatar_url", "test_login");
             fail("NullPointerException was expected, but nothing was thrown.");
         } catch (NullPointerException nullPointerException) {
@@ -46,7 +46,7 @@ public class TrendingViewModelUnitTests {
     @Test
     public void createMustThrowOnStarsName() {
         try {
-            TrendingViewModel.create("test_name", "test_description",
+            RepositoryViewModel.create("test_name", "test_description",
                     "5", null, "test_avatar_url", "test_login");
             fail("NullPointerException was expected, but nothing was thrown.");
         } catch (NullPointerException nullPointerException) {
@@ -57,7 +57,7 @@ public class TrendingViewModelUnitTests {
     @Test
     public void createMustThrowOnNullAvatarUrl() {
         try {
-            TrendingViewModel.create("test_name", "test_description",
+            RepositoryViewModel.create("test_name", "test_description",
                     "5", "10", null, "test_login");
             fail("NullPointerException was expected, but nothing was thrown.");
         } catch (NullPointerException nullPointerException) {
@@ -68,7 +68,7 @@ public class TrendingViewModelUnitTests {
     @Test
     public void createMustThrowOnNullLogin() {
         try {
-            TrendingViewModel.create("test_name", "test_description",
+            RepositoryViewModel.create("test_name", "test_description",
                     "5", "10", "test_avatar", null);
             fail("NullPointerException was expected, but nothing was thrown.");
         } catch (NullPointerException nullPointerException) {
@@ -78,9 +78,9 @@ public class TrendingViewModelUnitTests {
 
     @Test
     public void equalsAndHashcodeMustConformToTheContract() {
-        TrendingViewModel repositoryOne = TrendingViewModel.create("test_name", "test_description",
+        RepositoryViewModel repositoryOne = RepositoryViewModel.create("test_name", "test_description",
                 "5", "10", "test_avatar_url", "test_login");
-        TrendingViewModel repositoryTwo = TrendingViewModel.create("test_name", "test_description",
+        RepositoryViewModel repositoryTwo = RepositoryViewModel.create("test_name", "test_description",
                 "5", "10", "test_avatar_url", "test_login");
 
         assertThat(repositoryOne).isEqualTo(repositoryTwo);
@@ -89,7 +89,7 @@ public class TrendingViewModelUnitTests {
 
     @Test
     public void propertiesMustBePropagatedCorrectly() {
-        TrendingViewModel repository = TrendingViewModel.create("test_name",
+        RepositoryViewModel repository = RepositoryViewModel.create("test_name",
                 "test_description", "5", "10", "test_avatar_url", "test_login");
         assertThat(repository.name()).isEqualTo("test_name");
         assertThat(repository.description()).isEqualTo("test_description");
