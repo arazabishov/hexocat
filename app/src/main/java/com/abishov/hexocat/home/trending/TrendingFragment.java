@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.abishov.hexocat.Hexocat;
 import com.abishov.hexocat.R;
 import com.abishov.hexocat.commons.views.BaseFragment;
+import com.abishov.hexocat.home.repository.RepositoryAdapter;
 import com.jakewharton.rxbinding2.view.RxView;
 import com.squareup.picasso.Picasso;
 

@@ -5,21 +5,21 @@ import android.os.Parcelable;
 import com.google.auto.value.AutoValue;
 
 @AutoValue
-abstract class TrendingViewModel implements Parcelable {
+public abstract class TrendingViewModel implements Parcelable {
 
-    abstract String name();
+    public abstract String name();
 
-    abstract String description();
+    public abstract String description();
 
-    abstract String forks();
+    public abstract String forks();
 
-    abstract String stars();
+    public abstract String stars();
 
-    abstract String avatarUrl();
+    public abstract String avatarUrl();
 
-    abstract String login();
+    public abstract String login();
 
-    static TrendingViewModel create(String name, String description,
+    public static TrendingViewModel create(String name, String description,
             String forks, String stars, String ownerAvatar, String login) {
         return new AutoValue_TrendingViewModel(name, description, forks,
                 stars, ownerAvatar, login);

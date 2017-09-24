@@ -1,4 +1,4 @@
-package com.abishov.hexocat.home.trending;
+package com.abishov.hexocat.home.repository;
 
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.Adapter;
@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 
 import com.abishov.hexocat.R;
 import com.abishov.hexocat.commons.views.CircleTransformation;
+import com.abishov.hexocat.home.trending.TrendingItemView;
+import com.abishov.hexocat.home.trending.TrendingViewModel;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 
@@ -15,7 +17,7 @@ import java.util.List;
 
 import io.reactivex.functions.Consumer;
 
-final class RepositoryAdapter extends Adapter<RepositoryAdapter.RepositoryViewHolder> implements Consumer<List<TrendingViewModel>> {
+public final class RepositoryAdapter extends Adapter<RepositoryAdapter.RepositoryViewHolder> implements Consumer<List<TrendingViewModel>> {
     private final LayoutInflater layoutInflater;
     private final Picasso picasso;
     private final List<TrendingViewModel> repositories;
