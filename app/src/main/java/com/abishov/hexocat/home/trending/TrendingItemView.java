@@ -53,7 +53,7 @@ public final class TrendingItemView extends RelativeLayout {
         ButterKnife.bind(this);
     }
 
-    public void bindTo(TrendingViewModel repository, Picasso picasso, Transformation transformation) {
+    public void bindTo(RepositoryViewModel repository, Picasso picasso, Transformation transformation) {
         picasso.load(repository.avatarUrl())
                 .placeholder(R.drawable.avatar)
                 .fit()

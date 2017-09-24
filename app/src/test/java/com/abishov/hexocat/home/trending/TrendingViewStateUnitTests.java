@@ -53,12 +53,12 @@ public class TrendingViewStateUnitTests {
 
     @Test
     public void successMustPropagateCorrectProperties() {
-        TrendingViewModel viewModelOne = TrendingViewModel.create("test_name_one",
+        RepositoryViewModel viewModelOne = RepositoryViewModel.create("test_name_one",
                 "test_description_one", "5", "10", "test_avatar_one", "test_login_one");
-        TrendingViewModel viewModelTwo = TrendingViewModel.create("test_name_two",
+        RepositoryViewModel viewModelTwo = RepositoryViewModel.create("test_name_two",
                 "test_description_two", "3", "4", "test_avatar_two", "test_login_two");
 
-        List<TrendingViewModel> items = new ArrayList<>();
+        List<RepositoryViewModel> items = new ArrayList<>();
         items.add(viewModelOne);
 
         TrendingViewState viewState = TrendingViewState.success(items);

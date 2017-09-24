@@ -140,7 +140,7 @@ public final class TrendingFragment extends BaseFragment implements TrendingView
     }
 
     @Override
-    public void onRepositoryClick(TrendingViewModel repository) {
+    public void onRepositoryClick(RepositoryViewModel repository) {
         Toast.makeText(getActivity(), repository.name(), Toast.LENGTH_SHORT).show();
     }
 

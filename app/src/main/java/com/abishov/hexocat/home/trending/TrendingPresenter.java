@@ -54,7 +54,7 @@ final class TrendingPresenter implements Presenter<TrendingView, TrendingViewSta
                             String description = repo.description() == null ? "" : repo.description();
                             String forks = String.valueOf(repo.forks());
                             String stars = String.valueOf(repo.stars());
-                            return TrendingViewModel.create(repo.name(), description,
+                            return RepositoryViewModel.create(repo.name(), description,
                                     forks, stars, repo.owner().avatarUrl(), repo.owner().login());
                         })
                         .toList().toObservable())

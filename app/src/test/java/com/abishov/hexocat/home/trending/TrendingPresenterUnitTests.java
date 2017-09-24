@@ -44,7 +44,7 @@ public class TrendingPresenterUnitTests {
     private List<RepositoryApiModel> repositories;
 
     // ViewModels corresponding to dummy data.
-    private List<TrendingViewModel> trendingViewModels;
+    private List<RepositoryViewModel> repositoryViewModels;
 
     // Class under testing.
     private TrendingPresenter trendingPresenter;
@@ -63,10 +63,10 @@ public class TrendingPresenterUnitTests {
                         "test_html_url_one", 5, 10, "test_description_one", owner),
                 RepositoryApiModel.create("test_repository_two",
                         "test_html_url_two", 7, 11, "test_description_two", owner));
-        trendingViewModels = Arrays.asList(
-                TrendingViewModel.create("test_repository_one", "test_description_one",
+        repositoryViewModels = Arrays.asList(
+                RepositoryViewModel.create("test_repository_one", "test_description_one",
                         "5", "10", "test_avatar_url", "test_login"),
-                TrendingViewModel.create("test_repository_two", "test_description_two",
+                RepositoryViewModel.create("test_repository_two", "test_description_two",
                         "7", "11", "test_avatar_url", "test_login"));
 
         when(trendingRepository.trendingRepositories()).thenReturn(listResults);
@@ -98,7 +98,7 @@ public class TrendingPresenterUnitTests {
         assertThat(viewStateSuccess.isInProgress()).isFalse();
         assertThat(viewStateSuccess.isFailure()).isFalse();
         assertThat(viewStateSuccess.isIdle()).isFalse();
-        assertThat(viewStateSuccess.items()).isEqualTo(trendingViewModels);
+        assertThat(viewStateSuccess.items()).isEqualTo(repositoryViewModels);
     }
 
     @Test
