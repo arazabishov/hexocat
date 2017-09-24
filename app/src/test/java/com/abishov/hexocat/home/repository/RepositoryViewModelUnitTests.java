@@ -1,4 +1,4 @@
-package com.abishov.hexocat.home.trending;
+package com.abishov.hexocat.home.repository;
 
 import com.abishov.hexocat.home.repository.RepositoryViewModel;
 
