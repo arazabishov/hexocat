@@ -23,7 +23,7 @@ public final class RepositoryAdapter extends Adapter<RepositoryAdapter.Repositor
     private final Transformation transformation;
     private final TrendingViewClickListener trendingViewClickListener;
 
-    RepositoryAdapter(LayoutInflater layoutInflater, Picasso picasso, TrendingViewClickListener clickListener) {
+    public RepositoryAdapter(LayoutInflater layoutInflater, Picasso picasso, TrendingViewClickListener clickListener) {
         this.layoutInflater = layoutInflater;
         this.picasso = picasso;
         this.trendingViewClickListener = clickListener;
