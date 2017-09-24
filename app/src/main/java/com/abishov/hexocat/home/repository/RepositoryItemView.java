@@ -1,4 +1,4 @@
-package com.abishov.hexocat.home.trending;
+package com.abishov.hexocat.home.repository;
 
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
@@ -19,7 +19,7 @@ import com.squareup.picasso.Transformation;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public final class TrendingItemView extends RelativeLayout {
+public final class RepositoryItemView extends RelativeLayout {
 
     @BindView(R.id.imageview_owner_logo)
     ImageView imageViewLogo;
@@ -38,7 +38,7 @@ public final class TrendingItemView extends RelativeLayout {
 
     private final int descriptionColor;
 
-    public TrendingItemView(Context context, AttributeSet attrs) {
+    public RepositoryItemView(Context context, AttributeSet attrs) {
         super(context, attrs);
 
         TypedValue outValue = new TypedValue();

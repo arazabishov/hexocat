@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.abishov.hexocat.home.trending.TrendingItemView
+<com.abishov.hexocat.home.repository.RepositoryItemView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -86,4 +86,4 @@
             app:fontFamily="@font/roboto_regular"
             tools:text="45" />
     </LinearLayout>
-</com.abishov.hexocat.home.trending.TrendingItemView>
+</com.abishov.hexocat.home.repository.RepositoryItemView>

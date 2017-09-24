@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 
 import com.abishov.hexocat.R;
 import com.abishov.hexocat.commons.views.CircleTransformation;
-import com.abishov.hexocat.home.trending.TrendingItemView;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 
@@ -33,7 +32,7 @@ public final class RepositoryAdapter extends Adapter<RepositoryAdapter.Repositor
 
     @Override
     public RepositoryViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new RepositoryViewHolder((TrendingItemView) layoutInflater.inflate(
+        return new RepositoryViewHolder((RepositoryItemView) layoutInflater.inflate(
                 R.layout.recyclerview_item_repository, parent, false));
     }
 
@@ -59,19 +58,19 @@ public final class RepositoryAdapter extends Adapter<RepositoryAdapter.Repositor
     }
 
     class RepositoryViewHolder extends RecyclerView.ViewHolder {
-        private final TrendingItemView trendingItemView;
+        private final RepositoryItemView repositoryItemView;
 
-        RepositoryViewHolder(TrendingItemView itemView) {
+        RepositoryViewHolder(RepositoryItemView itemView) {
             super(itemView);
-            trendingItemView = itemView;
-            trendingItemView.setOnClickListener(v -> {
+            repositoryItemView = itemView;
+            repositoryItemView.setOnClickListener(v -> {
                 RepositoryViewModel repository = repositories.get(getAdapterPosition());
                 trendingViewClickListener.onRepositoryClick(repository);
             });
         }
 
         void bindTo(RepositoryViewModel viewModel) {
-            trendingItemView.bindTo(viewModel, picasso, transformation);
+            repositoryItemView.bindTo(viewModel, picasso, transformation);
         }
     }
 }
