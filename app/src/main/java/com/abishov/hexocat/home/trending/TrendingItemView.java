@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.abishov.hexocat.R;
 import com.abishov.hexocat.commons.views.Truss;
+import com.abishov.hexocat.home.repository.RepositoryViewModel;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 

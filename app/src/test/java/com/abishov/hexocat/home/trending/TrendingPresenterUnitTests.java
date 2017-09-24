@@ -1,6 +1,7 @@
 package com.abishov.hexocat.home.trending;
 
 import com.abishov.hexocat.commons.schedulers.TrampolineSchedulersProvider;
+import com.abishov.hexocat.home.repository.RepositoryViewModel;
 import com.abishov.hexocat.models.organization.OrganizationApiModel;
 import com.abishov.hexocat.models.repository.RepositoryApiModel;
 

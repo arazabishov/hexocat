@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import com.abishov.hexocat.commons.schedulers.SchedulerProvider;
 import com.abishov.hexocat.commons.utils.OnErrorHandler;
 import com.abishov.hexocat.commons.views.Presenter;
+import com.abishov.hexocat.home.repository.RepositoryViewModel;
 
 import io.reactivex.Observable;
 import io.reactivex.disposables.CompositeDisposable;

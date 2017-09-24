@@ -4,6 +4,7 @@ import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
 import com.abishov.hexocat.commons.views.ViewState;
+import com.abishov.hexocat.home.repository.RepositoryViewModel;
 import com.google.auto.value.AutoValue;
 
 import java.util.ArrayList;

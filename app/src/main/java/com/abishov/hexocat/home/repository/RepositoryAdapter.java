@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import com.abishov.hexocat.R;
 import com.abishov.hexocat.commons.views.CircleTransformation;
 import com.abishov.hexocat.home.trending.TrendingItemView;
-import com.abishov.hexocat.home.trending.RepositoryViewModel;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 
