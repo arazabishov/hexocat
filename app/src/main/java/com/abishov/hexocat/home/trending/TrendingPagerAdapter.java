@@ -13,7 +13,7 @@ import java.util.List;
 final class TrendingPagerAdapter extends FragmentStatePagerAdapter {
     private final List<String> pagerTabs;
 
-    public TrendingPagerAdapter(Context context, FragmentManager fragmentManager) {
+    TrendingPagerAdapter(Context context, FragmentManager fragmentManager) {
         super(fragmentManager);
 
         pagerTabs = Arrays.asList(
