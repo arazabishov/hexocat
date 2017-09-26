@@ -6,4 +6,9 @@
     <string name="home_item_search">Search</string>
     <string name="home_item_favorites">Favorites</string>
     <string name="home_action_retry">Retry</string>
+
+    <!-- Trending tabs -->
+    <string name="trending_today">Today</string>
+    <string name="trending_last_week">Last week</string>
+    <string name="trending_last_month">Last month</string>
 </resources>
