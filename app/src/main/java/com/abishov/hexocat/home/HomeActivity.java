@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.abishov.hexocat.R;
 import com.abishov.hexocat.home.trending.TrendingFragment;
+import com.abishov.hexocat.home.trending.TrendingPagerFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -42,7 +43,7 @@ public final class HomeActivity extends AppCompatActivity {
     private boolean matchFragment(@IdRes int fragmentId) {
         if (fragmentId == R.id.item_trending) {
             if (trendingFragment == null) {
-                trendingFragment = TrendingFragment.create();
+                trendingFragment = new TrendingPagerFragment();
             }
 
             attachFragment(trendingFragment, TrendingFragment.TAG);
