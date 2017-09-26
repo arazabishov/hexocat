@@ -5,7 +5,6 @@ import android.support.annotation.IdRes;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 
 import com.abishov.hexocat.R;
 import com.abishov.hexocat.home.trending.TrendingFragment;
@@ -15,9 +14,6 @@ import butterknife.ButterKnife;
 
 public final class HomeActivity extends AppCompatActivity {
     private static final String TAG = HomeActivity.class.getSimpleName();
-
-    @BindView(R.id.toolbar_home)
-    Toolbar toolbar;
 
     @BindView(R.id.bottom_navigation_home)
     BottomNavigationView bottomNavigationView;
@@ -31,12 +27,7 @@ public final class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         ButterKnife.bind(this);
 
-        setupToolbar();
         setupNavigationMenu(savedInstanceState);
-    }
-
-    private void setupToolbar() {
-        toolbar.setTitle(R.string.app_name);
     }
 
     private void setupNavigationMenu(Bundle savedInstanceState) {
