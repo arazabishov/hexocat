@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 
 import com.abishov.hexocat.R;
-import com.abishov.hexocat.home.trending.TrendingFragment;
 import com.abishov.hexocat.home.trending.TrendingPagerFragment;
 
 import butterknife.BindView;
@@ -18,9 +17,6 @@ public final class HomeActivity extends AppCompatActivity {
 
     @BindView(R.id.bottom_navigation_home)
     BottomNavigationView bottomNavigationView;
-
-    private Fragment trendingFragment;
-    private Fragment favoritesFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,17 +38,9 @@ public final class HomeActivity extends AppCompatActivity {
 
     private boolean matchFragment(@IdRes int fragmentId) {
         if (fragmentId == R.id.item_trending) {
-            if (trendingFragment == null) {
-                trendingFragment = new TrendingPagerFragment();
-            }
-
-            attachFragment(trendingFragment, TrendingFragment.TAG);
+            attachFragment(TrendingPagerFragment.create(), TrendingPagerFragment.TAG);
         } else {
-            if (favoritesFragment == null) {
-                favoritesFragment = new Fragment();
-            }
-
-            attachFragment(favoritesFragment, TAG);
+            attachFragment(new Fragment(), TAG);
         }
 
         return true;
