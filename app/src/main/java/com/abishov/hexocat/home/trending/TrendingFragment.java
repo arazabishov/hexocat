@@ -31,6 +31,7 @@ import io.reactivex.functions.Consumer;
 public final class TrendingFragment extends BaseFragment implements TrendingView {
     public static final String TAG = TrendingFragment.class.getSimpleName();
 
+    private static final String ARG_DAYS = "argument:daysBefore";
     private static final String STATE_VIEW = "state:trendingViewState";
     private static final String STATE_RECYCLER_VIEW = "state:trendingRecyclerViewState";
 
@@ -55,16 +56,22 @@ public final class TrendingFragment extends BaseFragment implements TrendingView
     private RecyclerView.LayoutManager recyclerViewLayoutManager;
 
 
-    public static TrendingFragment create() {
-        return new TrendingFragment();
+    public static TrendingFragment create(int daysBefore) {
+        Bundle arguments = new Bundle();
+        arguments.putInt(ARG_DAYS, daysBefore);
+
+        TrendingFragment trendingFragment = new TrendingFragment();
+        trendingFragment.setArguments(arguments);
+        return trendingFragment;
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
 
+        int daysBefpre = getArguments().getInt(ARG_DAYS);
         ((Hexocat) context.getApplicationContext()).networkComponent()
-                .plus(new TrendingModule())
+                .plus(new TrendingModule(daysBefpre))
                 .inject(this);
     }
 

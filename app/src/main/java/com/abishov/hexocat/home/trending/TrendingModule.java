@@ -10,6 +10,11 @@ import retrofit2.Retrofit;
 @Module
 @PerFragment
 public final class TrendingModule {
+    private final int daysBefore;
+
+    TrendingModule(int daysBefore) {
+        this.daysBefore = daysBefore;
+    }
 
     @Provides
     @PerFragment
@@ -34,6 +39,6 @@ public final class TrendingModule {
     @PerFragment
     TrendingPresenter trendingPresenter(SchedulerProvider schedulerProvider,
             TrendingRepository trendingRepository) {
-        return new TrendingPresenter(schedulerProvider, trendingRepository);
+        return new TrendingPresenter(schedulerProvider, trendingRepository, daysBefore);
     }
 }
