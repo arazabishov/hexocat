@@ -15,12 +15,17 @@ import com.abishov.hexocat.commons.views.BaseFragment;
 import butterknife.BindView;
 
 public final class TrendingPagerFragment extends BaseFragment {
+    public static final String TAG = TrendingPagerFragment.class.getSimpleName();
 
     @BindView(R.id.tab_layout_trending_periods)
     TabLayout trendingTabLayout;
 
     @BindView(R.id.viewpager_trending)
     ViewPager trendingViewPager;
+
+    public static TrendingPagerFragment create() {
+        return new TrendingPagerFragment();
+    }
 
     @Nullable
     @Override
