@@ -11,20 +11,20 @@ import java.util.Arrays;
 import java.util.List;
 
 final class TrendingPagerAdapter extends FragmentStatePagerAdapter {
-    private final List<String> pagerTabs;
+    private final List<Period> pagerTabs;
 
     TrendingPagerAdapter(Context context, FragmentManager fragmentManager) {
         super(fragmentManager);
 
         pagerTabs = Arrays.asList(
-                context.getString(R.string.trending_today),
-                context.getString(R.string.trending_last_week),
-                context.getString(R.string.trending_last_month));
+                new Period(context.getString(R.string.trending_today), 1),
+                new Period(context.getString(R.string.trending_last_week), 7),
+                new Period(context.getString(R.string.trending_last_month), 30));
     }
 
     @Override
     public Fragment getItem(int position) {
-        return TrendingFragment.create();
+        return TrendingFragment.create(pagerTabs.get(position).days);
     }
 
     @Override
@@ -34,6 +34,16 @@ final class TrendingPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
-        return pagerTabs.get(position);
+        return pagerTabs.get(position).label;
+    }
+
+    static class Period {
+        final String label;
+        final int days;
+
+        Period(String label, int days) {
+            this.label = label;
+            this.days = days;
+        }
     }
 }
