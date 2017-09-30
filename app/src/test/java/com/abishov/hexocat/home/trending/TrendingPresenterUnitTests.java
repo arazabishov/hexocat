@@ -56,7 +56,7 @@ public class TrendingPresenterUnitTests {
 
         listResults = BehaviorSubject.create();
         trendingPresenter = new TrendingPresenter(
-                new TrampolineSchedulersProvider(), trendingRepository);
+                new TrampolineSchedulersProvider(), trendingRepository, 7);
 
         OrganizationApiModel owner = OrganizationApiModel.create("test_login", "test_html_url", "test_avatar_url");
         repositories = Arrays.asList(
@@ -70,7 +70,7 @@ public class TrendingPresenterUnitTests {
                 RepositoryViewModel.create("test_repository_two", "test_description_two",
                         "7", "11", "test_avatar_url", "test_login"));
 
-        when(trendingRepository.trendingRepositories()).thenReturn(listResults);
+        when(trendingRepository.trendingRepositories(7)).thenReturn(listResults);
     }
 
     @Test

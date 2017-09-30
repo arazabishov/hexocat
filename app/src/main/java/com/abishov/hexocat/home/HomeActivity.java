@@ -5,10 +5,9 @@ import android.support.annotation.IdRes;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 
 import com.abishov.hexocat.R;
-import com.abishov.hexocat.home.trending.TrendingFragment;
+import com.abishov.hexocat.home.trending.TrendingPagerFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -16,14 +15,8 @@ import butterknife.ButterKnife;
 public final class HomeActivity extends AppCompatActivity {
     private static final String TAG = HomeActivity.class.getSimpleName();
 
-    @BindView(R.id.toolbar_home)
-    Toolbar toolbar;
-
     @BindView(R.id.bottom_navigation_home)
     BottomNavigationView bottomNavigationView;
-
-    private Fragment trendingFragment;
-    private Fragment favoritesFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,12 +24,7 @@ public final class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         ButterKnife.bind(this);
 
-        setupToolbar();
         setupNavigationMenu(savedInstanceState);
-    }
-
-    private void setupToolbar() {
-        toolbar.setTitle(R.string.app_name);
     }
 
     private void setupNavigationMenu(Bundle savedInstanceState) {
@@ -50,17 +38,9 @@ public final class HomeActivity extends AppCompatActivity {
 
     private boolean matchFragment(@IdRes int fragmentId) {
         if (fragmentId == R.id.item_trending) {
-            if (trendingFragment == null) {
-                trendingFragment = TrendingFragment.create();
-            }
-
-            attachFragment(trendingFragment, TrendingFragment.TAG);
+            attachFragment(TrendingPagerFragment.create(), TrendingPagerFragment.TAG);
         } else {
-            if (favoritesFragment == null) {
-                favoritesFragment = new Fragment();
-            }
-
-            attachFragment(favoritesFragment, TAG);
+            attachFragment(new Fragment(), TAG);
         }
 
         return true;

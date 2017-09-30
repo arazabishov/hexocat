@@ -14,12 +14,14 @@ final class TrendingPresenter implements Presenter<TrendingView, TrendingViewSta
     private final SchedulerProvider schedulerProvider;
     private final TrendingRepository trendingRepository;
     private final CompositeDisposable compositeDisposable;
+    private final int daysBefore;
 
     TrendingPresenter(SchedulerProvider schedulerProvider,
-            TrendingRepository trendingRepository) {
+            TrendingRepository trendingRepository, int daysBefore) {
         this.schedulerProvider = schedulerProvider;
         this.trendingRepository = trendingRepository;
         this.compositeDisposable = new CompositeDisposable();
+        this.daysBefore = daysBefore;
     }
 
     @Override
@@ -41,7 +43,7 @@ final class TrendingPresenter implements Presenter<TrendingView, TrendingViewSta
     }
 
     private Observable<TrendingViewState> fetchRepositories() {
-        return trendingRepository.trendingRepositories()
+        return trendingRepository.trendingRepositories(daysBefore)
                 .subscribeOn(schedulerProvider.io())
                 .switchMap(repositories -> Observable.fromIterable(repositories)
                         .map(repo -> {

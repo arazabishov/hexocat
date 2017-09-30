@@ -1,11 +1,11 @@
 package com.abishov.hexocat.home.trending;
 
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.abishov.hexocat.Hexocat;
 import com.abishov.hexocat.R;
 import com.abishov.hexocat.commons.views.BaseFragment;
+import com.abishov.hexocat.commons.views.DividerItemDecoration;
 import com.abishov.hexocat.home.repository.RepositoryAdapter;
 import com.jakewharton.rxbinding2.support.v4.widget.RxSwipeRefreshLayout;
 import com.jakewharton.rxbinding2.view.RxView;
@@ -24,6 +25,7 @@ import com.squareup.picasso.Picasso;
 
 import javax.inject.Inject;
 
+import butterknife.BindDimen;
 import butterknife.BindView;
 import io.reactivex.Observable;
 import io.reactivex.functions.Consumer;
@@ -31,6 +33,7 @@ import io.reactivex.functions.Consumer;
 public final class TrendingFragment extends BaseFragment implements TrendingView {
     public static final String TAG = TrendingFragment.class.getSimpleName();
 
+    private static final String ARG_DAYS = "argument:daysBefore";
     private static final String STATE_VIEW = "state:trendingViewState";
     private static final String STATE_RECYCLER_VIEW = "state:trendingRecyclerViewState";
 
@@ -42,6 +45,9 @@ public final class TrendingFragment extends BaseFragment implements TrendingView
 
     @BindView(R.id.button_retry)
     Button buttonRetry;
+
+    @BindDimen(R.dimen.trending_divider_padding_start)
+    float dividerPaddingStart;
 
     @Inject
     TrendingPresenter trendingPresenter;
@@ -55,16 +61,22 @@ public final class TrendingFragment extends BaseFragment implements TrendingView
     private RecyclerView.LayoutManager recyclerViewLayoutManager;
 
 
-    public static TrendingFragment create() {
-        return new TrendingFragment();
+    public static TrendingFragment create(int daysBefore) {
+        Bundle arguments = new Bundle();
+        arguments.putInt(ARG_DAYS, daysBefore);
+
+        TrendingFragment trendingFragment = new TrendingFragment();
+        trendingFragment.setArguments(arguments);
+        return trendingFragment;
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
 
+        int daysBefpre = getArguments().getInt(ARG_DAYS);
         ((Hexocat) context.getApplicationContext()).networkComponent()
-                .plus(new TrendingModule())
+                .plus(new TrendingModule(daysBefpre))
                 .inject(this);
     }
 
@@ -145,7 +157,12 @@ public final class TrendingFragment extends BaseFragment implements TrendingView
         recyclerViewLayoutManager = new LinearLayoutManager(getActivity());
         recyclerViewTrending.setLayoutManager(recyclerViewLayoutManager);
         recyclerViewTrending.setAdapter(repositoryAdapter);
-        recyclerViewTrending.addItemDecoration(new DividerItemDecoration(
-                recyclerViewTrending.getContext(), DividerItemDecoration.VERTICAL));
+        recyclerViewTrending.addItemDecoration(new DividerItemDecoration(getContext(),
+                DividerItemDecoration.VERTICAL, dividerPaddingStart, isRtl(recyclerViewTrending)));
+    }
+
+    private boolean isRtl(View view) {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2 &&
+                view.getLayoutDirection() == View.LAYOUT_DIRECTION_RTL;
     }
 }

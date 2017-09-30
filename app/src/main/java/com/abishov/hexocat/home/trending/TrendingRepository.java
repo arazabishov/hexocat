@@ -17,9 +17,9 @@ class TrendingRepository {
     }
 
 
-    Observable<List<RepositoryApiModel>> trendingRepositories() {
+    Observable<List<RepositoryApiModel>> trendingRepositories(int daysBefore) {
         String queryFilter = String.format(Locale.US, "created:>%s",
-                queryDateProvider.weekBeforeToday());
+                queryDateProvider.dateBefore(daysBefore));
         return service.trendingRepositories(queryFilter)
                 .switchMap(pager -> Observable.fromIterable(pager.items())
                         .toList().toObservable());

@@ -55,13 +55,13 @@ public final class TrendingRepositoryUnitTests {
                         "test_html_url_two", 4, 3, "test_description_two", owner)));
 
         when(trendingService.trendingRepositories("created:>2017-08-10")).thenReturn(subject);
-        when(queryDateProvider.weekBeforeToday()).thenReturn("2017-08-10");
+        when(queryDateProvider.dateBefore(7)).thenReturn("2017-08-10");
     }
 
     @Test
     public void trendingRepositoriesMustCallTrendingServiceWithCorrectFilter() {
         TestObserver<List<RepositoryApiModel>> testObserver =
-                trendingRepository.trendingRepositories().test();
+                trendingRepository.trendingRepositories(7).test();
 
         subject.onNext(repositoryPager);
         subject.onComplete();
@@ -72,7 +72,7 @@ public final class TrendingRepositoryUnitTests {
 
         assertThat(testObserver.values().get(0)).isEqualTo(repositoryPager.items());
 
-        verify(queryDateProvider, times(1)).weekBeforeToday();
+        verify(queryDateProvider, times(1)).dateBefore(7);
         verify(trendingService, times(1)).trendingRepositories("created:>2017-08-10");
     }
 }
