@@ -7,5 +7,5 @@ import dagger.Subcomponent;
 @PerFragment
 @Subcomponent(modules = TrendingModule.class)
 public interface TrendingComponent {
-    void inject(TrendingFragment trendingFragment);
+    void inject(TrendingView trendingView);
 }
