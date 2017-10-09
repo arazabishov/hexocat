@@ -1,16 +1,13 @@
 package com.abishov.hexocat.home.trending;
 
-import android.support.annotation.Nullable;
-
 import com.abishov.hexocat.commons.schedulers.SchedulerProvider;
 import com.abishov.hexocat.commons.utils.OnErrorHandler;
-import com.abishov.hexocat.commons.views.Presenter;
 import com.abishov.hexocat.home.repository.RepositoryViewModel;
 
 import io.reactivex.Observable;
 import io.reactivex.disposables.CompositeDisposable;
 
-final class TrendingPresenter implements Presenter<TrendingView, TrendingViewState> {
+final class TrendingPresenter implements TrendingContract.Presenter {
     private final SchedulerProvider schedulerProvider;
     private final TrendingRepository trendingRepository;
     private final CompositeDisposable compositeDisposable;
@@ -25,11 +22,8 @@ final class TrendingPresenter implements Presenter<TrendingView, TrendingViewSta
     }
 
     @Override
-    public void onAttach(TrendingView view, @Nullable TrendingViewState viewState) {
-        Observable<TrendingViewState> viewStateObservable = viewState == null ?
-                fetchRepositories() : Observable.just(viewState);
-
-        compositeDisposable.add(viewStateObservable
+    public void onAttach(TrendingContract.View view) {
+        compositeDisposable.add(fetchRepositories()
                 .subscribe(view.renderRepositories(), OnErrorHandler.create()));
 
         compositeDisposable.add(view.retryActions()

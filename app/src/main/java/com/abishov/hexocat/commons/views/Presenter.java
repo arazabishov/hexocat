@@ -1,9 +1,7 @@
 package com.abishov.hexocat.commons.views;
 
-import android.support.annotation.Nullable;
-
-public interface Presenter<T extends View, K extends ViewState> {
-    void onAttach(T view, @Nullable K state);
+public interface Presenter<T extends View> {
+    void onAttach(T view);
 
     void onDetach();
 }

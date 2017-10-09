@@ -20,7 +20,7 @@ buildscript {
     }
 
     dependencies {
-        classpath "com.android.tools.build:gradle:3.0.0-beta6"
+        classpath "com.android.tools.build:gradle:3.0.0-beta7"
 
         // provides insight on how many method references
         // are present in dex file
@@ -70,7 +70,7 @@ task clean(type: Delete) {
 ext {
     versions = [
             sdk   : 26,
-            tools : "26.0.1",
+            tools : "26.0.2",
             minsdk: 16
     ]
 

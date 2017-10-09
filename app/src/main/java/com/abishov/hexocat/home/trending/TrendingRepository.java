@@ -16,7 +16,6 @@ class TrendingRepository {
         this.queryDateProvider = queryDateProvider;
     }
 
-
     Observable<List<RepositoryApiModel>> trendingRepositories(int daysBefore) {
         String queryFilter = String.format(Locale.US, "created:>%s",
                 queryDateProvider.dateBefore(daysBefore));
