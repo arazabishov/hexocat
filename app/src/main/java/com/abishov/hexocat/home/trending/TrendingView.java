@@ -80,7 +80,7 @@ public final class TrendingView extends FrameLayout implements TrendingContract.
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        trendingPresenter.onAttach(this, null);
+        trendingPresenter.onAttach(this);
     }
 
     @Override
