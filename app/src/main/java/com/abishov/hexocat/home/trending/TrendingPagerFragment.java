@@ -3,7 +3,7 @@ package com.abishov.hexocat.home.trending;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,8 +38,7 @@ public final class TrendingPagerFragment extends BaseFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         bind(this, view);
 
-        FragmentStatePagerAdapter pagerAdapter = new TrendingPagerAdapter(
-                getActivity(), getChildFragmentManager());
+        PagerAdapter pagerAdapter = new TrendingPagerAdapter(getActivity());
         trendingViewPager.setAdapter(pagerAdapter);
         trendingTabLayout.setupWithViewPager(trendingViewPager);
     }
