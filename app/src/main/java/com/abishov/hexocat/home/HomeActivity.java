@@ -13,7 +13,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public final class HomeActivity extends AppCompatActivity {
-    private static final String STATE_MENU_ID = "state:menuId";
+    private static final String STATE_MENU_ITEM_ID = "state:menuItemId";
 
     @BindView(R.id.framelayout_content)
     ViewGroup contentView;
@@ -31,13 +31,13 @@ public final class HomeActivity extends AppCompatActivity {
                 item -> swapView(item.getItemId()));
 
         int selectedNavigationItemId = savedInstanceState == null ?
-                R.id.item_trending : savedInstanceState.getInt(STATE_MENU_ID);
+                R.id.item_trending : savedInstanceState.getInt(STATE_MENU_ITEM_ID);
         swapView(selectedNavigationItemId);
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        outState.putInt(STATE_MENU_ID, bottomNavigationView.getSelectedItemId());
+        outState.putInt(STATE_MENU_ITEM_ID, bottomNavigationView.getSelectedItemId());
         super.onSaveInstanceState(outState);
     }
 
