@@ -1,12 +1,11 @@
 package com.abishov.hexocat.home;
 
 import android.os.Bundle;
-import android.support.annotation.LayoutRes;
+import android.support.annotation.IdRes;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 
 import com.abishov.hexocat.R;
 
@@ -14,6 +13,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public final class HomeActivity extends AppCompatActivity {
+    private static final String STATE_MENU_ID = "state:menuId";
 
     @BindView(R.id.framelayout_content)
     ViewGroup contentView;
@@ -27,32 +27,28 @@ public final class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         ButterKnife.bind(this);
 
-        setupNavigationMenu(savedInstanceState);
-    }
-
-    private void setupNavigationMenu(Bundle savedInstanceState) {
         bottomNavigationView.setOnNavigationItemSelectedListener(
-                item -> matchView(item.getItemId()));
+                item -> swapView(item.getItemId()));
 
-        if (savedInstanceState == null) {
-            bottomNavigationView.setSelectedItemId(R.id.item_trending);
-        }
+        int selectedNavigationItemId = savedInstanceState == null ?
+                R.id.item_trending : savedInstanceState.getInt(STATE_MENU_ID);
+        swapView(selectedNavigationItemId);
     }
 
-    private boolean matchView(@LayoutRes int viewId) {
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putInt(STATE_MENU_ID, bottomNavigationView.getSelectedItemId());
+        super.onSaveInstanceState(outState);
+    }
+
+    private boolean swapView(@IdRes int viewId) {
+        contentView.removeAllViews();
         if (viewId == R.id.item_trending) {
             View trendingPagerView = getLayoutInflater().inflate(
                     R.layout.trending_pager_view, contentView, false);
-            swapView(trendingPagerView);
-        } else {
-            swapView(new FrameLayout(this));
+            contentView.addView(trendingPagerView);
         }
 
         return true;
-    }
-
-    private void swapView(View view) {
-        contentView.removeAllViews();
-        contentView.addView(view);
     }
 }
