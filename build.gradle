@@ -87,7 +87,7 @@ ext {
             rxandroid      : "2.0.1",
             rxbindings     : "2.0.0",
             butterknife    : "8.8.1",
-            okhttp         : "3.8.0",
+            okhttp         : "3.9.0",
             retrofit       : "2.3.0",
             autovalue      : "1.4.1",
             autovaluegson  : "0.4.6",
