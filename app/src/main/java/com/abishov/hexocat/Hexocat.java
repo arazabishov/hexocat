@@ -7,6 +7,7 @@ import android.support.annotation.VisibleForTesting;
 import com.abishov.hexocat.commons.network.NetworkComponent;
 import com.abishov.hexocat.commons.network.NetworkModule;
 import com.abishov.hexocat.commons.utils.CrashReportingTree;
+import com.jakewharton.threetenabp.AndroidThreeTen;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
 
@@ -33,6 +34,8 @@ public class Hexocat extends Application {
             // analyze heap dumps by LeakCanary
             return;
         }
+
+        AndroidThreeTen.init(this);
 
         setupAppComponent();
         setupNetworkComponent();
