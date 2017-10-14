@@ -1,22 +1,21 @@
 package com.abishov.hexocat.home.trending;
 
 import android.content.Context;
-import android.support.v4.view.PagerAdapter;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.abishov.hexocat.R;
 
 import java.util.Arrays;
 import java.util.List;
 
-final class TrendingPagerAdapter extends PagerAdapter {
-    private final LayoutInflater layoutInflater;
+final class TrendingPagerAdapter extends FragmentStatePagerAdapter {
     private final List<Period> periods;
 
-    TrendingPagerAdapter(Context context) {
-        layoutInflater = LayoutInflater.from(context);
+    TrendingPagerAdapter(Context context, FragmentManager fragmentManager) {
+        super(fragmentManager);
+
         periods = Arrays.asList(
                 new Period(context.getString(R.string.trending_today), 1),
                 new Period(context.getString(R.string.trending_last_week), 7),
@@ -24,26 +23,13 @@ final class TrendingPagerAdapter extends PagerAdapter {
     }
 
     @Override
-    public Object instantiateItem(ViewGroup container, int position) {
-        TrendingView viewGroup = (TrendingView) layoutInflater.inflate(
-                R.layout.trending_view, container, false);
-        container.addView(viewGroup);
-        return viewGroup;
-    }
-
-    @Override
-    public void destroyItem(ViewGroup container, int position, Object view) {
-        container.removeView((View) view);
+    public Fragment getItem(int position) {
+        return TrendingFragment.create(periods.get(position).days);
     }
 
     @Override
     public int getCount() {
         return periods.size();
-    }
-
-    @Override
-    public boolean isViewFromObject(View view, Object object) {
-        return view == object;
     }
 
     @Override

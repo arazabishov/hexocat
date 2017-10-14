@@ -3,6 +3,8 @@ package com.abishov.hexocat.home.trending;
 import android.content.Context;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
@@ -29,7 +31,9 @@ public final class TrendingPagerView extends CoordinatorLayout {
         super.onFinishInflate();
         ButterKnife.bind(this);
 
-        PagerAdapter pagerAdapter = new TrendingPagerAdapter(getContext());
+        FragmentManager fragmentManager = ((FragmentActivity) getContext())
+                .getSupportFragmentManager();
+        PagerAdapter pagerAdapter = new TrendingPagerAdapter(getContext(), fragmentManager);
         trendingViewPager.setAdapter(pagerAdapter);
         trendingTabLayout.setupWithViewPager(trendingViewPager);
     }
