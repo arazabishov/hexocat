@@ -1,26 +1,23 @@
 package com.abishov.hexocat.home.trending;
 
+import com.abishov.hexocat.commons.network.github.Order;
+import com.abishov.hexocat.commons.network.github.SearchQuery;
+import com.abishov.hexocat.commons.network.github.Sort;
 import com.abishov.hexocat.models.repository.RepositoryApiModel;
 
 import java.util.List;
-import java.util.Locale;
 
 import io.reactivex.Observable;
 
 class TrendingRepository {
     private final TrendingService service;
-    private final QueryDateProvider queryDateProvider;
 
-    TrendingRepository(TrendingService service, QueryDateProvider queryDateProvider) {
+    TrendingRepository(TrendingService service) {
         this.service = service;
-        this.queryDateProvider = queryDateProvider;
     }
 
-    Observable<List<RepositoryApiModel>> trendingRepositories(int daysBefore) {
-        String queryFilter = String.format(Locale.US, "created:>%s",
-                queryDateProvider.dateBefore(daysBefore));
-        return service.trendingRepositories(queryFilter)
-                .switchMap(pager -> Observable.fromIterable(pager.items())
-                        .toList().toObservable());
+    Observable<List<RepositoryApiModel>> trendingRepositories(SearchQuery query) {
+        return service.repositories(query, Sort.STARS, Order.DESC)
+                .switchMap(pager -> Observable.just(pager.items()));
     }
 }
