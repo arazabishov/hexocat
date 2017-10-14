@@ -1,6 +1,5 @@
 package com.abishov.hexocat.home.trending;
 
-import com.abishov.hexocat.commons.schedulers.TrampolineSchedulersProvider;
 import com.abishov.hexocat.home.repository.RepositoryViewModel;
 import com.abishov.hexocat.models.organization.OrganizationApiModel;
 import com.abishov.hexocat.models.repository.RepositoryApiModel;
@@ -24,7 +23,6 @@ import io.reactivex.subjects.BehaviorSubject;
 import static org.assertj.core.api.Java6Assertions.assertThat;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 @RunWith(JUnit4.class)
 public class TrendingPresenterUnitTests {
@@ -55,8 +53,8 @@ public class TrendingPresenterUnitTests {
         MockitoAnnotations.initMocks(this);
 
         listResults = BehaviorSubject.create();
-        trendingPresenter = new TrendingPresenter(
-                new TrampolineSchedulersProvider(), trendingRepository, 7);
+//        trendingPresenter = new TrendingPresenter(
+//                new TrampolineSchedulersProvider(), trendingRepository, 7);
 
         OrganizationApiModel owner = OrganizationApiModel.create("test_login", "test_html_url", "test_avatar_url");
         repositories = Arrays.asList(
@@ -70,18 +68,18 @@ public class TrendingPresenterUnitTests {
                 RepositoryViewModel.create("test_repository_two", "test_description_two",
                         "7", "11", "test_avatar_url", "test_login"));
 
-        when(trendingRepository.trendingRepositories(7)).thenReturn(listResults);
+        // when(trendingRepository.trendingRepositories(7)).thenReturn(listResults);
     }
 
     @Test
     public void presenterMustPropagateCorrectStatesOnSuccess() throws Exception {
-        trendingPresenter.onAttach(trendingView, null);
+        // trendingPresenter.onAttach(trendingView, null);
         assertThat(listResults.hasObservers()).isTrue();
 
         listResults.onNext(repositories);
         listResults.onComplete();
 
-        verify(trendingView.renderRepositories(), times(2))
+        verify(trendingView.bindTo(), times(2))
                 .accept(repositoriesConsumer.capture());
 
         TrendingViewState viewStateProgress =
@@ -104,13 +102,13 @@ public class TrendingPresenterUnitTests {
 
     @Test
     public void presenterMustPropagateCorrectStatesOnFailure() throws Exception {
-        trendingPresenter.onAttach(trendingView, null);
+        // trendingPresenter.onAttach(trendingView);
         assertThat(listResults.hasObservers()).isTrue();
 
         listResults.onError(new Throwable("test_message"));
         listResults.onComplete();
 
-        verify(trendingView.renderRepositories(), times(2))
+        verify(trendingView.bindTo(), times(2))
                 .accept(repositoriesConsumer.capture());
 
         TrendingViewState viewStateProgress =
@@ -133,13 +131,13 @@ public class TrendingPresenterUnitTests {
 
     @Test
     public void presenterMustPropagateCorrectStatesWhenNoItems() throws Exception {
-        trendingPresenter.onAttach(trendingView, null);
+        // trendingPresenter.onAttach(trendingView, null);
         assertThat(listResults.hasObservers()).isTrue();
 
         listResults.onNext(new ArrayList<>());
         listResults.onComplete();
 
-        verify(trendingView.renderRepositories(), times(2))
+        verify(trendingView.bindTo(), times(2))
                 .accept(repositoriesConsumer.capture());
 
         TrendingViewState viewStateProgress = repositoriesConsumer.getAllValues().get(0);
@@ -162,7 +160,7 @@ public class TrendingPresenterUnitTests {
     public void presenterMustUnsubscribeFromViewOnDetach() {
         assertThat(listResults.hasObservers()).isFalse();
 
-        trendingPresenter.onAttach(trendingView, null);
+        // trendingPresenter.onAttach(trendingView, null);
         assertThat(listResults.hasObservers()).isTrue();
 
         trendingPresenter.onDetach();
