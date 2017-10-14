@@ -1,4 +1,4 @@
-package com.abishov.hexocat.models;
+package com.abishov.hexocat.github;
 
 import com.abishov.hexocat.Inject;
 import com.google.gson.reflect.TypeToken;

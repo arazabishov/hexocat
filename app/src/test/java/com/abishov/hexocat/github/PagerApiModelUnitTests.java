@@ -1,4 +1,4 @@
-package com.abishov.hexocat.models;
+package com.abishov.hexocat.github;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -1,8 +1,8 @@
 package com.abishov.hexocat.home.trending;
 
 import com.abishov.hexocat.home.repository.RepositoryViewModel;
-import com.abishov.hexocat.models.OrganizationApiModel;
-import com.abishov.hexocat.models.RepositoryApiModel;
+import com.abishov.hexocat.github.OrganizationApiModel;
+import com.abishov.hexocat.github.RepositoryApiModel;
 
 import org.junit.Before;
 import org.junit.Test;

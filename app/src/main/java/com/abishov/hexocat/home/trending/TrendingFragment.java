@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 
 import com.abishov.hexocat.Hexocat;
 import com.abishov.hexocat.R;
-import com.abishov.hexocat.commons.network.github.SearchQuery;
+import com.abishov.hexocat.github.filters.SearchQuery;
 import com.abishov.hexocat.commons.views.BaseFragment;
 
 import org.threeten.bp.LocalDate;

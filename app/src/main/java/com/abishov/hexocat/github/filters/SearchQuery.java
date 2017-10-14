@@ -1,4 +1,4 @@
-package com.abishov.hexocat.commons.network.github;
+package com.abishov.hexocat.github.filters;
 
 import org.threeten.bp.LocalDate;
 

@@ -1,4 +1,4 @@
-package com.abishov.hexocat.models;
+package com.abishov.hexocat.github;
 
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;

@@ -1,4 +1,4 @@
-package com.abishov.hexocat.commons.network.github;
+package com.abishov.hexocat.github.filters;
 
 public enum Order {
     ASC("asc"),

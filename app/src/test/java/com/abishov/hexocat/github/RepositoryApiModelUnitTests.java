@@ -1,7 +1,7 @@
-package com.abishov.hexocat.models;
+package com.abishov.hexocat.github;
 
-import com.abishov.hexocat.models.OrganizationApiModel;
-import com.abishov.hexocat.models.RepositoryApiModel;
+import com.abishov.hexocat.github.OrganizationApiModel;
+import com.abishov.hexocat.github.RepositoryApiModel;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

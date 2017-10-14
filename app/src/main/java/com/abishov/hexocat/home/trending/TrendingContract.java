@@ -1,6 +1,6 @@
 package com.abishov.hexocat.home.trending;
 
-import com.abishov.hexocat.commons.network.github.SearchQuery;
+import com.abishov.hexocat.github.filters.SearchQuery;
 
 import io.reactivex.Observable;
 import io.reactivex.functions.Consumer;

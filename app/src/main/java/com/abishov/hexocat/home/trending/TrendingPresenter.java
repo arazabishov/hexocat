@@ -1,6 +1,6 @@
 package com.abishov.hexocat.home.trending;
 
-import com.abishov.hexocat.commons.network.github.SearchQuery;
+import com.abishov.hexocat.github.filters.SearchQuery;
 import com.abishov.hexocat.commons.schedulers.SchedulerProvider;
 import com.abishov.hexocat.commons.utils.OnErrorHandler;
 import com.abishov.hexocat.home.repository.RepositoryViewModel;

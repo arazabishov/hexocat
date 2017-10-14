@@ -1,4 +1,4 @@
-package com.abishov.hexocat.models;
+package com.abishov.hexocat.github;
 
 import com.google.auto.value.AutoValue;
 import com.google.gson.Gson;

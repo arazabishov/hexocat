@@ -1,10 +1,10 @@
 package com.abishov.hexocat.home.trending;
 
-import com.abishov.hexocat.commons.network.github.Order;
-import com.abishov.hexocat.commons.network.github.SearchQuery;
-import com.abishov.hexocat.commons.network.github.Sort;
-import com.abishov.hexocat.models.PagerApiModel;
-import com.abishov.hexocat.models.RepositoryApiModel;
+import com.abishov.hexocat.github.filters.Order;
+import com.abishov.hexocat.github.filters.SearchQuery;
+import com.abishov.hexocat.github.filters.Sort;
+import com.abishov.hexocat.github.PagerApiModel;
+import com.abishov.hexocat.github.RepositoryApiModel;
 
 import io.reactivex.Observable;
 import retrofit2.http.GET;
