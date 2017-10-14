@@ -10,8 +10,8 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.abishov.hexocat.Hexocat;
 import com.abishov.hexocat.R;
-import com.abishov.hexocat.commons.picasso.PicassoComponent;
 import com.abishov.hexocat.commons.views.Truss;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
@@ -56,7 +56,8 @@ public final class RepositoryItemView extends RelativeLayout {
                 context, outValue.resourceId);
 
         if (!isInEditMode()) {
-            PicassoComponent.obtain(context).inject(this);
+            ((Hexocat) context.getApplicationContext()).picassoComponent()
+                    .inject(this);
         }
     }
 

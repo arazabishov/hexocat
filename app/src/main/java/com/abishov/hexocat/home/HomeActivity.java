@@ -2,14 +2,11 @@ package com.abishov.hexocat.home;
 
 import android.os.Bundle;
 import android.support.annotation.IdRes;
-import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 
-import com.abishov.hexocat.Hexocat;
 import com.abishov.hexocat.R;
-import com.abishov.hexocat.commons.picasso.PicassoComponent;
 import com.abishov.hexocat.home.trending.TrendingPagerFragment;
 
 import butterknife.BindView;
@@ -31,15 +28,6 @@ public final class HomeActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             swapFragment(R.id.item_trending);
         }
-    }
-
-    @Override
-    public Object getSystemService(@NonNull String name) {
-        if (PicassoComponent.matchesService(name)) {
-            return ((Hexocat) getApplicationContext()).picassoComponent();
-        }
-
-        return super.getSystemService(name);
     }
 
     private boolean swapFragment(@IdRes int viewId) {

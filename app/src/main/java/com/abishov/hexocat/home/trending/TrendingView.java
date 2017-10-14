@@ -15,13 +15,11 @@ import android.widget.Toast;
 
 import com.abishov.hexocat.Hexocat;
 import com.abishov.hexocat.R;
+import com.abishov.hexocat.commons.network.NetworkComponent;
 import com.abishov.hexocat.commons.views.DividerItemDecoration;
 import com.abishov.hexocat.home.repository.RepositoryAdapter;
 import com.jakewharton.rxbinding2.support.v4.widget.RxSwipeRefreshLayout;
 import com.jakewharton.rxbinding2.view.RxView;
-import com.squareup.picasso.Picasso;
-
-import javax.inject.Inject;
 
 import butterknife.BindDimen;
 import butterknife.BindView;
@@ -43,9 +41,6 @@ public final class TrendingView extends FrameLayout {
     @BindDimen(R.dimen.trending_divider_padding_start)
     float dividerPaddingStart;
 
-    @Inject
-    Picasso picasso;
-
     private RepositoryAdapter repositoryAdapter;
 
     public TrendingView(Context context, @Nullable AttributeSet attrs) {
@@ -63,7 +58,7 @@ public final class TrendingView extends FrameLayout {
         super.onFinishInflate();
         ButterKnife.bind(this);
 
-        repositoryAdapter = new RepositoryAdapter(LayoutInflater.from(getContext()), picasso,
+        repositoryAdapter = new RepositoryAdapter(LayoutInflater.from(getContext()),
                 viewModel -> Toast.makeText(getContext(), viewModel.name(), Toast.LENGTH_SHORT).show());
         RecyclerView.LayoutManager recyclerViewLayoutManager = new LinearLayoutManager(getContext());
         recyclerViewTrending.setLayoutManager(recyclerViewLayoutManager);
