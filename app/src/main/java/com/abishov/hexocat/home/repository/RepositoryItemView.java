@@ -53,6 +53,7 @@ public final class RepositoryItemView extends RelativeLayout {
         ButterKnife.bind(this);
     }
 
+    // ToDo: Use dependency injection for Picasso and Transformation instances
     public void bindTo(RepositoryViewModel repository, Picasso picasso, Transformation transformation) {
         picasso.load(repository.avatarUrl())
                 .placeholder(R.drawable.avatar)
