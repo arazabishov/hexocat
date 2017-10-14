@@ -1,23 +1,109 @@
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
+apply plugin: "com.github.ben-manes.versions"
+apply plugin: "com.gradle.build-scan"
 
 buildscript {
     repositories {
         jcenter()
-    }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.3'
 
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
+        // Required by retrolambda
+        mavenCentral()
+
+        // Required by build-scan and error-prone plugins.
+        maven {
+            url("https://plugins.gradle.org/m2/")
+        }
+
+        // Repository for support dependencies
+        maven {
+            url("https://maven.google.com")
+        }
     }
+
+    dependencies {
+        classpath "com.android.tools.build:gradle:3.0.0-beta7"
+
+        // provides insight on how many method references
+        // are present in dex file
+        classpath "com.getkeepsafe.dexcount:dexcount-gradle-plugin:0.7.3"
+
+        // semantic, static analysis of the source code
+        classpath "net.ltgt.gradle:gradle-errorprone-plugin:0.0.11"
+
+        // enables cloud features of gradle plugin
+        classpath "com.gradle:build-scan-plugin:1.9"
+
+        // allows to set BuildConfig fields during compilation
+        // without breaking incremental compilation
+        classpath "hu.supercluster:paperwork-plugin:1.2.7"
+
+        // generates test reports with screenshots
+        classpath "com.stanfy.spoon:spoon-gradle-plugin:1.2.2"
+
+        // static analysis tool
+        classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.5"
+
+        // check the latest version of the artifacts
+        classpath "com.github.ben-manes:gradle-versions-plugin:0.15.0"
+    }
+}
+
+buildScan {
+    licenseAgreementUrl = "https://gradle.com/terms-of-service"
+    licenseAgree = "yes"
 }
 
 allprojects {
     repositories {
         jcenter()
+
+        // Repository for support dependencies
+        maven {
+            url("https://maven.google.com")
+        }
     }
 }
 
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+
+ext {
+    versions = [
+            sdk   : 26,
+            tools : "26.0.2",
+            minsdk: 16
+    ]
+
+    libraries = [
+            gson           : "2.8.1",
+            dagger         : "2.11",
+            support        : "26.1.0",
+            picasso        : "2.5.2",
+            okpicasso      : "1.1.0",
+            paperwork      : "1.2.7",
+            timber         : "4.5.1",
+            leakcanary     : "1.5.1",
+            rxjava         : "2.1.0",
+            rxandroid      : "2.0.1",
+            rxbindings     : "2.0.0",
+            butterknife    : "8.8.1",
+            okhttp         : "3.9.0",
+            retrofit       : "2.3.0",
+            autovalue      : "1.4.1",
+            autovaluegson  : "0.4.6",
+            autovalueparcel: "0.2.5",
+            findbugs       : "3.0.1",
+            threetenabp    : "1.0.5",
+
+            // test dependencies
+            equalsverifier : "2.3",
+            espresso       : "2.2.2",
+            mockito        : "2.8.9",
+            assertj        : "2.8.0",
+            junit          : "4.12",
+            spoon          : "1.7.1",
+
+            // plugins
+            errorpronecore : "2.0.19"
+    ]
 }
