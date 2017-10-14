@@ -15,14 +15,11 @@ import android.widget.Toast;
 
 import com.abishov.hexocat.Hexocat;
 import com.abishov.hexocat.R;
-import com.abishov.hexocat.commons.network.github.SearchQuery;
 import com.abishov.hexocat.commons.views.DividerItemDecoration;
 import com.abishov.hexocat.home.repository.RepositoryAdapter;
 import com.jakewharton.rxbinding2.support.v4.widget.RxSwipeRefreshLayout;
 import com.jakewharton.rxbinding2.view.RxView;
 import com.squareup.picasso.Picasso;
-
-import org.threeten.bp.LocalDate;
 
 import javax.inject.Inject;
 
@@ -32,7 +29,7 @@ import butterknife.ButterKnife;
 import io.reactivex.Observable;
 import io.reactivex.functions.Consumer;
 
-public final class TrendingView extends FrameLayout implements TrendingContract.View {
+public final class TrendingView extends FrameLayout {
 
     @BindView(R.id.swipe_refresh_layout_trending)
     SwipeRefreshLayout swipeRefreshLayout;
@@ -45,9 +42,6 @@ public final class TrendingView extends FrameLayout implements TrendingContract.
 
     @BindDimen(R.dimen.trending_divider_padding_start)
     float dividerPaddingStart;
-
-    @Inject
-    TrendingPresenter trendingPresenter;
 
     @Inject
     Picasso picasso;
@@ -80,33 +74,15 @@ public final class TrendingView extends FrameLayout implements TrendingContract.
         buttonRetry.setVisibility(View.GONE);
     }
 
-    @Override
-    protected void onAttachedToWindow() {
-        super.onAttachedToWindow();
-        trendingPresenter.onAttach(this);
+    public Observable<Object> onSwipeRefreshLayout() {
+        return RxSwipeRefreshLayout.refreshes(swipeRefreshLayout);
     }
 
-    @Override
-    protected void onDetachedFromWindow() {
-        super.onDetachedFromWindow();
-        trendingPresenter.onDetach();
+    public Observable<Object> onRetry() {
+        return RxView.clicks(buttonRetry);
     }
 
-    @Override
-    public Observable<SearchQuery> fetchRepositories() {
-        Observable<Object> refreshActions = RxSwipeRefreshLayout.refreshes(swipeRefreshLayout);
-        Observable<Object> retryActions = RxView.clicks(buttonRetry);
-
-        SearchQuery searchQuery = new SearchQuery.Builder()
-                .createdSince(LocalDate.now().minusMonths(1))
-                .build();
-        return Observable.merge(refreshActions, retryActions)
-                .startWith(new Object())
-                .switchMap(event -> Observable.just(searchQuery));
-    }
-
-    @Override
-    public Consumer<TrendingViewState> renderRepositories() {
+    public Consumer<TrendingViewState> bindTo() {
         return state -> {
             recyclerViewTrending.setVisibility(state.isSuccess() ? View.VISIBLE : View.GONE);
             swipeRefreshLayout.setRefreshing(state.isInProgress());

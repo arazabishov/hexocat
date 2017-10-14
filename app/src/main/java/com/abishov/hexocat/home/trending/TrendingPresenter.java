@@ -22,9 +22,9 @@ final class TrendingPresenter implements TrendingContract.Presenter {
 
     @Override
     public void onAttach(TrendingContract.View view) {
-        compositeDisposable.add(view.fetchRepositories()
+        compositeDisposable.add(view.searchQueries()
                 .switchMap(this::fetchRepositories)
-                .subscribe(view.renderRepositories(), OnErrorHandler.create()));
+                .subscribe(view.bindTo(), OnErrorHandler.create()));
     }
 
     @Override
