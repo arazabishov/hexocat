@@ -1,10 +1,10 @@
 package com.abishov.hexocat.home.trending;
 
-import com.abishov.hexocat.commons.dagger.PerFragment;
+import com.abishov.hexocat.commons.dagger.FragmentScope;
 
 import dagger.Subcomponent;
 
-@PerFragment
+@FragmentScope
 @Subcomponent(modules = TrendingModule.class)
 public interface TrendingComponent {
     void inject(TrendingView trendingView);
