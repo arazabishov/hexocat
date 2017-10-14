@@ -133,6 +133,7 @@ dependencies {
     implementation "com.jakewharton.picasso:picasso2-okhttp3-downloader:${libraries.okpicasso}"
     implementation "com.jakewharton.timber:timber:${libraries.timber}"
     implementation "com.jakewharton:butterknife:${libraries.butterknife}"
+    implementation "com.jakewharton.threetenabp:threetenabp:${libraries.threetenabp}"
     annotationProcessor "com.jakewharton:butterknife-compiler:${libraries.butterknife}"
 
     // Plugin dependencies
