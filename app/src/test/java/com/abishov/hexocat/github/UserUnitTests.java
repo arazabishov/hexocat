@@ -1,7 +1,5 @@
 package com.abishov.hexocat.github;
 
-import com.abishov.hexocat.github.OrganizationApiModel;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -10,12 +8,12 @@ import static org.assertj.core.api.Java6Assertions.assertThat;
 import static org.assertj.core.api.Java6Assertions.fail;
 
 @RunWith(JUnit4.class)
-public class OrganizationApiModelUnitTests {
+public class UserUnitTests {
 
     @Test
     public void createMustThrowOnNullLogin() {
         try {
-            OrganizationApiModel.create(null, "test_html_url", "test_avatar_url");
+            User.create(null, "test_html_url", "test_avatar_url");
             fail("NullPointerException was expected, but nothing was thrown.");
         } catch (NullPointerException nullPointerException) {
             // noop
@@ -25,7 +23,7 @@ public class OrganizationApiModelUnitTests {
     @Test
     public void createMustThrowOnNullHtmlUrl() {
         try {
-            OrganizationApiModel.create("test_login", null, "test_avatar_url");
+            User.create("test_login", null, "test_avatar_url");
             fail("NullPointerException was expected, but nothing was thrown.");
         } catch (NullPointerException nullPointerException) {
             // noop
@@ -35,7 +33,7 @@ public class OrganizationApiModelUnitTests {
     @Test
     public void createMustThrowOnNullAvatarUrl() {
         try {
-            OrganizationApiModel.create("test_login", "test_html_url", null);
+            User.create("test_login", "test_html_url", null);
             fail("NullPointerException was expected, but nothing was thrown.");
         } catch (NullPointerException nullPointerException) {
             // noop
@@ -44,22 +42,22 @@ public class OrganizationApiModelUnitTests {
 
     @Test
     public void equalsAndHashcodeMustConformToContract() {
-        OrganizationApiModel organizationApiModelOne = OrganizationApiModel.create(
+        User userOne = User.create(
                 "test_login", "test_html_url", "test_avatar_url");
-        OrganizationApiModel organizationApiModelTwo = OrganizationApiModel.create(
+        User userTwo = User.create(
                 "test_login", "test_html_url", "test_avatar_url");
 
-        assertThat(organizationApiModelOne).isEqualTo(organizationApiModelTwo);
-        assertThat(organizationApiModelTwo).isEqualTo(organizationApiModelOne);
+        assertThat(userOne).isEqualTo(userTwo);
+        assertThat(userTwo).isEqualTo(userOne);
     }
 
     @Test
     public void propertiesMustBePropagatedCorrectly() {
-        OrganizationApiModel organizationApiModel = OrganizationApiModel.create(
+        User user = User.create(
                 "test_login", "test_html_url", "test_avatar_url");
 
-        assertThat(organizationApiModel.login()).isEqualTo("test_login");
-        assertThat(organizationApiModel.htmlUrl()).isEqualTo("test_html_url");
-        assertThat(organizationApiModel.avatarUrl()).isEqualTo("test_avatar_url");
+        assertThat(user.login()).isEqualTo("test_login");
+        assertThat(user.htmlUrl()).isEqualTo("test_html_url");
+        assertThat(user.avatarUrl()).isEqualTo("test_avatar_url");
     }
 }

@@ -9,7 +9,7 @@ import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.SerializedName;
 
 @AutoValue
-public abstract class RepositoryApiModel {
+public abstract class Repository {
     private static final String NAME = "name";
     private static final String HTML_URL = "html_url";
     private static final String FORKS = "forks";
@@ -34,15 +34,15 @@ public abstract class RepositoryApiModel {
     public abstract String description();
 
     @SerializedName(OWNER)
-    public abstract OrganizationApiModel owner();
+    public abstract User owner();
 
     @VisibleForTesting
-    public static RepositoryApiModel create(String name, String htmlUrl, Integer forks,
-            Integer stars, @Nullable String description, OrganizationApiModel owner) {
-        return new AutoValue_RepositoryApiModel(name, htmlUrl, forks, stars, description, owner);
+    public static Repository create(String name, String htmlUrl, Integer forks,
+            Integer stars, @Nullable String description, User owner) {
+        return new AutoValue_Repository(name, htmlUrl, forks, stars, description, owner);
     }
 
-    public static TypeAdapter<RepositoryApiModel> typeAdapter(Gson gson) {
-        return new AutoValue_RepositoryApiModel.GsonTypeAdapter(gson);
+    public static TypeAdapter<Repository> typeAdapter(Gson gson) {
+        return new AutoValue_Repository.GsonTypeAdapter(gson);
     }
 }

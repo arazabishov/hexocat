@@ -1,8 +1,8 @@
 package com.abishov.hexocat.home.trending;
 
+import com.abishov.hexocat.github.Repository;
 import com.abishov.hexocat.home.repository.RepositoryViewModel;
-import com.abishov.hexocat.github.OrganizationApiModel;
-import com.abishov.hexocat.github.RepositoryApiModel;
+import com.abishov.hexocat.github.User;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -37,10 +37,10 @@ public class TrendingPresenterUnitTests {
     private ArgumentCaptor<TrendingViewState> repositoriesConsumer;
 
     // Faking behaviour of the trendingRepository.
-    private BehaviorSubject<List<RepositoryApiModel>> listResults;
+    private BehaviorSubject<List<Repository>> listResults;
 
     // Some dummy data.
-    private List<RepositoryApiModel> repositories;
+    private List<Repository> repositories;
 
     // ViewModels corresponding to dummy data.
     private List<RepositoryViewModel> repositoryViewModels;
@@ -56,11 +56,11 @@ public class TrendingPresenterUnitTests {
 //        trendingPresenter = new TrendingPresenter(
 //                new TrampolineSchedulersProvider(), trendingRepository, 7);
 
-        OrganizationApiModel owner = OrganizationApiModel.create("test_login", "test_html_url", "test_avatar_url");
+        User owner = User.create("test_login", "test_html_url", "test_avatar_url");
         repositories = Arrays.asList(
-                RepositoryApiModel.create("test_repository_one",
+                Repository.create("test_repository_one",
                         "test_html_url_one", 5, 10, "test_description_one", owner),
-                RepositoryApiModel.create("test_repository_two",
+                Repository.create("test_repository_two",
                         "test_html_url_two", 7, 11, "test_description_two", owner));
         repositoryViewModels = Arrays.asList(
                 RepositoryViewModel.create("test_repository_one", "test_description_one",

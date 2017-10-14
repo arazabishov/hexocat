@@ -12,12 +12,12 @@ import static org.assertj.core.api.Java6Assertions.assertThat;
 import static org.assertj.core.api.Java6Assertions.fail;
 
 @RunWith(JUnit4.class)
-public class PagerApiModelUnitTests {
+public class PagerUnitTests {
 
     @Test
     public void createMustThrowOnNullItems() {
         try {
-            PagerApiModel.create(null);
+            Pager.create(null);
             fail("NullPointerException was expected, but nothing was thrown.");
         } catch (NullPointerException nullPointerException) {
             // noop
@@ -28,21 +28,21 @@ public class PagerApiModelUnitTests {
     public void equalsAndHashcodeMethodsMustConformToContract() {
         List<String> sampleItems = Arrays.asList(
                 "test_item_one", "test_item_two");
-        PagerApiModel pagerApiModelOne = PagerApiModel.create(sampleItems);
-        PagerApiModel pagerApiModelTwo = PagerApiModel.create(sampleItems);
+        Pager pagerOne = Pager.create(sampleItems);
+        Pager pagerTwo = Pager.create(sampleItems);
 
-        assertThat(pagerApiModelOne).isEqualTo(pagerApiModelTwo);
-        assertThat(pagerApiModelTwo).isEqualTo(pagerApiModelOne);
+        assertThat(pagerOne).isEqualTo(pagerTwo);
+        assertThat(pagerTwo).isEqualTo(pagerOne);
     }
 
     @Test
     public void createMustPropagatePropertiesCorrectly() {
         List<String> sampleItems = Arrays.asList(
                 "test_item_one", "test_item_two");
-        PagerApiModel pagerApiModel = PagerApiModel.create(sampleItems);
+        Pager pager = Pager.create(sampleItems);
 
-        assertThat(pagerApiModel.items().get(0)).isEqualTo("test_item_one");
-        assertThat(pagerApiModel.items().get(1)).isEqualTo("test_item_two");
+        assertThat(pager.items().get(0)).isEqualTo("test_item_one");
+        assertThat(pager.items().get(1)).isEqualTo("test_item_two");
     }
 
     @Test
@@ -51,10 +51,10 @@ public class PagerApiModelUnitTests {
         sampleItems.add("test_item_one");
         sampleItems.add("test_item_two");
 
-        PagerApiModel pagerApiModel = PagerApiModel.create(sampleItems);
+        Pager pager = Pager.create(sampleItems);
 
         try {
-            pagerApiModel.items().clear();
+            pager.items().clear();
             fail("UnsupportedOperationException was expected, but nothing was thrown.");
         } catch (UnsupportedOperationException unsupportedOperationException) {
             // noop
@@ -62,8 +62,8 @@ public class PagerApiModelUnitTests {
 
         sampleItems.add("test_item_three");
 
-        assertThat(pagerApiModel.items().size()).isEqualTo(2);
-        assertThat(pagerApiModel.items().get(0)).isEqualTo("test_item_one");
-        assertThat(pagerApiModel.items().get(1)).isEqualTo("test_item_two");
+        assertThat(pager.items().size()).isEqualTo(2);
+        assertThat(pager.items().get(0)).isEqualTo("test_item_one");
+        assertThat(pager.items().get(1)).isEqualTo("test_item_two");
     }
 }
