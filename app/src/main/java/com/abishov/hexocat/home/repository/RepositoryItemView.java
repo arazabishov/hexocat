@@ -11,9 +11,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.abishov.hexocat.R;
+import com.abishov.hexocat.commons.picasso.PicassoComponent;
 import com.abishov.hexocat.commons.views.Truss;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -35,6 +38,12 @@ public final class RepositoryItemView extends RelativeLayout {
     @BindView(R.id.textview_repository_stars)
     TextView textViewStars;
 
+    @Inject
+    Picasso picasso;
+
+    @Inject
+    Transformation transformation;
+
     private final int descriptionColor;
 
     public RepositoryItemView(Context context, AttributeSet attrs) {
@@ -45,6 +54,10 @@ public final class RepositoryItemView extends RelativeLayout {
                 outValue, true);
         descriptionColor = ContextCompat.getColor(
                 context, outValue.resourceId);
+
+        if (!isInEditMode()) {
+            PicassoComponent.obtain(context).inject(this);
+        }
     }
 
     @Override
@@ -53,8 +66,7 @@ public final class RepositoryItemView extends RelativeLayout {
         ButterKnife.bind(this);
     }
 
-    // ToDo: Use dependency injection for Picasso and Transformation instances
-    public void bindTo(RepositoryViewModel repository, Picasso picasso, Transformation transformation) {
+    public void bindTo(RepositoryViewModel repository) {
         picasso.load(repository.avatarUrl())
                 .placeholder(R.drawable.avatar)
                 .fit()
