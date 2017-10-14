@@ -2,13 +2,10 @@ package com.abishov.hexocat.commons.network;
 
 import android.content.Context;
 
-import com.abishov.hexocat.commons.dagger.PerSession;
+import com.abishov.hexocat.commons.dagger.SessionScope;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.TypeAdapterFactory;
-import com.jakewharton.picasso.OkHttp3Downloader;
-import com.squareup.picasso.Downloader;
-import com.squareup.picasso.Picasso;
 
 import java.util.concurrent.TimeUnit;
 
@@ -26,7 +23,7 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import timber.log.Timber;
 
-@PerSession
+@SessionScope
 @Module
 public final class NetworkModule {
     private static final String OK_HTTP = "OkHttp";
@@ -38,19 +35,19 @@ public final class NetworkModule {
     }
 
     @Provides
-    @PerSession
+    @SessionScope
     TypeAdapterFactory gsonAdapterFactory() {
         return HexocatAdapterFactory.create();
     }
 
     @Provides
-    @PerSession
+    @SessionScope
     CallAdapter.Factory rxJavaAdapterFactory() {
         return RxJava2CallAdapterFactory.create();
     }
 
     @Provides
-    @PerSession
+    @SessionScope
     Gson gson(TypeAdapterFactory adapterFactory) {
         return new GsonBuilder()
                 .registerTypeAdapterFactory(adapterFactory)
@@ -58,13 +55,13 @@ public final class NetworkModule {
     }
 
     @Provides
-    @PerSession
+    @SessionScope
     Cache okHttpCache(Context context) {
         return new Cache(context.getCacheDir(), 10 * 1024 * 1024); // 10 MiBs
     }
 
     @Provides
-    @PerSession
+    @SessionScope
     Interceptor okHttpLogging(Cache cache) {
         return new HttpLoggingInterceptor(message -> {
             Timber.tag(OK_HTTP).d(message);
@@ -74,7 +71,7 @@ public final class NetworkModule {
     }
 
     @Provides
-    @PerSession
+    @SessionScope
     OkHttpClient okHttpClient(Interceptor logger, Cache cache) {
         return new OkHttpClient.Builder()
                 .addInterceptor(logger)
@@ -86,13 +83,13 @@ public final class NetworkModule {
     }
 
     @Provides
-    @PerSession
+    @SessionScope
     Converter.Factory gsonFactory(Gson gson) {
         return GsonConverterFactory.create(gson);
     }
 
     @Provides
-    @PerSession
+    @SessionScope
     Retrofit retrofit(Converter.Factory factory,
             CallAdapter.Factory rxJavaAdapterFactory,
             OkHttpClient okHttpClient) {
@@ -101,20 +98,6 @@ public final class NetworkModule {
                 .addConverterFactory(factory)
                 .addCallAdapterFactory(rxJavaAdapterFactory)
                 .client(okHttpClient)
-                .build();
-    }
-
-    @Provides
-    @PerSession
-    Downloader okHttpPicasso(OkHttpClient okClient) {
-        return new OkHttp3Downloader(okClient);
-    }
-
-    @Provides
-    @PerSession
-    Picasso picasso(Context context, Downloader downloader) {
-        return new Picasso.Builder(context)
-                .downloader(downloader)
                 .build();
     }
 }

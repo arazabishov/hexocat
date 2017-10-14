@@ -1,4 +1,4 @@
-package com.abishov.hexocat.commons.views;
+package com.abishov.hexocat.commons.picasso;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapShader;
@@ -12,10 +12,9 @@ import static android.graphics.Bitmap.Config.ARGB_8888;
 import static android.graphics.Paint.ANTI_ALIAS_FLAG;
 import static android.graphics.Shader.TileMode.CLAMP;
 
-public final class CircleTransformation implements Transformation {
+final class CircleTransformation implements Transformation {
 
-    public CircleTransformation() {
-        // Required to instantiate as a default behavior.
+    CircleTransformation() {
     }
 
     @Override

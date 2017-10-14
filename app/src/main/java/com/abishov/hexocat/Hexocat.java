@@ -6,6 +6,8 @@ import android.support.annotation.VisibleForTesting;
 
 import com.abishov.hexocat.commons.network.NetworkComponent;
 import com.abishov.hexocat.commons.network.NetworkModule;
+import com.abishov.hexocat.commons.picasso.PicassoComponent;
+import com.abishov.hexocat.commons.picasso.PicassoModule;
 import com.abishov.hexocat.commons.utils.CrashReportingTree;
 import com.jakewharton.threetenabp.AndroidThreeTen;
 import com.squareup.leakcanary.LeakCanary;
@@ -20,6 +22,7 @@ import timber.log.Timber;
 public class Hexocat extends Application {
     private AppComponent appComponent;
     private NetworkComponent networkComponent;
+    private PicassoComponent picassoComponent;
     private RefWatcher refWatcher;
 
     @Inject
@@ -39,6 +42,7 @@ public class Hexocat extends Application {
 
         setupAppComponent();
         setupNetworkComponent();
+        setupPicassoComponent();
         setUpLeakCanary();
         setUpTimber();
 
@@ -67,6 +71,10 @@ public class Hexocat extends Application {
 
     private void setupNetworkComponent() {
         networkComponent = prepareNetworkComponent();
+    }
+
+    private void setupPicassoComponent() {
+        picassoComponent = networkComponent.plus(new PicassoModule());
     }
 
     private void setUpLeakCanary() {
@@ -108,6 +116,10 @@ public class Hexocat extends Application {
         }
 
         return networkComponent;
+    }
+
+    public PicassoComponent picassoComponent() {
+        return picassoComponent;
     }
 
     public RefWatcher refWatcher() {

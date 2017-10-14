@@ -6,9 +6,6 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import com.abishov.hexocat.R;
-import com.abishov.hexocat.commons.views.CircleTransformation;
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Transformation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,17 +14,13 @@ import io.reactivex.functions.Consumer;
 
 public final class RepositoryAdapter extends Adapter<RepositoryAdapter.RepositoryViewHolder> implements Consumer<List<RepositoryViewModel>> {
     private final LayoutInflater layoutInflater;
-    private final Picasso picasso;
     private final List<RepositoryViewModel> repositories;
-    private final Transformation transformation;
     private final TrendingViewClickListener trendingViewClickListener;
 
-    public RepositoryAdapter(LayoutInflater layoutInflater, Picasso picasso, TrendingViewClickListener clickListener) {
+    public RepositoryAdapter(LayoutInflater layoutInflater, TrendingViewClickListener clickListener) {
         this.layoutInflater = layoutInflater;
-        this.picasso = picasso;
         this.trendingViewClickListener = clickListener;
         this.repositories = new ArrayList<>();
-        this.transformation = new CircleTransformation();
     }
 
     @Override
@@ -70,7 +63,7 @@ public final class RepositoryAdapter extends Adapter<RepositoryAdapter.Repositor
         }
 
         void bindTo(RepositoryViewModel viewModel) {
-            repositoryItemView.bindTo(viewModel, picasso, transformation);
+            repositoryItemView.bindTo(viewModel);
         }
     }
 }
