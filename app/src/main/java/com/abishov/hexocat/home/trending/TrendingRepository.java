@@ -3,7 +3,7 @@ package com.abishov.hexocat.home.trending;
 import com.abishov.hexocat.commons.network.github.Order;
 import com.abishov.hexocat.commons.network.github.SearchQuery;
 import com.abishov.hexocat.commons.network.github.Sort;
-import com.abishov.hexocat.models.repository.RepositoryApiModel;
+import com.abishov.hexocat.models.RepositoryApiModel;
 
 import java.util.List;
 

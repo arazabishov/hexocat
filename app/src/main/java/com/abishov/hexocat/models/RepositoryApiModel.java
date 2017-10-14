@@ -1,9 +1,8 @@
-package com.abishov.hexocat.models.repository;
+package com.abishov.hexocat.models;
 
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 
-import com.abishov.hexocat.models.organization.OrganizationApiModel;
 import com.google.auto.value.AutoValue;
 import com.google.gson.Gson;
 import com.google.gson.TypeAdapter;

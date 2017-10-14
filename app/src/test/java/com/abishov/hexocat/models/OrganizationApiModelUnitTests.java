@@ -1,4 +1,6 @@
-package com.abishov.hexocat.models.organization;
+package com.abishov.hexocat.models;
+
+import com.abishov.hexocat.models.OrganizationApiModel;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

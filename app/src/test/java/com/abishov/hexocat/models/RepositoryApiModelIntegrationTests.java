@@ -1,6 +1,7 @@
-package com.abishov.hexocat.models.repository;
+package com.abishov.hexocat.models;
 
 import com.abishov.hexocat.Inject;
+import com.abishov.hexocat.models.RepositoryApiModel;
 import com.google.gson.Gson;
 
 import org.junit.Test;
