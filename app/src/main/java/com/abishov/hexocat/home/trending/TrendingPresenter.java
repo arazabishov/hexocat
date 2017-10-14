@@ -1,5 +1,6 @@
 package com.abishov.hexocat.home.trending;
 
+import com.abishov.hexocat.commons.network.github.SearchQuery;
 import com.abishov.hexocat.commons.schedulers.SchedulerProvider;
 import com.abishov.hexocat.commons.utils.OnErrorHandler;
 import com.abishov.hexocat.home.repository.RepositoryViewModel;
@@ -11,23 +12,18 @@ final class TrendingPresenter implements TrendingContract.Presenter {
     private final SchedulerProvider schedulerProvider;
     private final TrendingRepository trendingRepository;
     private final CompositeDisposable compositeDisposable;
-    private final int daysBefore;
 
     TrendingPresenter(SchedulerProvider schedulerProvider,
-            TrendingRepository trendingRepository, int daysBefore) {
+            TrendingRepository trendingRepository) {
         this.schedulerProvider = schedulerProvider;
         this.trendingRepository = trendingRepository;
         this.compositeDisposable = new CompositeDisposable();
-        this.daysBefore = daysBefore;
     }
 
     @Override
     public void onAttach(TrendingContract.View view) {
-        compositeDisposable.add(fetchRepositories()
-                .subscribe(view.renderRepositories(), OnErrorHandler.create()));
-
-        compositeDisposable.add(view.retryActions()
-                .switchMap(event -> fetchRepositories())
+        compositeDisposable.add(view.fetchRepositories()
+                .switchMap(this::fetchRepositories)
                 .subscribe(view.renderRepositories(), OnErrorHandler.create()));
     }
 
@@ -36,8 +32,8 @@ final class TrendingPresenter implements TrendingContract.Presenter {
         compositeDisposable.clear();
     }
 
-    private Observable<TrendingViewState> fetchRepositories() {
-        return trendingRepository.trendingRepositories(daysBefore)
+    private Observable<TrendingViewState> fetchRepositories(SearchQuery query) {
+        return trendingRepository.trendingRepositories(query)
                 .subscribeOn(schedulerProvider.io())
                 .switchMap(repositories -> Observable.fromIterable(repositories)
                         .map(repo -> {

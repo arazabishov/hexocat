@@ -25,7 +25,7 @@ final class TrendingPagerAdapter extends PagerAdapter {
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
-        ViewGroup viewGroup = (ViewGroup) layoutInflater.inflate(
+        TrendingView viewGroup = (TrendingView) layoutInflater.inflate(
                 R.layout.trending_view, container, false);
         container.addView(viewGroup);
         return viewGroup;

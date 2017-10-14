@@ -15,11 +15,14 @@ import android.widget.Toast;
 
 import com.abishov.hexocat.Hexocat;
 import com.abishov.hexocat.R;
+import com.abishov.hexocat.commons.network.github.SearchQuery;
 import com.abishov.hexocat.commons.views.DividerItemDecoration;
 import com.abishov.hexocat.home.repository.RepositoryAdapter;
 import com.jakewharton.rxbinding2.support.v4.widget.RxSwipeRefreshLayout;
 import com.jakewharton.rxbinding2.view.RxView;
 import com.squareup.picasso.Picasso;
+
+import org.threeten.bp.LocalDate;
 
 import javax.inject.Inject;
 
@@ -56,7 +59,7 @@ public final class TrendingView extends FrameLayout implements TrendingContract.
 
         if (!isInEditMode()) {
             ((Hexocat) context.getApplicationContext()).networkComponent()
-                    .plus(new TrendingModule(30))
+                    .plus(new TrendingModule())
                     .inject(this);
         }
     }
@@ -90,10 +93,16 @@ public final class TrendingView extends FrameLayout implements TrendingContract.
     }
 
     @Override
-    public Observable<Object> retryActions() {
+    public Observable<SearchQuery> fetchRepositories() {
         Observable<Object> refreshActions = RxSwipeRefreshLayout.refreshes(swipeRefreshLayout);
         Observable<Object> retryActions = RxView.clicks(buttonRetry);
-        return Observable.merge(refreshActions, retryActions);
+
+        SearchQuery searchQuery = new SearchQuery.Builder()
+                .createdSince(LocalDate.now().minusMonths(1))
+                .build();
+        return Observable.merge(refreshActions, retryActions)
+                .startWith(new Object())
+                .switchMap(event -> Observable.just(searchQuery));
     }
 
     @Override

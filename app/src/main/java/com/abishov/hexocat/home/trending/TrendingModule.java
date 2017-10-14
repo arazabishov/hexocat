@@ -10,16 +10,8 @@ import retrofit2.Retrofit;
 @Module
 @PerView
 public final class TrendingModule {
-    private final int daysBefore;
 
-    TrendingModule(int daysBefore) {
-        this.daysBefore = daysBefore;
-    }
-
-    @Provides
-    @PerView
-    QueryDateProvider dateProvider() {
-        return new QueryDateProvider();
+    TrendingModule() {
     }
 
     @Provides
@@ -30,15 +22,14 @@ public final class TrendingModule {
 
     @Provides
     @PerView
-    TrendingRepository trendingRepository(TrendingService trendingService,
-            QueryDateProvider queryDateProvider) {
-        return new TrendingRepository(trendingService, queryDateProvider);
+    TrendingRepository trendingRepository(TrendingService trendingService) {
+        return new TrendingRepository(trendingService);
     }
 
     @Provides
     @PerView
     TrendingPresenter trendingPresenter(SchedulerProvider schedulerProvider,
             TrendingRepository trendingRepository) {
-        return new TrendingPresenter(schedulerProvider, trendingRepository, daysBefore);
+        return new TrendingPresenter(schedulerProvider, trendingRepository);
     }
 }
