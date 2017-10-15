@@ -9,8 +9,8 @@ import dagger.Module;
 import dagger.Provides;
 import hu.supercluster.paperwork.Paperwork;
 
-@Singleton
 @Module
+@Singleton
 final class AppModule {
     private final Application app;
 
