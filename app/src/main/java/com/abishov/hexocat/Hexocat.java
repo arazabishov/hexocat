@@ -2,7 +2,6 @@ package com.abishov.hexocat;
 
 import android.app.Application;
 import android.os.StrictMode;
-import android.support.annotation.VisibleForTesting;
 
 import com.abishov.hexocat.commons.network.NetworkComponent;
 import com.abishov.hexocat.commons.network.NetworkModule;
@@ -15,14 +14,13 @@ import com.squareup.leakcanary.RefWatcher;
 import javax.inject.Inject;
 
 import hu.supercluster.paperwork.Paperwork;
-import okhttp3.HttpUrl;
 import timber.log.Timber;
 
 public class Hexocat extends Application {
-    private AppComponent appComponent;
-    private NetworkComponent networkComponent;
-    private PicassoComponent picassoComponent;
-    private RefWatcher refWatcher;
+    protected AppComponent appComponent;
+    protected NetworkComponent networkComponent;
+    protected PicassoComponent picassoComponent;
+    protected RefWatcher refWatcher;
 
     @Inject
     Paperwork paperwork;
@@ -50,7 +48,7 @@ public class Hexocat extends Application {
         setupStrictMode();
     }
 
-    private void setupStrictMode() {
+    protected void setupStrictMode() {
         if (BuildConfig.DEBUG) {
             StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
                     .detectAll()
@@ -63,20 +61,20 @@ public class Hexocat extends Application {
         }
     }
 
-    private void setupAppComponent() {
+    protected void setupAppComponent() {
         appComponent = prepareAppComponent();
         appComponent.inject(this);
     }
 
-    private void setupNetworkComponent() {
-        networkComponent = prepareNetworkComponent();
+    protected void setupNetworkComponent() {
+        networkComponent = appComponent.plus(new NetworkModule());
     }
 
-    private void setupPicassoComponent() {
+    protected void setupPicassoComponent() {
         picassoComponent = networkComponent.picassoComponent();
     }
 
-    private void setUpLeakCanary() {
+    protected void setUpLeakCanary() {
         if (BuildConfig.DEBUG) {
             refWatcher = LeakCanary.install(this);
         } else {
@@ -84,7 +82,7 @@ public class Hexocat extends Application {
         }
     }
 
-    private void setUpTimber() {
+    protected void setUpTimber() {
         if (BuildConfig.DEBUG) {
             // Verbose logging for debug builds.
             Timber.plant(new Timber.DebugTree());
@@ -99,21 +97,11 @@ public class Hexocat extends Application {
                 .build();
     }
 
-    @VisibleForTesting
-    protected NetworkComponent prepareNetworkComponent() {
-        return appComponent.plus(new NetworkModule(
-                HttpUrl.parse("http://api.github.com")));
-    }
-
     public AppComponent appComponent() {
         return appComponent;
     }
 
     public NetworkComponent networkComponent() {
-        if (networkComponent == null) {
-            networkComponent = prepareNetworkComponent();
-        }
-
         return networkComponent;
     }
 

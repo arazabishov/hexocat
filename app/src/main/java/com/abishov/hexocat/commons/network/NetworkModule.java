@@ -23,15 +23,15 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import timber.log.Timber;
 
-@SessionScope
 @Module
+@SessionScope
 public final class NetworkModule {
     private static final String OK_HTTP = "OkHttp";
 
-    private final HttpUrl baseUrl;
-
-    public NetworkModule(HttpUrl baseUrl) {
-        this.baseUrl = baseUrl;
+    @Provides
+    @SessionScope
+    HttpUrl baseUrl() {
+        return HttpUrl.parse("http://api.github.com");
     }
 
     @Provides
@@ -90,7 +90,7 @@ public final class NetworkModule {
 
     @Provides
     @SessionScope
-    Retrofit retrofit(Converter.Factory factory,
+    Retrofit retrofit(HttpUrl baseUrl, Converter.Factory factory,
             CallAdapter.Factory rxJavaAdapterFactory,
             OkHttpClient okHttpClient) {
         return new Retrofit.Builder()
