@@ -76,7 +76,7 @@ ext {
 
     libraries = [
             gson           : "2.8.1",
-            dagger         : "2.11",
+            dagger         : "2.12",
             support        : "26.1.0",
             picasso        : "2.5.2",
             okpicasso      : "1.1.0",
