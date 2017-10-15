@@ -1,18 +1,23 @@
 package com.abishov.hexocat.home.trending;
 
-import com.abishov.hexocat.github.filters.SearchQuery;
+import com.abishov.hexocat.commons.dagger.FragmentScope;
 import com.abishov.hexocat.commons.schedulers.SchedulerProvider;
 import com.abishov.hexocat.commons.utils.OnErrorHandler;
+import com.abishov.hexocat.github.filters.SearchQuery;
 import com.abishov.hexocat.home.repository.RepositoryViewModel;
+
+import javax.inject.Inject;
 
 import io.reactivex.Observable;
 import io.reactivex.disposables.CompositeDisposable;
 
-final class TrendingPresenter implements TrendingContract.Presenter {
+@FragmentScope
+class TrendingPresenter implements TrendingContract.Presenter {
     private final SchedulerProvider schedulerProvider;
     private final TrendingRepository trendingRepository;
     private final CompositeDisposable compositeDisposable;
 
+    @Inject
     TrendingPresenter(SchedulerProvider schedulerProvider,
             TrendingRepository trendingRepository) {
         this.schedulerProvider = schedulerProvider;

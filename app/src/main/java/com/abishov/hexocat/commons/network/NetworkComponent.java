@@ -11,7 +11,7 @@ import dagger.Subcomponent;
 @SessionScope
 @Subcomponent(modules = NetworkModule.class)
 public interface NetworkComponent {
-    PicassoComponent plus(PicassoModule picassoModule);
+    PicassoComponent picassoComponent();
 
-    TrendingComponent plus(TrendingModule trendingModule);
+    TrendingComponent trendingComponent();
 }

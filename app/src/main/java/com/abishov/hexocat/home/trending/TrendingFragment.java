@@ -9,8 +9,8 @@ import android.view.ViewGroup;
 
 import com.abishov.hexocat.Hexocat;
 import com.abishov.hexocat.R;
-import com.abishov.hexocat.github.filters.SearchQuery;
 import com.abishov.hexocat.commons.views.BaseFragment;
+import com.abishov.hexocat.github.filters.SearchQuery;
 
 import org.threeten.bp.LocalDate;
 
@@ -25,7 +25,7 @@ public final class TrendingFragment extends BaseFragment implements TrendingCont
     private TrendingView view;
 
     @Inject
-    TrendingPresenter presenter;
+    TrendingContract.Presenter presenter;
 
     public static TrendingFragment create(int days) {
         Bundle arguments = new Bundle();
@@ -41,7 +41,7 @@ public final class TrendingFragment extends BaseFragment implements TrendingCont
         super.onAttach(context);
 
         ((Hexocat) context.getApplicationContext()).networkComponent()
-                .plus(new TrendingModule())
+                .trendingComponent()
                 .inject(this);
     }
 

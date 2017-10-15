@@ -6,14 +6,19 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
 
+import com.abishov.hexocat.commons.dagger.PicassoScope;
 import com.squareup.picasso.Transformation;
+
+import javax.inject.Inject;
 
 import static android.graphics.Bitmap.Config.ARGB_8888;
 import static android.graphics.Paint.ANTI_ALIAS_FLAG;
 import static android.graphics.Shader.TileMode.CLAMP;
 
+@PicassoScope
 final class CircleTransformation implements Transformation {
 
+    @Inject
     CircleTransformation() {
     }
 

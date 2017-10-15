@@ -7,7 +7,6 @@ import android.support.annotation.VisibleForTesting;
 import com.abishov.hexocat.commons.network.NetworkComponent;
 import com.abishov.hexocat.commons.network.NetworkModule;
 import com.abishov.hexocat.commons.picasso.PicassoComponent;
-import com.abishov.hexocat.commons.picasso.PicassoModule;
 import com.abishov.hexocat.commons.utils.CrashReportingTree;
 import com.jakewharton.threetenabp.AndroidThreeTen;
 import com.squareup.leakcanary.LeakCanary;
@@ -74,7 +73,7 @@ public class Hexocat extends Application {
     }
 
     private void setupPicassoComponent() {
-        picassoComponent = networkComponent.plus(new PicassoModule());
+        picassoComponent = networkComponent.picassoComponent();
     }
 
     private void setUpLeakCanary() {

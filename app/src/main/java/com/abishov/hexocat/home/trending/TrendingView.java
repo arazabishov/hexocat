@@ -13,9 +13,7 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
-import com.abishov.hexocat.Hexocat;
 import com.abishov.hexocat.R;
-import com.abishov.hexocat.commons.network.NetworkComponent;
 import com.abishov.hexocat.commons.views.DividerItemDecoration;
 import com.abishov.hexocat.home.repository.RepositoryAdapter;
 import com.jakewharton.rxbinding2.support.v4.widget.RxSwipeRefreshLayout;
@@ -45,12 +43,6 @@ public final class TrendingView extends FrameLayout {
 
     public TrendingView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-
-        if (!isInEditMode()) {
-            ((Hexocat) context.getApplicationContext()).networkComponent()
-                    .plus(new TrendingModule())
-                    .inject(this);
-        }
     }
 
     @Override
