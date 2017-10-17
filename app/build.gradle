@@ -21,7 +21,7 @@ android {
     buildToolsVersion versions.tools
 
     defaultConfig {
-        applicationId "com.abishov.android"
+        applicationId "com.abishov.hexocat"
         minSdkVersion versions.minsdk
         targetSdkVersion versions.sdk
         versionCode versionMajor * 10000 + versionMinor * 1000 + versionPatch * 100 + versionBuild
@@ -110,11 +110,11 @@ dependencies {
 
     // Google's auto-value. Annotations are used only during compilation time, as well as
     // annotation processor which hoops up into compilation process
-    compileOnly "com.google.auto.value:auto-value:${libraries.autovalue}"
+    compileOnly "com.jakewharton.auto.value:auto-value-annotations:${libraries.autovalueann}"
     annotationProcessor "com.google.auto.value:auto-value:${libraries.autovalue}"
 
     // Extension which generates mappers for work with cursors
-    compileOnly "com.ryanharter.auto.value:auto-value-gson:${libraries.autovaluegson}"
+    compileOnly "com.ryanharter.auto.value:auto-value-gson-annotations:${libraries.autovaluegson}"
     annotationProcessor "com.ryanharter.auto.value:auto-value-gson:${libraries.autovaluegson}"
     annotationProcessor "com.ryanharter.auto.value:auto-value-parcel:${libraries.autovalueparcel}"
 
