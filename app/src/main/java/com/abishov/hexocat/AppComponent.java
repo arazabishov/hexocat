@@ -6,12 +6,12 @@ import com.abishov.hexocat.commons.network.NetworkModule;
 import com.abishov.hexocat.commons.picasso.PicassoModule;
 import com.abishov.hexocat.commons.schedulers.SchedulerModule;
 import com.abishov.hexocat.home.repository.RepositoryItemView;
-import com.abishov.hexocat.home.trending.TrendingComponent;
 
 import javax.inject.Singleton;
 
 import dagger.BindsInstance;
 import dagger.Component;
+import dagger.android.AndroidInjectionModule;
 
 @Singleton
 @Component(modules = {
@@ -19,14 +19,14 @@ import dagger.Component;
         NetworkModule.class,
         PicassoModule.class,
         SchedulerModule.class,
+        AndroidInjectionModule.class,
+        AppBindings.class,
 })
 public interface AppComponent {
     void inject(Hexocat hexocat);
 
     // ToDo: remove in the future
     void inject(RepositoryItemView repositoryItemView);
-
-    TrendingComponent trendingComponent();
 
     @Component.Builder
     interface Builder {

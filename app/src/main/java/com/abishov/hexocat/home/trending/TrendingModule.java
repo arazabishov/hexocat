@@ -18,5 +18,6 @@ public abstract class TrendingModule {
     }
 
     @Binds
+    @FragmentScope
     abstract TrendingContract.Presenter trendingPresenter(TrendingPresenter impl);
 }

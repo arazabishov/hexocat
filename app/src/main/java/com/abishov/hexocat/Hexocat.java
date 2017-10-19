@@ -1,5 +1,6 @@
 package com.abishov.hexocat;
 
+import android.app.Activity;
 import android.app.Application;
 import android.os.StrictMode;
 
@@ -10,12 +11,18 @@ import com.squareup.leakcanary.RefWatcher;
 
 import javax.inject.Inject;
 
+import dagger.android.AndroidInjector;
+import dagger.android.DispatchingAndroidInjector;
+import dagger.android.HasActivityInjector;
 import hu.supercluster.paperwork.Paperwork;
 import timber.log.Timber;
 
-public class Hexocat extends Application {
+public class Hexocat extends Application implements HasActivityInjector {
     protected AppComponent appComponent;
     protected RefWatcher refWatcher;
+
+    @Inject
+    DispatchingAndroidInjector<Activity> dispatchingAndroidInjector;
 
     @Inject
     Paperwork paperwork;
@@ -39,6 +46,11 @@ public class Hexocat extends Application {
         // Do not allow to do any work on the
         // main thread. Detect activity leaks.
         setupStrictMode();
+    }
+
+    @Override
+    public AndroidInjector<Activity> activityInjector() {
+        return dispatchingAndroidInjector;
     }
 
     protected void setupStrictMode() {
