@@ -7,15 +7,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.abishov.hexocat.Hexocat;
 import com.abishov.hexocat.R;
-import com.abishov.hexocat.github.filters.SearchQuery;
 import com.abishov.hexocat.commons.views.BaseFragment;
+import com.abishov.hexocat.github.filters.SearchQuery;
 
 import org.threeten.bp.LocalDate;
 
 import javax.inject.Inject;
 
+import dagger.android.support.AndroidSupportInjection;
 import io.reactivex.Observable;
 import io.reactivex.functions.Consumer;
 
@@ -25,7 +25,7 @@ public final class TrendingFragment extends BaseFragment implements TrendingCont
     private TrendingView view;
 
     @Inject
-    TrendingPresenter presenter;
+    TrendingContract.Presenter presenter;
 
     public static TrendingFragment create(int days) {
         Bundle arguments = new Bundle();
@@ -38,11 +38,8 @@ public final class TrendingFragment extends BaseFragment implements TrendingCont
 
     @Override
     public void onAttach(Context context) {
+        AndroidSupportInjection.inject(this);
         super.onAttach(context);
-
-        ((Hexocat) context.getApplicationContext()).networkComponent()
-                .plus(new TrendingModule())
-                .inject(this);
     }
 
     @Nullable

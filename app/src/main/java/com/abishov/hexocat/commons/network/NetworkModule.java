@@ -2,12 +2,13 @@ package com.abishov.hexocat.commons.network;
 
 import android.content.Context;
 
-import com.abishov.hexocat.commons.dagger.SessionScope;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.TypeAdapterFactory;
 
 import java.util.concurrent.TimeUnit;
+
+import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
@@ -23,31 +24,31 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import timber.log.Timber;
 
-@SessionScope
 @Module
+@Singleton
 public final class NetworkModule {
     private static final String OK_HTTP = "OkHttp";
 
-    private final HttpUrl baseUrl;
-
-    public NetworkModule(HttpUrl baseUrl) {
-        this.baseUrl = baseUrl;
+    @Provides
+    @Singleton
+    HttpUrl baseUrl() {
+        return HttpUrl.parse("http://api.github.com");
     }
 
     @Provides
-    @SessionScope
+    @Singleton
     TypeAdapterFactory gsonAdapterFactory() {
         return HexocatAdapterFactory.create();
     }
 
     @Provides
-    @SessionScope
+    @Singleton
     CallAdapter.Factory rxJavaAdapterFactory() {
         return RxJava2CallAdapterFactory.create();
     }
 
     @Provides
-    @SessionScope
+    @Singleton
     Gson gson(TypeAdapterFactory adapterFactory) {
         return new GsonBuilder()
                 .registerTypeAdapterFactory(adapterFactory)
@@ -55,13 +56,13 @@ public final class NetworkModule {
     }
 
     @Provides
-    @SessionScope
+    @Singleton
     Cache okHttpCache(Context context) {
         return new Cache(context.getCacheDir(), 10 * 1024 * 1024); // 10 MiBs
     }
 
     @Provides
-    @SessionScope
+    @Singleton
     Interceptor okHttpLogging(Cache cache) {
         return new HttpLoggingInterceptor(message -> {
             Timber.tag(OK_HTTP).d(message);
@@ -71,7 +72,7 @@ public final class NetworkModule {
     }
 
     @Provides
-    @SessionScope
+    @Singleton
     OkHttpClient okHttpClient(Interceptor logger, Cache cache) {
         return new OkHttpClient.Builder()
                 .addInterceptor(logger)
@@ -83,14 +84,14 @@ public final class NetworkModule {
     }
 
     @Provides
-    @SessionScope
+    @Singleton
     Converter.Factory gsonFactory(Gson gson) {
         return GsonConverterFactory.create(gson);
     }
 
     @Provides
-    @SessionScope
-    Retrofit retrofit(Converter.Factory factory,
+    @Singleton
+    Retrofit retrofit(HttpUrl baseUrl, Converter.Factory factory,
             CallAdapter.Factory rxJavaAdapterFactory,
             OkHttpClient okHttpClient) {
         return new Retrofit.Builder()

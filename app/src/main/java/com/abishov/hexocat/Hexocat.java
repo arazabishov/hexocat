@@ -1,13 +1,9 @@
 package com.abishov.hexocat;
 
+import android.app.Activity;
 import android.app.Application;
 import android.os.StrictMode;
-import android.support.annotation.VisibleForTesting;
 
-import com.abishov.hexocat.commons.network.NetworkComponent;
-import com.abishov.hexocat.commons.network.NetworkModule;
-import com.abishov.hexocat.commons.picasso.PicassoComponent;
-import com.abishov.hexocat.commons.picasso.PicassoModule;
 import com.abishov.hexocat.commons.utils.CrashReportingTree;
 import com.jakewharton.threetenabp.AndroidThreeTen;
 import com.squareup.leakcanary.LeakCanary;
@@ -15,15 +11,18 @@ import com.squareup.leakcanary.RefWatcher;
 
 import javax.inject.Inject;
 
+import dagger.android.AndroidInjector;
+import dagger.android.DispatchingAndroidInjector;
+import dagger.android.HasActivityInjector;
 import hu.supercluster.paperwork.Paperwork;
-import okhttp3.HttpUrl;
 import timber.log.Timber;
 
-public class Hexocat extends Application {
-    private AppComponent appComponent;
-    private NetworkComponent networkComponent;
-    private PicassoComponent picassoComponent;
-    private RefWatcher refWatcher;
+public class Hexocat extends Application implements HasActivityInjector {
+    protected AppComponent appComponent;
+    protected RefWatcher refWatcher;
+
+    @Inject
+    DispatchingAndroidInjector<Activity> dispatchingAndroidInjector;
 
     @Inject
     Paperwork paperwork;
@@ -41,8 +40,6 @@ public class Hexocat extends Application {
         AndroidThreeTen.init(this);
 
         setupAppComponent();
-        setupNetworkComponent();
-        setupPicassoComponent();
         setUpLeakCanary();
         setUpTimber();
 
@@ -51,7 +48,12 @@ public class Hexocat extends Application {
         setupStrictMode();
     }
 
-    private void setupStrictMode() {
+    @Override
+    public AndroidInjector<Activity> activityInjector() {
+        return dispatchingAndroidInjector;
+    }
+
+    protected void setupStrictMode() {
         if (BuildConfig.DEBUG) {
             StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
                     .detectAll()
@@ -64,20 +66,14 @@ public class Hexocat extends Application {
         }
     }
 
-    private void setupAppComponent() {
-        appComponent = prepareAppComponent();
+    protected void setupAppComponent() {
+        appComponent = DaggerAppComponent.builder()
+                .application(this)
+                .build();
         appComponent.inject(this);
     }
 
-    private void setupNetworkComponent() {
-        networkComponent = prepareNetworkComponent();
-    }
-
-    private void setupPicassoComponent() {
-        picassoComponent = networkComponent.plus(new PicassoModule());
-    }
-
-    private void setUpLeakCanary() {
+    protected void setUpLeakCanary() {
         if (BuildConfig.DEBUG) {
             refWatcher = LeakCanary.install(this);
         } else {
@@ -85,7 +81,7 @@ public class Hexocat extends Application {
         }
     }
 
-    private void setUpTimber() {
+    protected void setUpTimber() {
         if (BuildConfig.DEBUG) {
             // Verbose logging for debug builds.
             Timber.plant(new Timber.DebugTree());
@@ -94,32 +90,8 @@ public class Hexocat extends Application {
         }
     }
 
-    protected AppComponent prepareAppComponent() {
-        return DaggerAppComponent.builder()
-                .appModule(new AppModule(this))
-                .build();
-    }
-
-    @VisibleForTesting
-    protected NetworkComponent prepareNetworkComponent() {
-        return appComponent.plus(new NetworkModule(
-                HttpUrl.parse("http://api.github.com")));
-    }
-
     public AppComponent appComponent() {
         return appComponent;
-    }
-
-    public NetworkComponent networkComponent() {
-        if (networkComponent == null) {
-            networkComponent = prepareNetworkComponent();
-        }
-
-        return networkComponent;
-    }
-
-    public PicassoComponent picassoComponent() {
-        return picassoComponent;
     }
 
     public RefWatcher refWatcher() {

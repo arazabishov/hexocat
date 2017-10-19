@@ -8,12 +8,17 @@ import android.graphics.RectF;
 
 import com.squareup.picasso.Transformation;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import static android.graphics.Bitmap.Config.ARGB_8888;
 import static android.graphics.Paint.ANTI_ALIAS_FLAG;
 import static android.graphics.Shader.TileMode.CLAMP;
 
+@Singleton
 final class CircleTransformation implements Transformation {
 
+    @Inject
     CircleTransformation() {
     }
 
