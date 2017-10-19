@@ -40,10 +40,6 @@ public final class TrendingFragment extends BaseFragment implements TrendingCont
     public void onAttach(Context context) {
         AndroidSupportInjection.inject(this);
         super.onAttach(context);
-//
-//        ((Hexocat) context.getApplicationContext()).appComponent()
-//                .trendingComponent()
-//                .inject(this);
     }
 
     @Nullable

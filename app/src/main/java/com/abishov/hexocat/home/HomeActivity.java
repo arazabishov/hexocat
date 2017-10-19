@@ -2,12 +2,16 @@ package com.abishov.hexocat.home;
 
 import android.os.Bundle;
 import android.support.annotation.IdRes;
+import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 
 import com.abishov.hexocat.R;
+import com.abishov.hexocat.commons.picasso.PicassoServiceLocator;
 import com.abishov.hexocat.home.trending.TrendingPagerFragment;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Transformation;
 
 import javax.inject.Inject;
 
@@ -25,6 +29,12 @@ public final class HomeActivity extends AppCompatActivity implements HasSupportF
 
     @Inject
     DispatchingAndroidInjector<Fragment> dispatchingAndroidInjector;
+
+    @Inject
+    Transformation transformation;
+
+    @Inject
+    Picasso picasso;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +54,19 @@ public final class HomeActivity extends AppCompatActivity implements HasSupportF
     @Override
     public AndroidInjector<Fragment> supportFragmentInjector() {
         return dispatchingAndroidInjector;
+    }
+
+    @Override
+    public Object getSystemService(@NonNull String name) {
+        if (PicassoServiceLocator.matchesService(name)) {
+            return picasso;
+        }
+
+        if (PicassoServiceLocator.matchesTransformationService(name)) {
+            return transformation;
+        }
+
+        return super.getSystemService(name);
     }
 
     private boolean swapFragment(@IdRes int viewId) {

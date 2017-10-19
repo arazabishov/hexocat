@@ -10,13 +10,11 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.abishov.hexocat.Hexocat;
 import com.abishov.hexocat.R;
+import com.abishov.hexocat.commons.picasso.PicassoServiceLocator;
 import com.abishov.hexocat.commons.views.Truss;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
-
-import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -38,11 +36,8 @@ public final class RepositoryItemView extends RelativeLayout {
     @BindView(R.id.textview_repository_stars)
     TextView textViewStars;
 
-    @Inject
-    Picasso picasso;
-
-    @Inject
-    Transformation transformation;
+    private Picasso picasso;
+    private Transformation transformation;
 
     private final int descriptionColor;
 
@@ -56,8 +51,8 @@ public final class RepositoryItemView extends RelativeLayout {
                 context, outValue.resourceId);
 
         if (!isInEditMode()) {
-            ((Hexocat) context.getApplicationContext()).appComponent()
-                    .inject(this);
+            picasso = PicassoServiceLocator.obtain(context);
+            transformation = PicassoServiceLocator.obtainTransformation(context);
         }
     }
 
