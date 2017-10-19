@@ -5,28 +5,22 @@ import android.content.Context;
 
 import javax.inject.Singleton;
 
+import dagger.Binds;
 import dagger.Module;
 import dagger.Provides;
 import hu.supercluster.paperwork.Paperwork;
 
 @Module
 @Singleton
-final class AppModule {
-    private final Application app;
+abstract class AppModule {
 
-    AppModule(Application app) {
-        this.app = app;
-    }
+    @Binds
+    @Singleton
+    abstract Context context(Application app);
 
     @Provides
     @Singleton
-    Context context() {
-        return app;
-    }
-
-    @Provides
-    @Singleton
-    Paperwork paperwork(Context context) {
+    static Paperwork paperwork(Context context) {
         return new Paperwork(context);
     }
 }

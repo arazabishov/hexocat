@@ -56,7 +56,7 @@ public final class RepositoryItemView extends RelativeLayout {
                 context, outValue.resourceId);
 
         if (!isInEditMode()) {
-            ((Hexocat) context.getApplicationContext()).picassoComponent()
+            ((Hexocat) context.getApplicationContext()).appComponent()
                     .inject(this);
         }
     }

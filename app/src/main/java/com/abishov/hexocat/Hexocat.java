@@ -3,9 +3,6 @@ package com.abishov.hexocat;
 import android.app.Application;
 import android.os.StrictMode;
 
-import com.abishov.hexocat.commons.network.NetworkComponent;
-import com.abishov.hexocat.commons.network.NetworkModule;
-import com.abishov.hexocat.commons.picasso.PicassoComponent;
 import com.abishov.hexocat.commons.utils.CrashReportingTree;
 import com.jakewharton.threetenabp.AndroidThreeTen;
 import com.squareup.leakcanary.LeakCanary;
@@ -18,8 +15,6 @@ import timber.log.Timber;
 
 public class Hexocat extends Application {
     protected AppComponent appComponent;
-    protected NetworkComponent networkComponent;
-    protected PicassoComponent picassoComponent;
     protected RefWatcher refWatcher;
 
     @Inject
@@ -38,8 +33,6 @@ public class Hexocat extends Application {
         AndroidThreeTen.init(this);
 
         setupAppComponent();
-        setupNetworkComponent();
-        setupPicassoComponent();
         setUpLeakCanary();
         setUpTimber();
 
@@ -62,16 +55,10 @@ public class Hexocat extends Application {
     }
 
     protected void setupAppComponent() {
-        appComponent = prepareAppComponent();
+        appComponent = DaggerAppComponent.builder()
+                .application(this)
+                .build();
         appComponent.inject(this);
-    }
-
-    protected void setupNetworkComponent() {
-        networkComponent = appComponent.plus(new NetworkModule());
-    }
-
-    protected void setupPicassoComponent() {
-        picassoComponent = networkComponent.picassoComponent();
     }
 
     protected void setUpLeakCanary() {
@@ -91,22 +78,8 @@ public class Hexocat extends Application {
         }
     }
 
-    protected AppComponent prepareAppComponent() {
-        return DaggerAppComponent.builder()
-                .appModule(new AppModule(this))
-                .build();
-    }
-
     public AppComponent appComponent() {
         return appComponent;
-    }
-
-    public NetworkComponent networkComponent() {
-        return networkComponent;
-    }
-
-    public PicassoComponent picassoComponent() {
-        return picassoComponent;
     }
 
     public RefWatcher refWatcher() {
