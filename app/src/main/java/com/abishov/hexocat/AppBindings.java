@@ -1,21 +1,16 @@
 package com.abishov.hexocat;
 
-import android.app.Activity;
-
+import com.abishov.hexocat.commons.dagger.ActivityScope;
 import com.abishov.hexocat.home.HomeActivity;
-import com.abishov.hexocat.home.HomeComponent;
+import com.abishov.hexocat.home.HomeBindings;
 
-import dagger.Binds;
 import dagger.Module;
-import dagger.android.ActivityKey;
-import dagger.android.AndroidInjector;
-import dagger.multibindings.IntoMap;
+import dagger.android.ContributesAndroidInjector;
 
-@Module(subcomponents = HomeComponent.class)
+@Module
 abstract class AppBindings {
 
-    @Binds
-    @IntoMap
-    @ActivityKey(HomeActivity.class)
-    abstract AndroidInjector.Factory<? extends Activity> bind(HomeComponent.Builder builder);
+    @ActivityScope
+    @ContributesAndroidInjector(modules = HomeBindings.class)
+    abstract HomeActivity contributeHomeActivityInjector();
 }

@@ -1,21 +1,16 @@
 package com.abishov.hexocat.home;
 
-import android.support.v4.app.Fragment;
-
-import com.abishov.hexocat.home.trending.TrendingComponent;
+import com.abishov.hexocat.commons.dagger.FragmentScope;
 import com.abishov.hexocat.home.trending.TrendingFragment;
+import com.abishov.hexocat.home.trending.TrendingModule;
 
-import dagger.Binds;
 import dagger.Module;
-import dagger.android.AndroidInjector;
-import dagger.android.support.FragmentKey;
-import dagger.multibindings.IntoMap;
+import dagger.android.ContributesAndroidInjector;
 
-@Module(subcomponents = TrendingComponent.class)
-abstract class HomeBindings {
+@Module
+public abstract class HomeBindings {
 
-    @Binds
-    @IntoMap
-    @FragmentKey(TrendingFragment.class)
-    abstract AndroidInjector.Factory<? extends Fragment> bind(TrendingComponent.Builder builder);
+    @FragmentScope
+    @ContributesAndroidInjector(modules = TrendingModule.class)
+    abstract TrendingFragment contributesTrendingFragmentInjector();
 }
