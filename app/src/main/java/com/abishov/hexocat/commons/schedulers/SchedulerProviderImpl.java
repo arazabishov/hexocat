@@ -11,7 +11,8 @@ import io.reactivex.schedulers.Schedulers;
 final class SchedulerProviderImpl implements SchedulerProvider {
 
     @Inject
-    public SchedulerProviderImpl() {
+    SchedulerProviderImpl() {
+        // keeping this constructor for dagger
     }
 
     @Override

@@ -20,6 +20,7 @@ final class CircleTransformation implements Transformation {
 
     @Inject
     CircleTransformation() {
+        // keeping this constructor for dagger
     }
 
     @Override

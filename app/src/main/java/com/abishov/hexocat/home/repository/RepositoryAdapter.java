@@ -6,13 +6,15 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import com.abishov.hexocat.R;
+import com.abishov.hexocat.home.repository.RepositoryAdapter.RepositoryViewHolder;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.functions.Consumer;
 
-public final class RepositoryAdapter extends Adapter<RepositoryAdapter.RepositoryViewHolder> implements Consumer<List<RepositoryViewModel>> {
+public final class RepositoryAdapter extends Adapter<RepositoryViewHolder>
+        implements Consumer<List<RepositoryViewModel>> {
     private final LayoutInflater layoutInflater;
     private final List<RepositoryViewModel> repositories;
     private final TrendingViewClickListener trendingViewClickListener;
@@ -40,7 +42,7 @@ public final class RepositoryAdapter extends Adapter<RepositoryAdapter.Repositor
     }
 
     @Override
-    public void accept(List<RepositoryViewModel> repositoryViewModels) throws Exception {
+    public void accept(List<RepositoryViewModel> repositoryViewModels) throws Exception { // NOPMD
         repositories.clear();
         repositories.addAll(repositoryViewModels);
         notifyDataSetChanged();

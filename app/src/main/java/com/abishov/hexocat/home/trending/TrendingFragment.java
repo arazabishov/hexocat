@@ -16,6 +16,7 @@ import org.threeten.bp.LocalDate;
 import javax.inject.Inject;
 
 import dagger.android.support.AndroidSupportInjection;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import io.reactivex.Observable;
 import io.reactivex.functions.Consumer;
 
@@ -50,6 +51,7 @@ public final class TrendingFragment extends BaseFragment implements TrendingCont
     }
 
     @Override
+    @SuppressFBWarnings("BC_UNCONFIRMED_CAST")
     public void onViewCreated(View trendingView, @Nullable Bundle savedInstanceState) {
         view = (TrendingView) trendingView;
         presenter.onAttach(this);

@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import com.abishov.hexocat.R;
 import com.abishov.hexocat.commons.views.BaseFragment;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 public final class TrendingPagerFragment extends BaseFragment {
 
     public static TrendingPagerFragment create() {
@@ -24,6 +26,7 @@ public final class TrendingPagerFragment extends BaseFragment {
     }
 
     @Override
+    @SuppressFBWarnings("BC_UNCONFIRMED_CAST")
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         TrendingPagerView trendingPagerView = (TrendingPagerView) view;
 

@@ -8,7 +8,7 @@ import static org.threeten.bp.format.DateTimeFormatter.ISO_LOCAL_DATE;
 public final class SearchQuery {
     private final LocalDate createdSince;
 
-    private SearchQuery(Builder builder) {
+    SearchQuery(Builder builder) {
         createdSince = isNull(builder.createdSince, "createdSince == null");
     }
 
