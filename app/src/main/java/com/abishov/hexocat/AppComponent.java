@@ -5,7 +5,6 @@ import android.app.Application;
 import com.abishov.hexocat.commons.network.NetworkModule;
 import com.abishov.hexocat.commons.picasso.PicassoModule;
 import com.abishov.hexocat.commons.schedulers.SchedulerModule;
-import com.abishov.hexocat.home.repository.RepositoryItemView;
 
 import javax.inject.Singleton;
 
@@ -24,9 +23,6 @@ import dagger.android.AndroidInjectionModule;
 })
 public interface AppComponent {
     void inject(Hexocat hexocat);
-
-    // ToDo: remove in the future
-    void inject(RepositoryItemView repositoryItemView);
 
     @Component.Builder
     interface Builder {
