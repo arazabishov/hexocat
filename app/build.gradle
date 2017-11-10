@@ -84,6 +84,8 @@ android {
 
 spoon {
     debug = true
+    noAnimations = true
+    grantAllPermissions = true
 }
 
 dependencies {

@@ -5,45 +5,21 @@ buildscript {
     repositories {
         jcenter()
 
-        // Required by retrolambda
-        mavenCentral()
-
-        // Required by build-scan and error-prone plugins.
-        maven {
-            url("https://plugins.gradle.org/m2/")
-        }
-
-        // Repository for support dependencies
-        maven {
-            url("https://maven.google.com")
-        }
+        maven { url("https://oss.sonatype.org/content/repositories/snapshots/") }
+        maven { url("https://plugins.gradle.org/m2/") }
+        maven { url("https://maven.google.com") }
+        maven { url("https://jitpack.io") }
     }
 
     dependencies {
         classpath "com.android.tools.build:gradle:3.0.0"
-
-        // provides insight on how many method references
-        // are present in dex file
         classpath "com.getkeepsafe.dexcount:dexcount-gradle-plugin:0.7.3"
-
-        // semantic, static analysis of the source code
         classpath "net.ltgt.gradle:gradle-errorprone-plugin:0.0.11"
-
-        // enables cloud features of gradle plugin
         classpath "com.gradle:build-scan-plugin:1.9"
-
-        // allows to set BuildConfig fields during compilation
-        // without breaking incremental compilation
         classpath "hu.supercluster:paperwork-plugin:1.2.7"
-
-        // generates test reports with screenshots
-        classpath "com.stanfy.spoon:spoon-gradle-plugin:1.2.2"
-
-        // static analysis tool
         classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.5"
-
-        // check the latest version of the artifacts
         classpath "com.github.ben-manes:gradle-versions-plugin:0.17.0"
+        classpath "com.github.dweebo:spoon-gradle-plugin:36b61ee5c9c2b9281a079f0a0ebca28b8db46e8b"
     }
 }
 
@@ -56,10 +32,8 @@ allprojects {
     repositories {
         jcenter()
 
-        // Repository for support dependencies
-        maven {
-            url("https://maven.google.com")
-        }
+        maven { url("https://maven.google.com") }
+        maven { url("https://oss.sonatype.org/content/repositories/snapshots/") }
     }
 }
 
@@ -77,7 +51,7 @@ ext {
     libraries = [
             gson           : "2.8.1",
             dagger         : "2.12",
-            support        : "26.1.0",
+            support        : "27.0.0",
             picasso        : "2.5.2",
             okpicasso      : "1.1.0",
             paperwork      : "1.2.7",
@@ -102,7 +76,7 @@ ext {
             mockito        : "2.8.9",
             assertj        : "2.8.0",
             junit          : "4.12",
-            spoon          : "1.7.1",
+            spoon          : "2.0.0-SNAPSHOT",
 
             // plugins
             errorpronecore : "2.0.19"
