@@ -27,8 +27,8 @@ android {
         versionCode versionMajor * 10000 + versionMinor * 1000 + versionPatch * 100 + versionBuild
         versionName "${versionMajor}.${versionMinor}.${versionPatch}"
 
-        // Default instrumentation test runner
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        // Instrumentation test runner
+        testInstrumentationRunner "com.abishov.hexocat.HexocatInstrumentationTestRunner"
 
         // Make generated apks contain version name and code.
         archivesBaseName = "app-${versionName}-${versionCode}"
