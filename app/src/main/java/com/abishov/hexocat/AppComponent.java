@@ -11,6 +11,7 @@ import javax.inject.Singleton;
 import dagger.BindsInstance;
 import dagger.Component;
 import dagger.android.AndroidInjectionModule;
+import okhttp3.HttpUrl;
 
 @Singleton
 @Component(modules = {
@@ -26,6 +27,9 @@ public interface AppComponent {
 
     @Component.Builder
     interface Builder {
+        @BindsInstance
+        Builder baseUrl(HttpUrl baseUrl);
+
         @BindsInstance
         Builder application(Application application);
 

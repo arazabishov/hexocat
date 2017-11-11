@@ -15,6 +15,7 @@ import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.HasActivityInjector;
 import hu.supercluster.paperwork.Paperwork;
+import okhttp3.HttpUrl;
 import timber.log.Timber;
 
 public class Hexocat extends Application implements HasActivityInjector {
@@ -53,7 +54,7 @@ public class Hexocat extends Application implements HasActivityInjector {
         return dispatchingAndroidInjector;
     }
 
-    protected void setupStrictMode() {
+    private void setupStrictMode() {
         if (BuildConfig.DEBUG) {
             StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
                     .detectAll()
@@ -67,9 +68,7 @@ public class Hexocat extends Application implements HasActivityInjector {
     }
 
     protected void setupAppComponent() {
-        appComponent = DaggerAppComponent.builder()
-                .application(this)
-                .build();
+        appComponent = prepareAppComponent();
         appComponent.inject(this);
     }
 
@@ -88,6 +87,13 @@ public class Hexocat extends Application implements HasActivityInjector {
         } else {
             Timber.plant(new CrashReportingTree(paperwork));
         }
+    }
+
+    protected AppComponent prepareAppComponent() {
+        return DaggerAppComponent.builder()
+                .baseUrl(HttpUrl.parse("http://api.github.com"))
+                .application(this)
+                .build();
     }
 
     public AppComponent appComponent() {

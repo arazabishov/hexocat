@@ -31,25 +31,19 @@ public final class NetworkModule {
 
     @Provides
     @Singleton
-    HttpUrl baseUrl() {
-        return HttpUrl.parse("http://api.github.com");
-    }
-
-    @Provides
-    @Singleton
-    TypeAdapterFactory gsonAdapterFactory() {
+    static TypeAdapterFactory gsonAdapterFactory() {
         return HexocatAdapterFactory.create();
     }
 
     @Provides
     @Singleton
-    CallAdapter.Factory rxJavaAdapterFactory() {
+    static CallAdapter.Factory rxJavaAdapterFactory() {
         return RxJava2CallAdapterFactory.create();
     }
 
     @Provides
     @Singleton
-    Gson gson(TypeAdapterFactory adapterFactory) {
+    static Gson gson(TypeAdapterFactory adapterFactory) {
         return new GsonBuilder()
                 .registerTypeAdapterFactory(adapterFactory)
                 .create();
@@ -57,13 +51,13 @@ public final class NetworkModule {
 
     @Provides
     @Singleton
-    Cache okHttpCache(Context context) {
+    static Cache okHttpCache(Context context) {
         return new Cache(context.getCacheDir(), 10 * 1024 * 1024); // 10 MiBs
     }
 
     @Provides
     @Singleton
-    Interceptor okHttpLogging(Cache cache) {
+    static Interceptor okHttpLogging(Cache cache) {
         return new HttpLoggingInterceptor(message -> {
             Timber.tag(OK_HTTP).d(message);
             Timber.tag(OK_HTTP).v("Cache: requests=[%s], network=[%s], hits=[%s]",
@@ -73,7 +67,7 @@ public final class NetworkModule {
 
     @Provides
     @Singleton
-    OkHttpClient okHttpClient(Interceptor logger, Cache cache) {
+    static OkHttpClient okHttpClient(Interceptor logger, Cache cache) {
         return new OkHttpClient.Builder()
                 .addInterceptor(logger)
                 .cache(cache)
@@ -85,13 +79,13 @@ public final class NetworkModule {
 
     @Provides
     @Singleton
-    Converter.Factory gsonFactory(Gson gson) {
+    static Converter.Factory gsonFactory(Gson gson) {
         return GsonConverterFactory.create(gson);
     }
 
     @Provides
     @Singleton
-    Retrofit retrofit(HttpUrl baseUrl, Converter.Factory factory,
+    static Retrofit retrofit(HttpUrl baseUrl, Converter.Factory factory,
             CallAdapter.Factory rxJavaAdapterFactory,
             OkHttpClient okHttpClient) {
         return new Retrofit.Builder()
