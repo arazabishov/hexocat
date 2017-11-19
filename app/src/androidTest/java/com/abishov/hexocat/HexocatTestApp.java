@@ -25,8 +25,8 @@ public final class HexocatTestApp extends Hexocat {
         .build();
   }
 
-  public void overrideBaseUrl(HttpUrl baseUrl) {
-    this.baseUrl = baseUrl;
-    setupAppComponent();
+  public static void overrideBaseUrl(HttpUrl baseUrl) {
+    getInstance().baseUrl = baseUrl;
+    getInstance().setupAppComponent();
   }
 }
