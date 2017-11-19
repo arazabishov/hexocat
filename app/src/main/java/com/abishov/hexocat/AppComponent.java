@@ -11,6 +11,7 @@ import dagger.android.AndroidInjectionModule;
 import javax.annotation.Nullable;
 import javax.inject.Singleton;
 import okhttp3.HttpUrl;
+import okhttp3.OkHttpClient;
 
 @Singleton
 @Component(modules = {
@@ -22,6 +23,7 @@ import okhttp3.HttpUrl;
     AppBindings.class,
 })
 public interface AppComponent {
+  OkHttpClient okHttpClient();
 
   void inject(Hexocat hexocat);
 
