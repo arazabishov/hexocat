@@ -1,7 +1,9 @@
 package com.abishov.hexocat;
 
 import android.content.Context;
+import android.content.res.AssetManager;
 import android.support.test.InstrumentationRegistry;
+import com.abishov.hexocat.common.picasso.MockRequestHandler;
 import okhttp3.HttpUrl;
 
 public final class HexocatTestApp extends Hexocat {
@@ -19,9 +21,11 @@ public final class HexocatTestApp extends Hexocat {
       return super.prepareAppComponent();
     }
 
+    AssetManager assetManager = InstrumentationRegistry.getContext().getAssets();
     return DaggerAppComponent.builder()
-        .baseUrl(baseUrl)
+        .requestHandler(new MockRequestHandler(assetManager))
         .application(this)
+        .baseUrl(baseUrl)
         .build();
   }
 

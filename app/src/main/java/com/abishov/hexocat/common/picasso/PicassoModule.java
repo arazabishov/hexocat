@@ -1,37 +1,41 @@
 package com.abishov.hexocat.common.picasso;
 
 import android.content.Context;
-
 import com.jakewharton.picasso.OkHttp3Downloader;
 import com.squareup.picasso.Downloader;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.RequestHandler;
 import com.squareup.picasso.Transformation;
-
-import javax.inject.Singleton;
-
 import dagger.Binds;
 import dagger.Module;
 import dagger.Provides;
+import javax.annotation.Nullable;
+import javax.inject.Singleton;
 import okhttp3.OkHttpClient;
 
 @Module
 @Singleton
 public abstract class PicassoModule {
 
-    @Provides
-    @Singleton
-    static Downloader okHttpPicasso(OkHttpClient okClient) {
-        return new OkHttp3Downloader(okClient);
+  @Provides
+  @Singleton
+  static Downloader okHttpPicasso(OkHttpClient okClient) {
+    return new OkHttp3Downloader(okClient);
+  }
+
+  @Provides
+  @Singleton
+  static Picasso picasso(Context context, Downloader downloader,
+      @Nullable RequestHandler requestHandler) {
+    Picasso.Builder builder = new Picasso.Builder(context);
+    if (requestHandler != null) {
+      builder.addRequestHandler(requestHandler);
     }
 
-    @Provides
-    @Singleton
-    static Picasso picasso(Context context, Downloader downloader) {
-        return new Picasso.Builder(context)
-                .downloader(downloader)
-                .build();
-    }
+    return builder.downloader(downloader)
+        .build();
+  }
 
-    @Binds
-    abstract Transformation circularTransformation(CircleTransformation impl);
+  @Binds
+  abstract Transformation circularTransformation(CircleTransformation impl);
 }
