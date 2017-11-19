@@ -7,7 +7,7 @@ import android.content.Intent;
 import android.support.test.rule.ActivityTestRule;
 import com.abishov.hexocat.common.rule.CaptureScreenshots;
 import com.abishov.hexocat.common.rule.CaptureScreenshotsRule;
-import com.abishov.hexocat.common.rule.MockWebServerRule;
+import io.appflate.restmock.RESTMockServer;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -20,13 +20,11 @@ public final class HomeScreenTest {
           .initialTouchMode()
           .build();
 
-  @Rule
-  public final MockWebServerRule mockWebServerRule = new MockWebServerRule();
-
   private HomeRobot homeRobot;
 
   @Before
   public void setUp() throws Exception {
+    RESTMockServer.reset();
     homeRobot = new HomeRobot();
   }
 
