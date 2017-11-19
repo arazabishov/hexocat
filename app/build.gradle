@@ -23,7 +23,6 @@ android {
     defaultConfig {
         minSdkVersion versions.minsdk
         targetSdkVersion versions.sdk
-        multiDexEnabled true
 
         applicationId "com.abishov.hexocat"
         versionCode versionMajor * 10000 + versionMinor * 1000 + versionPatch * 100 + versionBuild
@@ -154,7 +153,6 @@ dependencies {
     androidTestImplementation "com.github.andrzejchm.RESTMock:android:${libraries.restmock}"
     androidTestImplementation "com.squareup.okhttp3:mockwebserver:${libraries.okhttp}"
     androidTestImplementation "org.mockito:mockito-android:${libraries.mockito}"
-    androidTestImplementation "org.assertj:assertj-core:${libraries.assertj}"
     androidTestImplementation "com.squareup.rx.idler:rx2-idler:${libraries.rxidler}"
 
     androidTestImplementation("com.android.support.test.espresso:espresso-idling-resource:${libraries.espresso}") {
@@ -167,7 +165,6 @@ dependencies {
         exclude module: "support-annotations"
     }
     androidTestImplementation("com.android.support.test.espresso:espresso-contrib:${libraries.espresso}") {
-        // Causes IncompatibleClassChangeError
         exclude module: "support-annotations"
         exclude module: "recyclerview-v7"
         exclude module: "appcompat-v7"
