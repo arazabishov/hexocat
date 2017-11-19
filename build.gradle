@@ -8,7 +8,6 @@ buildscript {
         maven { url("https://oss.sonatype.org/content/repositories/snapshots/") }
         maven { url("https://plugins.gradle.org/m2/") }
         maven { url("https://maven.google.com") }
-        maven { url("https://jitpack.io") }
     }
 
     dependencies {
@@ -19,7 +18,7 @@ buildscript {
         classpath "hu.supercluster:paperwork-plugin:1.2.7"
         classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.5"
         classpath "com.github.ben-manes:gradle-versions-plugin:0.17.0"
-        classpath "com.github.dweebo:spoon-gradle-plugin:36b61ee5c9c2b9281a079f0a0ebca28b8db46e8b"
+        classpath "com.jaredsburrows:gradle-spoon-plugin:1.0.0"
     }
 }
 
