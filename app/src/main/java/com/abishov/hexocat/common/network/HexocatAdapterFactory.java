@@ -1,4 +1,4 @@
-package com.abishov.hexocat.commons.network;
+package com.abishov.hexocat.common.network;
 
 import com.google.gson.TypeAdapterFactory;
 import com.ryanharter.auto.value.gson.GsonTypeAdapterFactory;

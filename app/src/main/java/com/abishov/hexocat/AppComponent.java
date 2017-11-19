@@ -2,9 +2,9 @@ package com.abishov.hexocat;
 
 import android.app.Application;
 
-import com.abishov.hexocat.commons.network.NetworkModule;
-import com.abishov.hexocat.commons.picasso.PicassoModule;
-import com.abishov.hexocat.commons.schedulers.SchedulerModule;
+import com.abishov.hexocat.common.network.NetworkModule;
+import com.abishov.hexocat.common.picasso.PicassoModule;
+import com.abishov.hexocat.common.schedulers.SchedulerModule;
 
 import javax.inject.Singleton;
 

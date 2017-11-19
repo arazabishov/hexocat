@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.abishov.hexocat.commons.views;
+package com.abishov.hexocat.common.views;
 
 import android.content.Context;
 import android.content.res.TypedArray;

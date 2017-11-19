@@ -1,4 +1,4 @@
-package com.abishov.hexocat.commons.picasso;
+package com.abishov.hexocat.common.picasso;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapShader;

@@ -1,4 +1,4 @@
-package com.abishov.hexocat.commons.utils;
+package com.abishov.hexocat.common.utils;
 
 import android.support.annotation.Nullable;
 import android.util.Log;

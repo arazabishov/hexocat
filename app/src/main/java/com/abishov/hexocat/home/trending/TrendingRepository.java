@@ -1,6 +1,6 @@
 package com.abishov.hexocat.home.trending;
 
-import com.abishov.hexocat.commons.dagger.FragmentScope;
+import com.abishov.hexocat.common.dagger.FragmentScope;
 import com.abishov.hexocat.github.Repository;
 import com.abishov.hexocat.github.filters.Order;
 import com.abishov.hexocat.github.filters.SearchQuery;

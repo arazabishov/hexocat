@@ -14,7 +14,7 @@ import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.abishov.hexocat.R;
-import com.abishov.hexocat.commons.views.DividerItemDecoration;
+import com.abishov.hexocat.common.views.DividerItemDecoration;
 import com.abishov.hexocat.home.repository.RepositoryAdapter;
 import com.jakewharton.rxbinding2.support.v4.widget.RxSwipeRefreshLayout;
 import com.jakewharton.rxbinding2.view.RxView;

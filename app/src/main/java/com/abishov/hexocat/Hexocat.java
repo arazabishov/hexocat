@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.app.Application;
 import android.os.StrictMode;
 
-import com.abishov.hexocat.commons.utils.CrashReportingTree;
+import com.abishov.hexocat.common.utils.CrashReportingTree;
 import com.jakewharton.threetenabp.AndroidThreeTen;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;

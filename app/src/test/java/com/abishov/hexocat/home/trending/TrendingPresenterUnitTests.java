@@ -1,6 +1,6 @@
 package com.abishov.hexocat.home.trending;
 
-import com.abishov.hexocat.commons.schedulers.TrampolineSchedulersProvider;
+import com.abishov.hexocat.common.schedulers.TrampolineSchedulersProvider;
 import com.abishov.hexocat.github.Repository;
 import com.abishov.hexocat.github.User;
 import com.abishov.hexocat.github.filters.SearchQuery;

@@ -1,4 +1,4 @@
-package com.abishov.hexocat.commons.schedulers;
+package com.abishov.hexocat.common.schedulers;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;

@@ -1,6 +1,6 @@
 package com.abishov.hexocat.home.trending;
 
-import com.abishov.hexocat.commons.dagger.FragmentScope;
+import com.abishov.hexocat.common.dagger.FragmentScope;
 
 import dagger.Binds;
 import dagger.Module;

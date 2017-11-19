@@ -1,4 +1,4 @@
-package com.abishov.hexocat.commons.network;
+package com.abishov.hexocat.common.network;
 
 import android.content.Context;
 

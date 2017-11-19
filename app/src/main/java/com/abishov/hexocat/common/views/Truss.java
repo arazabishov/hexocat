@@ -1,4 +1,4 @@
-package com.abishov.hexocat.commons.views;
+package com.abishov.hexocat.common.views;
 
 import android.text.SpannableStringBuilder;
 

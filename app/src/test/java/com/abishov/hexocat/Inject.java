@@ -1,6 +1,6 @@
 package com.abishov.hexocat;
 
-import com.abishov.hexocat.commons.network.HexocatAdapterFactory;
+import com.abishov.hexocat.common.network.HexocatAdapterFactory;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 

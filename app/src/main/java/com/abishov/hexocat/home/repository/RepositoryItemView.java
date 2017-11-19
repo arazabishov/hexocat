@@ -11,8 +11,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.abishov.hexocat.R;
-import com.abishov.hexocat.commons.picasso.PicassoServiceLocator;
-import com.abishov.hexocat.commons.views.Truss;
+import com.abishov.hexocat.common.picasso.PicassoServiceLocator;
+import com.abishov.hexocat.common.views.Truss;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 

@@ -8,7 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 
 import com.abishov.hexocat.R;
-import com.abishov.hexocat.commons.picasso.PicassoServiceLocator;
+import com.abishov.hexocat.common.picasso.PicassoServiceLocator;
 import com.abishov.hexocat.home.trending.TrendingPagerFragment;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;

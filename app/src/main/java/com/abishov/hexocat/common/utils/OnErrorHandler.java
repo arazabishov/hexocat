@@ -1,4 +1,4 @@
-package com.abishov.hexocat.commons.utils;
+package com.abishov.hexocat.common.utils;
 
 import io.reactivex.exceptions.OnErrorNotImplementedException;
 import io.reactivex.functions.Consumer;

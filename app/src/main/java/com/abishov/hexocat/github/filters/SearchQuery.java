@@ -2,7 +2,7 @@ package com.abishov.hexocat.github.filters;
 
 import org.threeten.bp.LocalDate;
 
-import static com.abishov.hexocat.commons.utils.Preconditions.isNull;
+import static com.abishov.hexocat.common.utils.Preconditions.isNull;
 import static org.threeten.bp.format.DateTimeFormatter.ISO_LOCAL_DATE;
 
 public final class SearchQuery {
