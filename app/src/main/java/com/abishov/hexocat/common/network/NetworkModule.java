@@ -22,7 +22,7 @@ import timber.log.Timber;
 
 @Module
 @Singleton
-public final class NetworkModule {
+public abstract class NetworkModule { // NOPMD
 
   private static final String OK_HTTP = "OkHttp";
 
