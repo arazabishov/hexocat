@@ -13,13 +13,13 @@ public class CaptureScreenshotsRule<T extends Activity> extends ActivityTestRule
   private CaptureScreenshots captureScreenshots;
   private String testMethodName;
 
-  public static <T extends Activity> Builder<T> builder(Class<T> activity) {
-    return new Builder<>(activity);
-  }
-
   CaptureScreenshotsRule(Class<T> activity, boolean initialTouchMode, boolean launchActivity) {
     super(activity, initialTouchMode, launchActivity);
     spoonRule = new SpoonRule();
+  }
+
+  public static <T extends Activity> Builder<T> builder(Class<T> activity) {
+    return new Builder<>(activity);
   }
 
   @Override

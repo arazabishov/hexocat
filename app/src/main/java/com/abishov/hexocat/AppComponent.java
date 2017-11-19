@@ -23,6 +23,7 @@ import okhttp3.OkHttpClient;
     AppBindings.class,
 })
 public interface AppComponent {
+
   OkHttpClient okHttpClient();
 
   void inject(Hexocat hexocat);

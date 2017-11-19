@@ -22,9 +22,13 @@ import timber.log.Timber;
 
 @Module
 @Singleton
-public abstract class NetworkModule { // NOPMD
+public final class NetworkModule {
 
   private static final String OK_HTTP = "OkHttp";
+
+  private NetworkModule() {
+    // no instances
+  }
 
   @Provides
   @Singleton

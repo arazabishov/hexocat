@@ -15,6 +15,11 @@ public final class HexocatTestApp extends Hexocat {
     return (HexocatTestApp) appContext;
   }
 
+  public static void overrideBaseUrl(HttpUrl baseUrl) {
+    getInstance().baseUrl = baseUrl;
+    getInstance().setupAppComponent();
+  }
+
   @Override
   protected AppComponent prepareAppComponent() {
     if (baseUrl == null) {
@@ -27,10 +32,5 @@ public final class HexocatTestApp extends Hexocat {
         .application(this)
         .baseUrl(baseUrl)
         .build();
-  }
-
-  public static void overrideBaseUrl(HttpUrl baseUrl) {
-    getInstance().baseUrl = baseUrl;
-    getInstance().setupAppComponent();
   }
 }

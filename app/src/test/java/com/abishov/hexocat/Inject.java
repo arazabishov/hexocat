@@ -8,13 +8,14 @@ import com.google.gson.GsonBuilder;
  * Dependency provider for unit tests.
  */
 public final class Inject {
-    private Inject() {
-        // no instances
-    }
 
-    public static Gson gson() {
-        return new GsonBuilder()
-                .registerTypeAdapterFactory(HexocatAdapterFactory.create())
-                .create();
-    }
+  private Inject() {
+    // no instances
+  }
+
+  public static Gson gson() {
+    return new GsonBuilder()
+        .registerTypeAdapterFactory(HexocatAdapterFactory.create())
+        .create();
+  }
 }
