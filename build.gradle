@@ -45,7 +45,7 @@ ext {
     versions = [
             sdk   : 26,
             tools : "26.0.2",
-            minsdk: 21
+            minsdk: 16
     ]
 
     libraries = [
