@@ -16,7 +16,9 @@ public final class HomeScreenTest {
 
   @Rule
   public final ActivityTestRule<HomeActivity> activityRule =
-      CaptureScreenshotsRule.builder(HomeActivity.class).build();
+      CaptureScreenshotsRule.builder(HomeActivity.class)
+          .initialTouchMode()
+          .build();
 
   @Rule
   public final MockWebServerRule mockWebServerRule = new MockWebServerRule();
