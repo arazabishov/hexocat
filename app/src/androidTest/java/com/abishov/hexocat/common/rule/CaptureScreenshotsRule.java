@@ -72,12 +72,12 @@ public class CaptureScreenshotsRule<T extends Activity> extends ActivityTestRule
       this.activity = activity;
     }
 
-    public Builder initialTouchMode() {
+    public Builder<T> initialTouchMode() {
       this.initialTouchMode = true;
       return this;
     }
 
-    public Builder launchActivity() {
+    public Builder<T> launchActivity() {
       this.launchActivity = true;
       return this;
     }
