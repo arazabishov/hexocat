@@ -70,7 +70,7 @@ ext {
             autovalueparcel: "0.2.5",
             findbugs       : "3.0.1",
             threetenabp    : "1.0.5",
-            multidex       : "1.0.1",
+            multidex       : "1.0.2",
 
             // test dependencies
             equalsverifier : "2.3",

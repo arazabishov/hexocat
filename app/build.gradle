@@ -32,6 +32,8 @@ android {
 
         // Make generated apks contain version name and code.
         archivesBaseName = "app-${versionName}-${versionCode}"
+
+        multiDexEnabled true
     }
 
     lintOptions {
