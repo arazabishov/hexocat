@@ -31,6 +31,7 @@ allprojects {
     repositories {
         jcenter()
 
+        maven { url "https://jitpack.io" }
         maven { url("https://maven.google.com") }
         maven { url("https://oss.sonatype.org/content/repositories/snapshots/") }
     }
@@ -77,6 +78,7 @@ ext {
             assertj        : "2.8.0",
             junit          : "4.12",
             spoon          : "2.0.0-SNAPSHOT",
+            restmock       : "0.2.2",
 
             // plugins
             errorpronecore : "2.0.19"

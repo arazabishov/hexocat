@@ -152,6 +152,7 @@ dependencies {
 
     // Spoon client which allows to capture screenshots during instrumentation tests
     androidTestImplementation "com.squareup.spoon:spoon-client:${libraries.spoon}"
+    androidTestImplementation "com.github.andrzejchm.RESTMock:android:${libraries.restmock}"
     androidTestImplementation "com.squareup.okhttp3:mockwebserver:${libraries.okhttp}"
     androidTestImplementation "org.mockito:mockito-android:${libraries.mockito}"
     androidTestImplementation "org.assertj:assertj-core:${libraries.assertj}"
