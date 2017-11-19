@@ -9,12 +9,12 @@ import com.squareup.rx2.idler.Rx2Idler;
 
 import io.reactivex.plugins.RxJavaPlugins;
 
-public final class HexocatInstrumentationTestRunner extends AndroidJUnitRunner {
+public final class HexocatTestRunner extends AndroidJUnitRunner {
 
     @Override
     public Application newApplication(ClassLoader cl, String className, Context context)
             throws InstantiationException, IllegalAccessException, ClassNotFoundException {
-        return Instrumentation.newApplication(HexocatInstrumentationTestApp.class, context);
+        return Instrumentation.newApplication(HexocatTestApp.class, context);
     }
 
     @Override
