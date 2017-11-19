@@ -1,8 +1,8 @@
 package com.abishov.hexocat;
 
 import android.app.Activity;
+import android.app.Application;
 import android.os.StrictMode;
-import android.support.multidex.MultiDexApplication;
 import com.abishov.hexocat.common.utils.CrashReportingTree;
 import com.jakewharton.threetenabp.AndroidThreeTen;
 import com.squareup.leakcanary.LeakCanary;
@@ -15,7 +15,7 @@ import javax.inject.Inject;
 import okhttp3.HttpUrl;
 import timber.log.Timber;
 
-public class Hexocat extends MultiDexApplication implements HasActivityInjector {
+public class Hexocat extends Application implements HasActivityInjector {
 
   protected AppComponent appComponent;
   protected RefWatcher refWatcher;

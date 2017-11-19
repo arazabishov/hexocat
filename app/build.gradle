@@ -21,19 +21,16 @@ android {
     buildToolsVersion versions.tools
 
     defaultConfig {
-        applicationId "com.abishov.hexocat"
         minSdkVersion versions.minsdk
         targetSdkVersion versions.sdk
+        multiDexEnabled true
+
+        applicationId "com.abishov.hexocat"
         versionCode versionMajor * 10000 + versionMinor * 1000 + versionPatch * 100 + versionBuild
         versionName "${versionMajor}.${versionMinor}.${versionPatch}"
-
-        // Instrumentation test runner
-        testInstrumentationRunner "com.abishov.hexocat.HexocatInstrumentationTestRunner"
-
-        // Make generated apks contain version name and code.
         archivesBaseName = "app-${versionName}-${versionCode}"
 
-        multiDexEnabled true
+        testInstrumentationRunner "com.abishov.hexocat.HexocatTestRunner"
     }
 
     lintOptions {
@@ -91,7 +88,6 @@ spoon {
 }
 
 dependencies {
-    implementation "com.android.support:multidex:${libraries.multidex}"
     implementation "hu.supercluster:paperwork:${libraries.paperwork}"
 
     // Support libraries
