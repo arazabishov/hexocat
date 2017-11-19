@@ -31,7 +31,7 @@ allprojects {
     repositories {
         jcenter()
 
-        maven { url "https://jitpack.io" }
+        maven { url("https://jitpack.io") }
         maven { url("https://maven.google.com") }
         maven { url("https://oss.sonatype.org/content/repositories/snapshots/") }
     }
@@ -51,7 +51,7 @@ ext {
     libraries = [
             gson           : "2.8.1",
             dagger         : "2.12",
-            support        : "27.0.0",
+            support        : "27.0.1",
             picasso        : "2.5.2",
             okpicasso      : "1.1.0",
             paperwork      : "1.2.7",
@@ -70,6 +70,7 @@ ext {
             autovalueparcel: "0.2.5",
             findbugs       : "3.0.1",
             threetenabp    : "1.0.5",
+            multidex       : "1.0.1",
 
             // test dependencies
             equalsverifier : "2.3",

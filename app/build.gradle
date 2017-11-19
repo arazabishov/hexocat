@@ -89,6 +89,7 @@ spoon {
 }
 
 dependencies {
+    implementation "com.android.support:multidex:${libraries.multidex}"
     implementation "hu.supercluster:paperwork:${libraries.paperwork}"
 
     // Support libraries

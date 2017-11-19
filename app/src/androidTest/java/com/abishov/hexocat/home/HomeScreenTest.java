@@ -1,12 +1,13 @@
 package com.abishov.hexocat.home;
 
+import static io.appflate.restmock.utils.RequestMatchers.pathContains;
+
 import android.content.Intent;
-import android.support.test.InstrumentationRegistry;
 import android.support.test.rule.ActivityTestRule;
-import com.abishov.hexocat.HexocatInstrumentationTestApp;
 import com.abishov.hexocat.common.rule.CaptureScreenshots;
 import com.abishov.hexocat.common.rule.CaptureScreenshotsRule;
-import okhttp3.mockwebserver.MockWebServer;
+import com.abishov.hexocat.common.rule.MockWebServerRule;
+import io.appflate.restmock.RESTMockServer;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -14,29 +15,26 @@ import org.junit.Test;
 public final class HomeScreenTest {
 
   @Rule
-  public ActivityTestRule<HomeActivity> activityTestRule =
-      new CaptureScreenshotsRule<>(HomeActivity.class, false, false);
+  public final ActivityTestRule<HomeActivity> activityRule =
+      CaptureScreenshotsRule.builder(HomeActivity.class).build();
 
   @Rule
-  public MockWebServer mockWebServer = new MockWebServer();
+  public final MockWebServerRule mockWebServerRule = new MockWebServerRule();
 
   private HomeRobot homeRobot;
 
   @Before
   public void setUp() throws Exception {
     homeRobot = new HomeRobot();
-
-    HexocatInstrumentationTestApp hexocat =
-        (HexocatInstrumentationTestApp) InstrumentationRegistry.getTargetContext()
-            .getApplicationContext();
-    hexocat.overrideBaseUrl(mockWebServer.url("/mock/"));
-
-    activityTestRule.launchActivity(new Intent());
   }
 
   @Test
   @CaptureScreenshots
   public void clickOnTrendingTabMustNavigateToTrendingScreen() {
+    RESTMockServer.whenGET(pathContains("search/repositories"))
+        .thenReturnFile("search/repositories/200_trending_1.json");
+
+    activityRule.launchActivity(new Intent());
     homeRobot.navigateToTrendingScreen().someAction();
   }
 }
