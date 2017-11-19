@@ -132,6 +132,7 @@ dependencies {
     androidTestImplementation "com.squareup.okhttp3:mockwebserver:${libraries.okhttp}"
     androidTestImplementation "org.mockito:mockito-android:${libraries.mockito}"
     androidTestImplementation "com.squareup.rx.idler:rx2-idler:${libraries.rxidler}"
+    androidTestImplementation "com.jakewharton.espresso:okhttp3-idling-resource:${libraries.okhttpIdlingResource}"
 
     androidTestImplementation("com.android.support.test.espresso:espresso-idling-resource:${libraries.espresso}") {
         exclude module: "support-annotations"
