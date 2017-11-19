@@ -7,25 +7,26 @@ import com.google.gson.annotations.SerializedName;
 
 @AutoValue
 public abstract class User {
-    private static final String LOGIN = "login";
-    private static final String HTML_URL = "html_url";
-    private static final String AVATAR_URL = "avatar_url";
 
-    @SerializedName(LOGIN)
-    public abstract String login();
+  private static final String LOGIN = "login";
+  private static final String HTML_URL = "html_url";
+  private static final String AVATAR_URL = "avatar_url";
 
-    @SerializedName(HTML_URL)
-    public abstract String htmlUrl();
+  public static User create(String login,
+      String htmlUrl, String avatarUrl) {
+    return new AutoValue_User(login, htmlUrl, avatarUrl);
+  }
 
-    @SerializedName(AVATAR_URL)
-    public abstract String avatarUrl();
+  public static TypeAdapter<User> typeAdapter(Gson gson) {
+    return new AutoValue_User.GsonTypeAdapter(gson);
+  }
 
-    public static User create(String login,
-            String htmlUrl, String avatarUrl) {
-        return new AutoValue_User(login, htmlUrl, avatarUrl);
-    }
+  @SerializedName(LOGIN)
+  public abstract String login();
 
-    public static TypeAdapter<User> typeAdapter(Gson gson) {
-        return new AutoValue_User.GsonTypeAdapter(gson);
-    }
+  @SerializedName(HTML_URL)
+  public abstract String htmlUrl();
+
+  @SerializedName(AVATAR_URL)
+  public abstract String avatarUrl();
 }

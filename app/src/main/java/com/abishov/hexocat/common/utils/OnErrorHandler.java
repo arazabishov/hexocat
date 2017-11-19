@@ -5,16 +5,16 @@ import io.reactivex.functions.Consumer;
 
 public final class OnErrorHandler implements Consumer<Throwable> {
 
-    public static Consumer<Throwable> create() {
-        return new OnErrorHandler();
-    }
+  private OnErrorHandler() {
+    // use factory method
+  }
 
-    private OnErrorHandler() {
-        // use factory method
-    }
+  public static Consumer<Throwable> create() {
+    return new OnErrorHandler();
+  }
 
-    @Override
-    public void accept(Throwable throwable) {
-        throw new OnErrorNotImplementedException(throwable);
-    }
+  @Override
+  public void accept(Throwable throwable) {
+    throw new OnErrorNotImplementedException(throwable);
+  }
 }

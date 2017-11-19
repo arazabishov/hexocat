@@ -7,9 +7,10 @@ import io.reactivex.Scheduler;
  * them unit-testable.
  */
 public interface SchedulerProvider {
-    Scheduler computation();
 
-    Scheduler io();
+  Scheduler computation();
 
-    Scheduler ui();
+  Scheduler io();
+
+  Scheduler ui();
 }

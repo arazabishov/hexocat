@@ -2,30 +2,29 @@ package com.abishov.hexocat.common.utils;
 
 import android.support.annotation.Nullable;
 import android.util.Log;
-
-import java.util.Locale;
-
 import hu.supercluster.paperwork.Paperwork;
+import java.util.Locale;
 import timber.log.Timber;
 
 public final class CrashReportingTree extends Timber.Tree {
-    private final Paperwork paperwork;
 
-    public CrashReportingTree(Paperwork paperwork) {
-        this.paperwork = paperwork;
+  private final Paperwork paperwork;
+
+  public CrashReportingTree(Paperwork paperwork) {
+    this.paperwork = paperwork;
+  }
+
+  @Override
+  protected void log(int priority, String tag, String message, @Nullable Throwable throwable) {
+    if (priority == Log.VERBOSE || priority == Log.DEBUG) {
+      return;
     }
 
-    @Override
-    protected void log(int priority, String tag, String message, @Nullable Throwable throwable) {
-        if (priority == Log.VERBOSE || priority == Log.DEBUG) {
-            return;
-        }
-
-        if (priority == Log.ERROR && throwable != null) {
-            // log error using crash reporting tool
-            Timber.tag(String.format(Locale.US, "Tag=[%s], sha=[%s], date=[%s]", tag,
-                    paperwork.get("gitSha"), paperwork.get("buildDate")));
-            Timber.e(throwable, message);
-        }
+    if (priority == Log.ERROR && throwable != null) {
+      // log error using crash reporting tool
+      Timber.tag(String.format(Locale.US, "Tag=[%s], sha=[%s], date=[%s]", tag,
+          paperwork.get("gitSha"), paperwork.get("buildDate")));
+      Timber.e(throwable, message);
     }
+  }
 }
