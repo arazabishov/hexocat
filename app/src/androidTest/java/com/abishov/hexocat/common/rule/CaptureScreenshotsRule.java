@@ -13,17 +13,11 @@ public class CaptureScreenshotsRule<T extends Activity> extends ActivityTestRule
   private CaptureScreenshots captureScreenshots;
   private String testMethodName;
 
-  public CaptureScreenshotsRule(Class<T> activity) {
-    super(activity);
-    spoonRule = new SpoonRule();
+  public static <T extends Activity> Builder<T> builder(Class<T> activity) {
+    return new Builder<>(activity);
   }
 
-  public CaptureScreenshotsRule(Class<T> activity, boolean initialTouchMode) {
-    super(activity, initialTouchMode);
-    spoonRule = new SpoonRule();
-  }
-
-  public CaptureScreenshotsRule(Class<T> activity, boolean initialTouchMode, boolean launchActivity) {
+  CaptureScreenshotsRule(Class<T> activity, boolean initialTouchMode, boolean launchActivity) {
     super(activity, initialTouchMode, launchActivity);
     spoonRule = new SpoonRule();
   }
@@ -66,5 +60,30 @@ public class CaptureScreenshotsRule<T extends Activity> extends ActivityTestRule
     }
 
     spoonRule.screenshot(getActivity(), tag);
+  }
+
+  public static class Builder<T extends Activity> {
+
+    private final Class<T> activity;
+    private boolean initialTouchMode;
+    private boolean launchActivity;
+
+    Builder(Class<T> activity) {
+      this.activity = activity;
+    }
+
+    public Builder initialTouchMode() {
+      this.initialTouchMode = true;
+      return this;
+    }
+
+    public Builder launchActivity() {
+      this.launchActivity = true;
+      return this;
+    }
+
+    public CaptureScreenshotsRule<T> build() {
+      return new CaptureScreenshotsRule<T>(activity, initialTouchMode, launchActivity);
+    }
   }
 }
