@@ -1,5 +1,6 @@
 package com.abishov.hexocat.home;
 
+import static io.appflate.restmock.RESTMockServer.whenGET;
 import static io.appflate.restmock.utils.RequestMatchers.pathContains;
 
 import android.content.Intent;
@@ -7,7 +8,6 @@ import android.support.test.rule.ActivityTestRule;
 import com.abishov.hexocat.common.rule.CaptureScreenshots;
 import com.abishov.hexocat.common.rule.CaptureScreenshotsRule;
 import com.abishov.hexocat.common.rule.MockWebServerRule;
-import io.appflate.restmock.RESTMockServer;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -31,7 +31,7 @@ public final class HomeScreenTest {
   @Test
   @CaptureScreenshots
   public void clickOnTrendingTabMustNavigateToTrendingScreen() {
-    RESTMockServer.whenGET(pathContains("search/repositories"))
+    whenGET(pathContains("search/repositories"))
         .thenReturnFile("search/repositories/200_trending_1.json");
 
     activityRule.launchActivity(new Intent());
