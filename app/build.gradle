@@ -52,7 +52,6 @@ android {
     buildTypes {
         debug {
             applicationIdSuffix = ".debug"
-            testCoverageEnabled = true
             signingConfig = signingConfigs.debug
         }
     }
