@@ -11,7 +11,7 @@ buildscript {
     }
 
     dependencies {
-        classpath "com.android.tools.build:gradle:3.0.0"
+        classpath "com.android.tools.build:gradle:3.0.1"
         classpath "com.getkeepsafe.dexcount:dexcount-gradle-plugin:0.7.3"
         classpath "net.ltgt.gradle:gradle-errorprone-plugin:0.0.11"
         classpath "com.gradle:build-scan-plugin:1.9"
