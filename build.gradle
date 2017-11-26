@@ -5,45 +5,20 @@ buildscript {
     repositories {
         jcenter()
 
-        // Required by retrolambda
-        mavenCentral()
-
-        // Required by build-scan and error-prone plugins.
-        maven {
-            url("https://plugins.gradle.org/m2/")
-        }
-
-        // Repository for support dependencies
-        maven {
-            url("https://maven.google.com")
-        }
+        maven { url("https://oss.sonatype.org/content/repositories/snapshots/") }
+        maven { url("https://plugins.gradle.org/m2/") }
+        maven { url("https://maven.google.com") }
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.0.0-rc1'
-
-        // provides insight on how many method references
-        // are present in dex file
+        classpath "com.android.tools.build:gradle:3.0.1"
         classpath "com.getkeepsafe.dexcount:dexcount-gradle-plugin:0.7.3"
-
-        // semantic, static analysis of the source code
         classpath "net.ltgt.gradle:gradle-errorprone-plugin:0.0.11"
-
-        // enables cloud features of gradle plugin
         classpath "com.gradle:build-scan-plugin:1.9"
-
-        // allows to set BuildConfig fields during compilation
-        // without breaking incremental compilation
         classpath "hu.supercluster:paperwork-plugin:1.2.7"
-
-        // generates test reports with screenshots
-        classpath "com.stanfy.spoon:spoon-gradle-plugin:1.2.2"
-
-        // static analysis tool
         classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.5"
-
-        // check the latest version of the artifacts
-        classpath "com.github.ben-manes:gradle-versions-plugin:0.15.0"
+        classpath "com.github.ben-manes:gradle-versions-plugin:0.17.0"
+        classpath "com.jaredsburrows:gradle-spoon-plugin:1.1.0"
     }
 }
 
@@ -56,10 +31,9 @@ allprojects {
     repositories {
         jcenter()
 
-        // Repository for support dependencies
-        maven {
-            url("https://maven.google.com")
-        }
+        maven { url("https://jitpack.io") }
+        maven { url("https://maven.google.com") }
+        maven { url("https://oss.sonatype.org/content/repositories/snapshots/") }
     }
 }
 
@@ -75,36 +49,39 @@ ext {
     ]
 
     libraries = [
-            gson           : "2.8.1",
-            dagger         : "2.12",
-            support        : "26.1.0",
-            picasso        : "2.5.2",
-            okpicasso      : "1.1.0",
-            paperwork      : "1.2.7",
-            timber         : "4.5.1",
-            leakcanary     : "1.5.1",
-            rxjava         : "2.1.0",
-            rxandroid      : "2.0.1",
-            rxbindings     : "2.0.0",
-            butterknife    : "8.8.1",
-            okhttp         : "3.9.0",
-            retrofit       : "2.3.0",
-            autovalueann   : "1.5",
-            autovalue      : "1.5.1",
-            autovaluegson  : "0.6.0",
-            autovalueparcel: "0.2.5",
-            findbugs       : "3.0.1",
-            threetenabp    : "1.0.5",
+            gson                : "2.8.1",
+            dagger              : "2.12",
+            support             : "27.0.1",
+            picasso             : "2.5.2",
+            okpicasso           : "1.1.0",
+            paperwork           : "1.2.7",
+            timber              : "4.5.1",
+            leakcanary          : "1.5.1",
+            rxjava              : "2.1.6",
+            rxidler             : "0.9.0",
+            rxandroid           : "2.0.1",
+            rxbindings          : "2.0.0",
+            butterknife         : "8.8.1",
+            okhttp              : "3.9.0",
+            retrofit            : "2.3.0",
+            autovalueann        : "1.5",
+            autovalue           : "1.5.1",
+            autovaluegson       : "0.6.0",
+            autovalueparcel     : "0.2.5",
+            findbugs            : "3.0.1",
+            threetenabp         : "1.0.5",
 
             // test dependencies
-            equalsverifier : "2.3",
-            espresso       : "2.2.2",
-            mockito        : "2.8.9",
-            assertj        : "2.8.0",
-            junit          : "4.12",
-            spoon          : "1.7.1",
+            equalsverifier      : "2.3",
+            espresso            : "2.2.2",
+            mockito             : "2.8.9",
+            assertj             : "2.8.0",
+            junit               : "4.12",
+            spoon               : "2.0.0-SNAPSHOT",
+            restmock            : "0.2.2",
+            okhttpIdlingResource: "1.0.0",
 
             // plugins
-            errorpronecore : "2.0.19"
+            errorpronecore      : "2.0.19"
     ]
 }
