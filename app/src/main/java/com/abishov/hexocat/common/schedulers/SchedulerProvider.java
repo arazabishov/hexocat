@@ -1,0 +1,16 @@
+package com.abishov.hexocat.common.schedulers;
+
+import io.reactivex.Scheduler;
+
+/**
+ * Used to decouple schedulers from RxJava chains in order to make
+ * them unit-testable.
+ */
+public interface SchedulerProvider {
+
+  Scheduler computation();
+
+  Scheduler io();
+
+  Scheduler ui();
+}
