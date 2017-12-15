@@ -14,11 +14,15 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import io.reactivex.Observable;
 import io.reactivex.functions.Consumer;
 import javax.inject.Inject;
+import org.threeten.bp.Clock;
 import org.threeten.bp.LocalDate;
 
 public final class TrendingFragment extends BaseFragment implements TrendingContract.View {
 
   private static final String ARG_DAYS = "arg:days";
+
+  @Inject
+  Clock clock;
 
   @Inject
   TrendingContract.Presenter presenter;
@@ -65,7 +69,7 @@ public final class TrendingFragment extends BaseFragment implements TrendingCont
   public Observable<SearchQuery> searchQueries() {
     int days = getArguments().getInt(ARG_DAYS);
     SearchQuery searchQuery = new SearchQuery.Builder()
-        .createdSince(LocalDate.now().minusDays(days))
+        .createdSince(LocalDate.now(clock).minusDays(days))
         .build();
     return Observable.merge(view.onSwipeRefreshLayout(), view.onRetry())
         .startWith(new Object())

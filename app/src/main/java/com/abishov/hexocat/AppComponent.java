@@ -12,6 +12,7 @@ import javax.annotation.Nullable;
 import javax.inject.Singleton;
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
+import org.threeten.bp.Clock;
 
 @Singleton
 @Component(modules = {
@@ -30,6 +31,9 @@ public interface AppComponent {
 
   @Component.Builder
   interface Builder {
+
+    @BindsInstance
+    Builder clock(Clock clock);
 
     @BindsInstance
     Builder baseUrl(HttpUrl baseUrl);

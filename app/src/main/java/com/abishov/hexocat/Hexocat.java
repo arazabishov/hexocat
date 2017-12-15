@@ -13,6 +13,7 @@ import dagger.android.HasActivityInjector;
 import hu.supercluster.paperwork.Paperwork;
 import javax.inject.Inject;
 import okhttp3.HttpUrl;
+import org.threeten.bp.Clock;
 import timber.log.Timber;
 
 public class Hexocat extends Application implements HasActivityInjector {
@@ -80,7 +81,6 @@ public class Hexocat extends Application implements HasActivityInjector {
 
   protected void setUpTimber() {
     if (BuildConfig.DEBUG) {
-      // Verbose logging for debug builds.
       Timber.plant(new Timber.DebugTree());
     } else {
       Timber.plant(new CrashReportingTree(paperwork));
@@ -90,6 +90,7 @@ public class Hexocat extends Application implements HasActivityInjector {
   protected AppComponent prepareAppComponent() {
     return DaggerAppComponent.builder()
         .baseUrl(HttpUrl.parse("http://api.github.com"))
+        .clock(Clock.systemDefaultZone())
         .application(this)
         .build();
   }
