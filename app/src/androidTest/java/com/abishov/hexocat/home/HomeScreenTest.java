@@ -1,15 +1,23 @@
 package com.abishov.hexocat.home;
 
 import static io.appflate.restmock.RESTMockServer.whenGET;
+import static io.appflate.restmock.utils.RequestMatchers.hasExactQueryParameters;
 import static io.appflate.restmock.utils.RequestMatchers.pathContains;
+import static org.hamcrest.CoreMatchers.allOf;
 
 import android.content.Intent;
+import android.support.test.espresso.Espresso;
 import android.support.test.rule.ActivityTestRule;
+import com.abishov.hexocat.HexocatTestApp;
 import com.abishov.hexocat.common.rule.CaptureScreenshots;
 import com.abishov.hexocat.common.rule.CaptureScreenshotsRule;
 import com.abishov.hexocat.home.trending.TrendingRobot;
+import com.jakewharton.espresso.OkHttp3IdlingResource;
 import io.appflate.restmock.RESTMockServer;
 import io.appflate.restmock.RequestsVerifier;
+import io.appflate.restmock.utils.QueryParam;
+import okhttp3.HttpUrl;
+import okhttp3.OkHttpClient;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -26,7 +34,12 @@ public final class HomeScreenTest {
 
   @Before
   public void setUp() throws Exception {
+    HexocatTestApp.overrideBaseUrl(HttpUrl.parse(RESTMockServer.getUrl()));
     RESTMockServer.reset();
+
+    OkHttpClient client = HexocatTestApp.getInstance().appComponent().okHttpClient();
+    Espresso.registerIdlingResources(OkHttp3IdlingResource.create("okhttp", client));
+
     homeRobot = new HomeRobot();
   }
 
@@ -51,7 +64,16 @@ public final class HomeScreenTest {
     trendingRobot.withRepositoryItemAt(4)
         .withName("deepo");
 
-    // TODO: refactor TrendingPagerView to load only one page at a time
-    RequestsVerifier.verifyGET(pathContains("search/repositories")).atLeast(1);
+    RequestsVerifier.verifyGET(allOf(pathContains("search/repositories"), hasExactQueryParameters(
+        new QueryParam("q", "created:>=2017-08-29"),
+        new QueryParam("sort", "watchers"),
+        new QueryParam("order", "desc"))
+    )).exactly(1);
+
+    RequestsVerifier.verifyGET(allOf(pathContains("search/repositories"), hasExactQueryParameters(
+        new QueryParam("q", "created:>=2017-08-23"),
+        new QueryParam("sort", "watchers"),
+        new QueryParam("order", "desc"))
+    )).exactly(1);
   }
 }
