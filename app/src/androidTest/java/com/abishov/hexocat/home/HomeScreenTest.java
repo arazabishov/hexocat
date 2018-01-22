@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.support.test.espresso.Espresso;
 import android.support.test.rule.ActivityTestRule;
 import com.abishov.hexocat.HexocatTestApp;
+import com.abishov.hexocat.R;
 import com.abishov.hexocat.common.rule.CaptureScreenshots;
 import com.abishov.hexocat.common.rule.CaptureScreenshotsRule;
 import com.abishov.hexocat.home.trending.TrendingRobot;
@@ -53,12 +54,12 @@ public final class HomeScreenTest {
 
     TrendingRobot trendingRobot = homeRobot.navigateToTrendingScreen();
 
-    // TODO: check drawables - stars, forks and avatar
-
     trendingRobot.withRepositoryItemAt(0)
         .withName("charts")
         .withStars(8760)
         .withForks(263)
+        .withStarIcon()
+        .withForkIcon()
         .withDescription("frappe — Responsive, modern SVG Charts with zero dependencies");
 
     trendingRobot.withRepositoryItemAt(1)

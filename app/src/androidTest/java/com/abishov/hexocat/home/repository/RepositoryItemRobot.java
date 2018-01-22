@@ -7,6 +7,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withChild;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static com.abishov.hexocat.common.espresso.DrawableMatcher.withCompoundDrawable;
 import static com.abishov.hexocat.common.espresso.RecyclerViewMatcher.atPosition;
 import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.CoreMatchers.instanceOf;
@@ -52,11 +53,32 @@ public final class RepositoryItemRobot {
     return this;
   }
 
+  public RepositoryItemRobot withStarIcon() {
+    matchesAtPosition(withChild(allOf(instanceOf(LinearLayout.class),
+        withChild(allOf(
+            withParent(instanceOf(LinearLayout.class)),
+            withId(R.id.textview_repository_stars),
+            withCompoundDrawable(R.drawable.ic_star)
+        )))
+    ));
+    return this;
+  }
+
   public RepositoryItemRobot withForks(int forks) {
     matchesAtPosition(withChild(allOf(instanceOf(LinearLayout.class),
         withChild(allOf(
             withId(R.id.textview_repository_forks),
             withText(String.valueOf(forks))
+        )))
+    ));
+    return this;
+  }
+
+  public RepositoryItemRobot withForkIcon() {
+    matchesAtPosition(withChild(allOf(instanceOf(LinearLayout.class),
+        withChild(allOf(
+            withId(R.id.textview_repository_forks),
+            withCompoundDrawable(R.drawable.ic_fork)
         )))
     ));
     return this;
