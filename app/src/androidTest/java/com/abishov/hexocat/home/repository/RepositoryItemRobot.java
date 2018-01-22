@@ -47,17 +47,7 @@ public final class RepositoryItemRobot {
         withChild(allOf(
             withParent(instanceOf(LinearLayout.class)),
             withId(R.id.textview_repository_stars),
-            withText(String.valueOf(stars))
-        )))
-    ));
-    return this;
-  }
-
-  public RepositoryItemRobot withStarIcon() {
-    matchesAtPosition(withChild(allOf(instanceOf(LinearLayout.class),
-        withChild(allOf(
-            withParent(instanceOf(LinearLayout.class)),
-            withId(R.id.textview_repository_stars),
+            withText(String.valueOf(stars)),
             withCompoundDrawable(R.drawable.ic_star)
         )))
     ));
@@ -68,16 +58,7 @@ public final class RepositoryItemRobot {
     matchesAtPosition(withChild(allOf(instanceOf(LinearLayout.class),
         withChild(allOf(
             withId(R.id.textview_repository_forks),
-            withText(String.valueOf(forks))
-        )))
-    ));
-    return this;
-  }
-
-  public RepositoryItemRobot withForkIcon() {
-    matchesAtPosition(withChild(allOf(instanceOf(LinearLayout.class),
-        withChild(allOf(
-            withId(R.id.textview_repository_forks),
+            withText(String.valueOf(forks)),
             withCompoundDrawable(R.drawable.ic_fork)
         )))
     ));

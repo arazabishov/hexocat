@@ -9,7 +9,6 @@ import android.content.Intent;
 import android.support.test.espresso.Espresso;
 import android.support.test.rule.ActivityTestRule;
 import com.abishov.hexocat.HexocatTestApp;
-import com.abishov.hexocat.R;
 import com.abishov.hexocat.common.rule.CaptureScreenshots;
 import com.abishov.hexocat.common.rule.CaptureScreenshotsRule;
 import com.abishov.hexocat.home.trending.TrendingRobot;
@@ -58,18 +57,34 @@ public final class HomeScreenTest {
         .withName("charts")
         .withStars(8760)
         .withForks(263)
-        .withStarIcon()
-        .withForkIcon()
         .withDescription("frappe — Responsive, modern SVG Charts with zero dependencies");
-
     trendingRobot.withRepositoryItemAt(1)
-        .withName("state-of-the-art-result-for-machine-learning-problems");
+        .withName("state-of-the-art-result-for-machine-learning-problems")
+        .withStars(4238)
+        .withForks(597)
+        .withDescription("RedditSota — This repository provides state of the art "
+            + "(SoTA) results for all machine learning problems.");
     trendingRobot.withRepositoryItemAt(2)
-        .withName("hangzhouYunQi2017ppt");
+        .withName("hangzhouYunQi2017ppt")
+        .withStars(3998)
+        .withForks(1649)
+        .withDescription("Alibaba-Technology");
     trendingRobot.withRepositoryItemAt(3)
-        .withName("bottery");
+        .withName("bottery")
+        .withStars(3131)
+        .withForks(143)
+        .withDescription("google");
     trendingRobot.withRepositoryItemAt(4)
-        .withName("deepo");
+        .withName("deepo")
+        .withStars(2699)
+        .withForks(163)
+        .withDescription("ufoym — A Docker image containing almost all popular"
+            + " deep learning frameworks.");
+    trendingRobot.withRepositoryItemAt(5)
+        .withName("nba-go")
+        .withStars(2575)
+        .withForks(118)
+        .withDescription("xxhomey19 — The finest NBA CLI.");
 
     RequestsVerifier.verifyGET(allOf(pathContains("search/repositories"), hasExactQueryParameters(
         new QueryParam("q", "created:>=2017-08-29"),
