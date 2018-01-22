@@ -53,8 +53,14 @@ public final class HomeScreenTest {
 
     TrendingRobot trendingRobot = homeRobot.navigateToTrendingScreen();
 
+    // TODO: check drawables - stars, forks and avatar
+
     trendingRobot.withRepositoryItemAt(0)
-        .withName("charts");
+        .withName("charts")
+        .withStars(8760)
+        .withForks(263)
+        .withDescription("frappe — Responsive, modern SVG Charts with zero dependencies");
+
     trendingRobot.withRepositoryItemAt(1)
         .withName("state-of-the-art-result-for-machine-learning-problems");
     trendingRobot.withRepositoryItemAt(2)
