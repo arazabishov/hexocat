@@ -38,17 +38,20 @@ public final class DrawableMatcher {
   }
 
   private static boolean sameBitmap(Context context, Drawable drawable, int resourceId) {
-    Drawable otherDrawable = context.getResources().getDrawable(resourceId);
-    if (drawable == null || otherDrawable == null) {
+    return sameBitmap(drawable, context.getResources().getDrawable(resourceId));
+  }
+
+  private static boolean sameBitmap(Drawable first, Drawable second) {
+    if (first == null || second == null) {
       return false;
     }
-    if (drawable instanceof StateListDrawable && otherDrawable instanceof StateListDrawable) {
-      drawable = drawable.getCurrent();
-      otherDrawable = otherDrawable.getCurrent();
+    if (first instanceof StateListDrawable && second instanceof StateListDrawable) {
+      first = first.getCurrent();
+      second = second.getCurrent();
     }
-    if (drawable instanceof BitmapDrawable) {
-      Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
-      Bitmap otherBitmap = ((BitmapDrawable) otherDrawable).getBitmap();
+    if (first instanceof BitmapDrawable) {
+      Bitmap bitmap = ((BitmapDrawable) first).getBitmap();
+      Bitmap otherBitmap = ((BitmapDrawable) second).getBitmap();
       return bitmap.sameAs(otherBitmap);
     }
     return false;

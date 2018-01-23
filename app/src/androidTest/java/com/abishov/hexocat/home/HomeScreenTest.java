@@ -6,18 +6,13 @@ import static io.appflate.restmock.utils.RequestMatchers.pathContains;
 import static org.hamcrest.CoreMatchers.allOf;
 
 import android.content.Intent;
-import android.support.test.espresso.Espresso;
 import android.support.test.rule.ActivityTestRule;
-import com.abishov.hexocat.HexocatTestApp;
 import com.abishov.hexocat.common.rule.CaptureScreenshots;
 import com.abishov.hexocat.common.rule.CaptureScreenshotsRule;
+import com.abishov.hexocat.common.rule.MockWebServerRule;
 import com.abishov.hexocat.home.trending.TrendingRobot;
-import com.jakewharton.espresso.OkHttp3IdlingResource;
-import io.appflate.restmock.RESTMockServer;
 import io.appflate.restmock.RequestsVerifier;
 import io.appflate.restmock.utils.QueryParam;
-import okhttp3.HttpUrl;
-import okhttp3.OkHttpClient;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -30,16 +25,13 @@ public final class HomeScreenTest {
           .initialTouchMode()
           .build();
 
+  @Rule
+  public final MockWebServerRule mockWebServerRule = new MockWebServerRule();
+
   private HomeRobot homeRobot;
 
   @Before
   public void setUp() throws Exception {
-    HexocatTestApp.overrideBaseUrl(HttpUrl.parse(RESTMockServer.getUrl()));
-    RESTMockServer.reset();
-
-    OkHttpClient client = HexocatTestApp.getInstance().appComponent().okHttpClient();
-    Espresso.registerIdlingResources(OkHttp3IdlingResource.create("okhttp", client));
-
     homeRobot = new HomeRobot();
   }
 
@@ -86,16 +78,37 @@ public final class HomeScreenTest {
         .withForks(118)
         .withDescription("xxhomey19 — The finest NBA CLI.");
 
-    RequestsVerifier.verifyGET(allOf(pathContains("search/repositories"), hasExactQueryParameters(
-        new QueryParam("q", "created:>=2017-08-29"),
-        new QueryParam("sort", "watchers"),
-        new QueryParam("order", "desc"))
+    RequestsVerifier.verifyGET(allOf(pathContains("search/repositories"),
+        hasExactQueryParameters(
+            new QueryParam("q", "created:>=2017-08-29"),
+            new QueryParam("sort", "watchers"),
+            new QueryParam("order", "desc"))
     )).exactly(1);
 
-    RequestsVerifier.verifyGET(allOf(pathContains("search/repositories"), hasExactQueryParameters(
-        new QueryParam("q", "created:>=2017-08-23"),
-        new QueryParam("sort", "watchers"),
-        new QueryParam("order", "desc"))
+    RequestsVerifier.verifyGET(allOf(pathContains("search/repositories"),
+        hasExactQueryParameters(
+            new QueryParam("q", "created:>=2017-08-23"),
+            new QueryParam("sort", "watchers"),
+            new QueryParam("order", "desc"))
     )).exactly(1);
+  }
+
+  public void mustRenderTrendingRepositoriesForWeek() {
+  }
+
+  public void mustRenderTrendingRepositoriesForMonth() {
+  }
+
+  public void mustRenderRetryButtoOnTimeout() {
+    // TODO: matching on Toasts (see amazon examples)
+  }
+
+  public void mustRenderRetryButtonOnIoException() {
+  }
+
+  public void mustRequestBackendAfterRetryButtonClicked() {
+  }
+
+  public void mustNavigateToBrowserOnRepositoryItemClicked() {
   }
 }
