@@ -39,7 +39,7 @@ public final class HomeScreenTest {
   @CaptureScreenshots
   public void mustRenderTrendingRepositoriesForToday() {
     whenGET(pathContains("search/repositories"))
-        .thenReturnFile("search/repositories/200_trending_today.json");
+        .thenReturnFile("response/search/repositories/200_trending.json");
 
     activityRule.launchActivity(new Intent());
 
