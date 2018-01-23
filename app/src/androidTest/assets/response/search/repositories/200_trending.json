@@ -9,7 +9,7 @@
       "owner": {
         "login": "frappe",
         "id": 836974,
-        "avatar_url": "mock:///avatars/avatar_1.png",
+        "avatar_url": "mock:///response/repositories/images/avatar_1.png",
         "gravatar_id": "",
         "url": "https://api.github.com/users/frappe",
         "html_url": "https://github.com/frappe",
@@ -100,7 +100,7 @@
       "owner": {
         "login": "RedditSota",
         "id": 33503115,
-        "avatar_url": "mock:///avatars/avatar_2.png",
+        "avatar_url": "mock:///response/repositories/images/avatar_2.png",
         "gravatar_id": "",
         "url": "https://api.github.com/users/RedditSota",
         "html_url": "https://github.com/RedditSota",
@@ -191,7 +191,7 @@
       "owner": {
         "login": "Alibaba-Technology",
         "id": 33146664,
-        "avatar_url": "mock:///avatars/avatar_1.png",
+        "avatar_url": "mock:///response/repositories/images/avatar_1.png",
         "gravatar_id": "",
         "url": "https://api.github.com/users/Alibaba-Technology",
         "html_url": "https://github.com/Alibaba-Technology",
@@ -282,7 +282,7 @@
       "owner": {
         "login": "google",
         "id": 1342004,
-        "avatar_url": "mock:///avatars/avatar_2.png",
+        "avatar_url": "mock:///response/repositories/images/avatar_2.png",
         "gravatar_id": "",
         "url": "https://api.github.com/users/google",
         "html_url": "https://github.com/google",
@@ -373,7 +373,7 @@
       "owner": {
         "login": "ufoym",
         "id": 2270240,
-        "avatar_url": "mock:///avatars/avatar_1.png",
+        "avatar_url": "mock:///response/repositories/images/avatar_1.png",
         "gravatar_id": "",
         "url": "https://api.github.com/users/ufoym",
         "html_url": "https://github.com/ufoym",
@@ -464,7 +464,7 @@
       "owner": {
         "login": "xxhomey19",
         "id": 12113222,
-        "avatar_url": "mock:///avatars/avatar_2.png",
+        "avatar_url": "mock:///response/repositories/images/avatar_2.png",
         "gravatar_id": "",
         "url": "https://api.github.com/users/xxhomey19",
         "html_url": "https://github.com/xxhomey19",
