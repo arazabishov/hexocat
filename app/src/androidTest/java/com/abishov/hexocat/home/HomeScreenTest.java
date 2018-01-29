@@ -181,12 +181,23 @@ public final class HomeScreenTest {
   }
 
   @Test
-  public void mustRenderRetryButtoOnTimeout() {
-    // TODO: matching on Toasts (see amazon examples)
+  public void mustRender400ErrorMessage() {
+    activityRule.launchActivity(new Intent());
+
+    homeRobot.navigateToTrendingScreen()
+        .withTrendingTab(R.string.trending_today)
+        .withErrorMessage("HTTP 400 Error")
+        .withRetryButtonVisible();
   }
 
   @Test
-  public void mustRenderRetryButtonOnIoException() {
+  public void mustRender500ErrorMessage() {
+    activityRule.launchActivity(new Intent());
+
+    homeRobot.navigateToTrendingScreen()
+        .withTrendingTab(R.string.trending_today)
+        .withErrorMessage("HTTP 500 Server Error")
+        .withRetryButtonVisible();
   }
 
   @Test
@@ -194,10 +205,10 @@ public final class HomeScreenTest {
   }
 
   @Test
-  public void mustNavigateToBrowserOnRepositoryItemClicked() {
+  public void mustRequestBackendAfterPullToRefresh() {
   }
 
-  // mustShowNoConnectionMessageOn404
-  // mustShowNoConnectionMessageOn500
-  // checkPullToRefreshBehaviour
+  @Test
+  public void mustNavigateToBrowserOnRepositoryItemClicked() {
+  }
 }

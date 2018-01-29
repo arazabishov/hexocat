@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 import butterknife.BindDimen;
 import butterknife.BindView;
@@ -33,6 +34,9 @@ public final class TrendingView extends FrameLayout {
 
   @BindView(R.id.button_retry)
   Button buttonRetry;
+
+  @BindView(R.id.textview_error)
+  TextView textViewError;
 
   @BindDimen(R.dimen.trending_divider_padding_start)
   float dividerPaddingStart;
@@ -72,12 +76,12 @@ public final class TrendingView extends FrameLayout {
       recyclerViewTrending.setVisibility(state.isSuccess() ? View.VISIBLE : View.GONE);
       swipeRefreshLayout.setRefreshing(state.isInProgress());
       buttonRetry.setVisibility(state.isFailure() ? View.VISIBLE : View.GONE);
+      textViewError.setVisibility(state.isFailure() ? View.VISIBLE : View.GONE);
 
       if (state.isSuccess()) {
         repositoryAdapter.accept(state.items());
       } else if (state.isFailure()) {
-        Toast.makeText(getContext(),
-            state.error(), Toast.LENGTH_SHORT).show();
+        textViewError.setText(state.error());
       }
     };
   }
