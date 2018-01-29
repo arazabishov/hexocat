@@ -71,7 +71,7 @@ public final class TrendingView extends FrameLayout {
     return RxView.clicks(buttonRetry);
   }
 
-  public Consumer<TrendingViewState> bindTo() {
+  public Consumer<TrendingViewState> bindTo() { // NOPMD
     return state -> {
       recyclerViewTrending.setVisibility(state.isSuccess() ? View.VISIBLE : View.GONE);
       swipeRefreshLayout.setRefreshing(state.isInProgress());

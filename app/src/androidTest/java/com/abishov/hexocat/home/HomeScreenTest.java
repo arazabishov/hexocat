@@ -182,22 +182,78 @@ public final class HomeScreenTest {
 
   @Test
   public void mustRender400ErrorMessage() {
+    whenGET(allOf(pathContains("search/repositories"),
+        hasExactQueryParameters(
+            new QueryParam("q", "created:>=2017-08-29"),
+            new QueryParam("sort", "watchers"),
+            new QueryParam("order", "desc"))
+    )).thenReturnEmpty(400);
+
     activityRule.launchActivity(new Intent());
 
     homeRobot.navigateToTrendingScreen()
         .withTrendingTab(R.string.trending_today)
-        .withErrorMessage("HTTP 400 Error")
+        .withErrorMessage("HTTP 400 Client Error")
         .withRetryButtonVisible();
+
+    verifyGET(allOf(pathContains("search/repositories"),
+        hasExactQueryParameters(
+            new QueryParam("q", "created:>=2017-08-29"),
+            new QueryParam("sort", "watchers"),
+            new QueryParam("order", "desc"))
+    )).exactly(1);
+
+    verifyGET(allOf(pathContains("search/repositories"),
+        hasExactQueryParameters(
+            new QueryParam("q", "created:>=2017-08-23"),
+            new QueryParam("sort", "watchers"),
+            new QueryParam("order", "desc"))
+    )).exactly(1);
+
+    verifyGET(allOf(pathContains("search/repositories"),
+        hasExactQueryParameters(
+            new QueryParam("q", "created:>=2017-07-31"),
+            new QueryParam("sort", "watchers"),
+            new QueryParam("order", "desc"))
+    )).never();
   }
 
   @Test
   public void mustRender500ErrorMessage() {
+    whenGET(allOf(pathContains("search/repositories"),
+        hasExactQueryParameters(
+            new QueryParam("q", "created:>=2017-08-29"),
+            new QueryParam("sort", "watchers"),
+            new QueryParam("order", "desc"))
+    )).thenReturnEmpty(500);
+
     activityRule.launchActivity(new Intent());
 
     homeRobot.navigateToTrendingScreen()
         .withTrendingTab(R.string.trending_today)
         .withErrorMessage("HTTP 500 Server Error")
         .withRetryButtonVisible();
+
+    verifyGET(allOf(pathContains("search/repositories"),
+        hasExactQueryParameters(
+            new QueryParam("q", "created:>=2017-08-29"),
+            new QueryParam("sort", "watchers"),
+            new QueryParam("order", "desc"))
+    )).exactly(1);
+
+    verifyGET(allOf(pathContains("search/repositories"),
+        hasExactQueryParameters(
+            new QueryParam("q", "created:>=2017-08-23"),
+            new QueryParam("sort", "watchers"),
+            new QueryParam("order", "desc"))
+    )).exactly(1);
+
+    verifyGET(allOf(pathContains("search/repositories"),
+        hasExactQueryParameters(
+            new QueryParam("q", "created:>=2017-07-31"),
+            new QueryParam("sort", "watchers"),
+            new QueryParam("order", "desc"))
+    )).never();
   }
 
   @Test
