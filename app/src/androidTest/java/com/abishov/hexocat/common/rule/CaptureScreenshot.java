@@ -8,7 +8,7 @@ import java.lang.annotation.Target;
 
 @Target(METHOD)
 @Retention(RUNTIME)
-public @interface CaptureScreenshots {
+public @interface CaptureScreenshot {
 
   String before() default "";
 
