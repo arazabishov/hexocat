@@ -45,7 +45,7 @@ class TrendingPresenter implements TrendingContract.Presenter {
               String forks = String.valueOf(repo.forks());
               String stars = String.valueOf(repo.stars());
               return RepositoryViewModel.create(repo.name(), description,
-                  forks, stars, repo.owner().avatarUrl(), repo.owner().login());
+                  forks, stars, repo.owner().avatarUrl(), repo.owner().login(), repo.htmlUrl());
             })
             .toList().toObservable())
         .map(TrendingViewState::success)
