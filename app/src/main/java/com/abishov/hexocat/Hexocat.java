@@ -1,116 +1,105 @@
 package com.abishov.hexocat;
 
+import android.app.Activity;
 import android.app.Application;
 import android.os.StrictMode;
-import android.support.annotation.VisibleForTesting;
-
-import com.abishov.hexocat.commons.network.NetworkComponent;
-import com.abishov.hexocat.commons.network.NetworkModule;
-import com.abishov.hexocat.commons.utils.CrashReportingTree;
+import com.abishov.hexocat.common.utils.CrashReportingTree;
 import com.jakewharton.threetenabp.AndroidThreeTen;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
-
-import javax.inject.Inject;
-
+import dagger.android.AndroidInjector;
+import dagger.android.DispatchingAndroidInjector;
+import dagger.android.HasActivityInjector;
 import hu.supercluster.paperwork.Paperwork;
+import javax.inject.Inject;
 import okhttp3.HttpUrl;
+import org.threeten.bp.Clock;
 import timber.log.Timber;
 
-public class Hexocat extends Application {
-    private AppComponent appComponent;
-    private NetworkComponent networkComponent;
-    private RefWatcher refWatcher;
+public class Hexocat extends Application implements HasActivityInjector {
 
-    @Inject
-    Paperwork paperwork;
+  protected AppComponent appComponent;
+  protected RefWatcher refWatcher;
 
-    @Override
-    public void onCreate() {
-        super.onCreate();
+  @Inject
+  DispatchingAndroidInjector<Activity> dispatchingAndroidInjector;
 
-        if (LeakCanary.isInAnalyzerProcess(this)) {
-            // this process is going to be used to
-            // analyze heap dumps by LeakCanary
-            return;
-        }
+  @Inject
+  Paperwork paperwork;
 
-        AndroidThreeTen.init(this);
+  @Override
+  public void onCreate() {
+    super.onCreate();
 
-        setupAppComponent();
-        setupNetworkComponent();
-        setUpLeakCanary();
-        setUpTimber();
-
-        // Do not allow to do any work on the
-        // main thread. Detect activity leaks.
-        setupStrictMode();
+    if (LeakCanary.isInAnalyzerProcess(this)) {
+      // this process is going to be used to
+      // analyze heap dumps by LeakCanary
+      return;
     }
 
-    private void setupStrictMode() {
-        if (BuildConfig.DEBUG) {
-            StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
-                    .detectAll()
-                    .penaltyLog()
-                    .build());
-            StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
-                    .detectAll()
-                    .penaltyLog()
-                    .build());
-        }
-    }
+    AndroidThreeTen.init(this);
 
-    private void setupAppComponent() {
-        appComponent = prepareAppComponent();
-        appComponent.inject(this);
-    }
+    setupAppComponent();
+    setUpLeakCanary();
+    setUpTimber();
 
-    private void setupNetworkComponent() {
-        networkComponent = prepareNetworkComponent();
-    }
+    // Do not allow to do any work on the
+    // main thread. Detect activity leaks.
+    setupStrictMode();
+  }
 
-    private void setUpLeakCanary() {
-        if (BuildConfig.DEBUG) {
-            refWatcher = LeakCanary.install(this);
-        } else {
-            refWatcher = RefWatcher.DISABLED;
-        }
-    }
+  @Override
+  public AndroidInjector<Activity> activityInjector() {
+    return dispatchingAndroidInjector;
+  }
 
-    private void setUpTimber() {
-        if (BuildConfig.DEBUG) {
-            // Verbose logging for debug builds.
-            Timber.plant(new Timber.DebugTree());
-        } else {
-            Timber.plant(new CrashReportingTree(paperwork));
-        }
+  private void setupStrictMode() {
+    if (BuildConfig.DEBUG) {
+      StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
+          .detectAll()
+          .penaltyLog()
+          .build());
+      StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
+          .detectAll()
+          .penaltyLog()
+          .build());
     }
+  }
 
-    protected AppComponent prepareAppComponent() {
-        return DaggerAppComponent.builder()
-                .appModule(new AppModule(this))
-                .build();
+  protected void setupAppComponent() {
+    appComponent = prepareAppComponent();
+    appComponent.inject(this);
+  }
+
+  protected void setUpLeakCanary() {
+    if (BuildConfig.DEBUG) {
+      refWatcher = LeakCanary.install(this);
+    } else {
+      refWatcher = RefWatcher.DISABLED;
     }
+  }
 
-    @VisibleForTesting
-    protected NetworkComponent prepareNetworkComponent() {
-        return appComponent.plus(new NetworkModule(
-                HttpUrl.parse("http://api.github.com")));
+  protected void setUpTimber() {
+    if (BuildConfig.DEBUG) {
+      Timber.plant(new Timber.DebugTree());
+    } else {
+      Timber.plant(new CrashReportingTree(paperwork));
     }
+  }
 
-    public AppComponent appComponent() {
-        return appComponent;
-    }
+  protected AppComponent prepareAppComponent() {
+    return DaggerAppComponent.builder()
+        .baseUrl(HttpUrl.parse("http://api.github.com"))
+        .clock(Clock.systemDefaultZone())
+        .application(this)
+        .build();
+  }
 
-    public NetworkComponent networkComponent() {
-        if (networkComponent == null) {
-            networkComponent = prepareNetworkComponent();
-        }
+  public AppComponent appComponent() {
+    return appComponent;
+  }
 
-        return networkComponent;
-    }
-
-    public RefWatcher refWatcher() {
-        return refWatcher;
-    }
+  public RefWatcher refWatcher() {
+    return refWatcher;
+  }
 }

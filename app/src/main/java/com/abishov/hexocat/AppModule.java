@@ -2,31 +2,23 @@ package com.abishov.hexocat;
 
 import android.app.Application;
 import android.content.Context;
-
-import javax.inject.Singleton;
-
+import dagger.Binds;
 import dagger.Module;
 import dagger.Provides;
 import hu.supercluster.paperwork.Paperwork;
+import javax.inject.Singleton;
 
-@Singleton
 @Module
-final class AppModule {
-    private final Application app;
+@Singleton
+abstract class AppModule {
 
-    AppModule(Application app) {
-        this.app = app;
-    }
+  @Provides
+  @Singleton
+  static Paperwork paperwork(Context context) {
+    return new Paperwork(context);
+  }
 
-    @Provides
-    @Singleton
-    Context context() {
-        return app;
-    }
-
-    @Provides
-    @Singleton
-    Paperwork paperwork(Context context) {
-        return new Paperwork(context);
-    }
+  @Binds
+  @Singleton
+  abstract Context context(Application app);
 }

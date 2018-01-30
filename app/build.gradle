@@ -21,39 +21,26 @@ android {
     buildToolsVersion versions.tools
 
     defaultConfig {
-        applicationId "com.abishov.android"
         minSdkVersion versions.minsdk
         targetSdkVersion versions.sdk
+
+        applicationId "com.abishov.hexocat"
         versionCode versionMajor * 10000 + versionMinor * 1000 + versionPatch * 100 + versionBuild
         versionName "${versionMajor}.${versionMinor}.${versionPatch}"
-
-        // Default instrumentation test runner
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
-        // Make generated apks contain version name and code.
         archivesBaseName = "app-${versionName}-${versionCode}"
+
+        testInstrumentationRunner "com.abishov.hexocat.HexocatTestRunner"
     }
 
     lintOptions {
-        // fail early
         abortOnError true
-
-        // App does not have deep linking.
         disable "GoogleAppIndexingWarning"
-
-        // Okio references java.nio that does not presented in Android SDK.
         warning "InvalidPackage"
-
-        // casting 'InvalidPackage' error to warning
         warning 'InvalidPackage'
     }
 
     packagingOptions {
-        // excluding duplicate license files
         exclude "META-INF/LICENSE"
-
-        // excluding duplicate rxjava properties file
-        // see https://github.com/ReactiveX/RxJava/issues/4445#issuecomment-243591879
         exclude 'META-INF/rxjava.properties'
     }
 
@@ -64,15 +51,7 @@ android {
 
     buildTypes {
         debug {
-            // custom application suffix which allows to
-            // install debug and release builds at the same time
             applicationIdSuffix = ".debug"
-
-            // jacoco test coverage reports both for
-            // androidTest and test source sets
-            testCoverageEnabled = true
-
-            // Using hexocat.jks to sign debug build type.
             signingConfig = signingConfigs.debug
         }
     }
@@ -84,6 +63,8 @@ android {
 
 spoon {
     debug = true
+    noAnimations = true
+    grantAllPermissions = true
 }
 
 dependencies {
@@ -104,15 +85,14 @@ dependencies {
 
     // Google Dagger
     implementation "com.google.dagger:dagger:${libraries.dagger}"
+    implementation "com.google.dagger:dagger-android-support:${libraries.dagger}"
     annotationProcessor "com.google.dagger:dagger-compiler:${libraries.dagger}"
+    annotationProcessor "com.google.dagger:dagger-android-processor:${libraries.dagger}"
 
-    // Google's auto-value. Annotations are used only during compilation time, as well as
-    // annotation processor which hoops up into compilation process
-    compileOnly "com.google.auto.value:auto-value:${libraries.autovalue}"
+    compileOnly "com.jakewharton.auto.value:auto-value-annotations:${libraries.autovalueann}"
     annotationProcessor "com.google.auto.value:auto-value:${libraries.autovalue}"
 
-    // Extension which generates mappers for work with cursors
-    compileOnly "com.ryanharter.auto.value:auto-value-gson:${libraries.autovaluegson}"
+    compileOnly "com.ryanharter.auto.value:auto-value-gson-annotations:${libraries.autovaluegson}"
     annotationProcessor "com.ryanharter.auto.value:auto-value-gson:${libraries.autovaluegson}"
     annotationProcessor "com.ryanharter.auto.value:auto-value-parcel:${libraries.autovalueparcel}"
 
@@ -146,11 +126,12 @@ dependencies {
     testImplementation "com.squareup.leakcanary:leakcanary-android-no-op:${libraries.leakcanary}"
     testImplementation "nl.jqno.equalsverifier:equalsverifier:${libraries.equalsverifier}"
 
-    // Spoon client which allows to capture screenshots during instrumentation tests
     androidTestImplementation "com.squareup.spoon:spoon-client:${libraries.spoon}"
+    androidTestImplementation "com.github.andrzejchm.RESTMock:android:${libraries.restmock}"
     androidTestImplementation "com.squareup.okhttp3:mockwebserver:${libraries.okhttp}"
     androidTestImplementation "org.mockito:mockito-android:${libraries.mockito}"
-    androidTestImplementation "org.assertj:assertj-core:${libraries.assertj}"
+    androidTestImplementation "com.squareup.rx.idler:rx2-idler:${libraries.rxidler}"
+    androidTestImplementation "com.jakewharton.espresso:okhttp3-idling-resource:${libraries.okhttpIdlingResource}"
 
     androidTestImplementation("com.android.support.test.espresso:espresso-idling-resource:${libraries.espresso}") {
         exclude module: "support-annotations"
@@ -162,7 +143,6 @@ dependencies {
         exclude module: "support-annotations"
     }
     androidTestImplementation("com.android.support.test.espresso:espresso-contrib:${libraries.espresso}") {
-        // Causes IncompatibleClassChangeError
         exclude module: "support-annotations"
         exclude module: "recyclerview-v7"
         exclude module: "appcompat-v7"

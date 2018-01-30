@@ -1,18 +1,12 @@
-# Eclipse
-.project
-.classpath
-.settings
-
-# IntelliJ IDEA
+# Studio
+.idea/
 *.iml
 *.ipr
 *.iws
 out
 
 # Ant
-build.xml
 local.properties
-proguard.cfg
 
 # Gradle
 .gradle
@@ -20,18 +14,3 @@ build
 
 # OSX
 .DS_Store
-
-# Crashlytics plugin (for Android Studio and IntelliJ)
-fabric.properties
-
-# Windows
-dhis.db
-
-# Android
-*.apk
-
-# Secret keys
-secrets.properties
-
-# ignore .idea directory
-.idea/

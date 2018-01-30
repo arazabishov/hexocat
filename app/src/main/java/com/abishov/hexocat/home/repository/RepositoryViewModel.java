@@ -1,28 +1,29 @@
 package com.abishov.hexocat.home.repository;
 
 import android.os.Parcelable;
-
 import com.google.auto.value.AutoValue;
 
 @AutoValue
 public abstract class RepositoryViewModel implements Parcelable {
 
-    public abstract String name();
+  public static RepositoryViewModel create(String name, String description,
+      String forks, String stars, String ownerAvatar, String login, String url) {
+    return new AutoValue_RepositoryViewModel(name, description, forks,
+        stars, ownerAvatar, login, url);
+  }
 
-    public abstract String description();
+  public abstract String name();
 
-    public abstract String forks();
+  public abstract String description();
 
-    public abstract String stars();
+  public abstract String forks();
 
-    public abstract String avatarUrl();
+  public abstract String stars();
 
-    public abstract String login();
+  public abstract String avatarUrl();
 
-    public static RepositoryViewModel create(String name, String description,
-            String forks, String stars, String ownerAvatar, String login) {
-        return new AutoValue_RepositoryViewModel(name, description, forks,
-                stars, ownerAvatar, login);
-    }
+  public abstract String login();
+
+  public abstract String url();
 }
 
