@@ -6,8 +6,10 @@ import static android.support.test.espresso.action.ViewActions.swipeDown;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayingAtLeast;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static com.abishov.hexocat.common.espresso.CustomConstraintViewAction.withCustomConstraints;
 import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.CoreMatchers.instanceOf;
 
@@ -24,7 +26,8 @@ public final class TrendingRobot {
   }
 
   public TrendingRobot pullToRefresh() {
-    onView(allOf(isDisplayed(), withId(R.id.recyclerview_trending))).perform(swipeDown());
+    onView(allOf(isDisplayed(), withId(R.id.recyclerview_trending)))
+        .perform(withCustomConstraints(swipeDown(), isDisplayingAtLeast(85)));
     return this;
   }
 

@@ -97,6 +97,7 @@ public final class HomeScreenTest {
   }
 
   @Test
+  @CaptureScreenshot
   public void mustRenderTrendingRepositoriesForWeek() {
     whenGET(allOf(pathContains("search/repositories"),
         hasExactQueryParameters(
@@ -144,6 +145,7 @@ public final class HomeScreenTest {
   }
 
   @Test
+  @CaptureScreenshot
   public void mustRenderTrendingRepositoriesForMonth() {
     whenGET(allOf(pathContains("search/repositories"),
         hasExactQueryParameters(
