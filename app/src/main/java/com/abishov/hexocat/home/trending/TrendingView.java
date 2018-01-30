@@ -1,6 +1,8 @@
 package com.abishov.hexocat.home.trending;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -12,13 +14,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 import butterknife.BindDimen;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.abishov.hexocat.R;
 import com.abishov.hexocat.common.views.DividerItemDecoration;
 import com.abishov.hexocat.home.repository.RepositoryAdapter;
+import com.abishov.hexocat.home.repository.RepositoryAdapter.TrendingViewClickListener;
 import com.jakewharton.rxbinding2.support.v4.widget.RxSwipeRefreshLayout;
 import com.jakewharton.rxbinding2.view.RxView;
 import io.reactivex.Observable;
@@ -53,7 +55,7 @@ public final class TrendingView extends FrameLayout {
     ButterKnife.bind(this);
 
     repositoryAdapter = new RepositoryAdapter(LayoutInflater.from(getContext()),
-        viewModel -> Toast.makeText(getContext(), viewModel.name(), Toast.LENGTH_SHORT).show());
+        onRepositoryItemClick());
     RecyclerView.LayoutManager recyclerViewLayoutManager = new LinearLayoutManager(getContext());
     recyclerViewTrending.setLayoutManager(recyclerViewLayoutManager);
     recyclerViewTrending.setAdapter(repositoryAdapter);
@@ -89,5 +91,12 @@ public final class TrendingView extends FrameLayout {
   private boolean isRtl() {
     return Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2 &&
         getLayoutDirection() == View.LAYOUT_DIRECTION_RTL;
+  }
+
+  private TrendingViewClickListener onRepositoryItemClick() {
+    return repository -> {
+      Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(repository.url()));
+      getContext().startActivity(browserIntent);
+    };
   }
 }

@@ -1,7 +1,9 @@
 package com.abishov.hexocat.home.repository;
 
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition;
 import static android.support.test.espresso.contrib.RecyclerViewActions.scrollToPosition;
 import static android.support.test.espresso.matcher.ViewMatchers.withChild;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
@@ -62,6 +64,12 @@ public final class RepositoryItemRobot {
             withCompoundDrawable(R.drawable.ic_fork)
         )))
     ));
+    return this;
+  }
+
+  public RepositoryItemRobot clickOnRow() {
+    onView(recyclerViewMatcher)
+        .perform(actionOnItemAtPosition(position, click()));
     return this;
   }
 

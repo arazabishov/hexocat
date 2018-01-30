@@ -1,16 +1,26 @@
 package com.abishov.hexocat.home;
 
+import static android.support.test.espresso.intent.Intents.intended;
+import static android.support.test.espresso.intent.Intents.intending;
+import static android.support.test.espresso.intent.matcher.IntentMatchers.hasAction;
+import static android.support.test.espresso.intent.matcher.IntentMatchers.hasData;
+import static android.support.test.espresso.intent.matcher.IntentMatchers.isInternal;
 import static io.appflate.restmock.RESTMockServer.whenGET;
 import static io.appflate.restmock.RequestsVerifier.verifyGET;
 import static io.appflate.restmock.utils.RequestMatchers.hasExactQueryParameters;
 import static io.appflate.restmock.utils.RequestMatchers.pathContains;
 import static org.hamcrest.CoreMatchers.allOf;
+import static org.hamcrest.CoreMatchers.not;
 
+import android.app.Activity;
+import android.app.Instrumentation.ActivityResult;
 import android.content.Intent;
 import android.support.test.rule.ActivityTestRule;
 import com.abishov.hexocat.R;
-import com.abishov.hexocat.common.rule.CaptureScreenshots;
-import com.abishov.hexocat.common.rule.CaptureScreenshotsRule;
+import com.abishov.hexocat.common.rule.CaptureScreenshot;
+import com.abishov.hexocat.common.rule.CaptureScreenshotTestRuleCallback;
+import com.abishov.hexocat.common.rule.CompositeActivityTestRule;
+import com.abishov.hexocat.common.rule.IntentsTestRuleCallback;
 import com.abishov.hexocat.common.rule.MockWebServerRule;
 import com.abishov.hexocat.home.trending.TrendingRobot;
 import io.appflate.restmock.utils.QueryParam;
@@ -21,9 +31,10 @@ import org.junit.Test;
 public final class HomeScreenTest {
 
   @Rule
-  public final ActivityTestRule<HomeActivity> activityRule =
-      CaptureScreenshotsRule.builder(HomeActivity.class)
-          .initialTouchMode()
+  public ActivityTestRule<HomeActivity> activityTestRule =
+      CompositeActivityTestRule.builder(HomeActivity.class)
+          .add(new CaptureScreenshotTestRuleCallback())
+          .add(new IntentsTestRuleCallback())
           .build();
 
   @Rule
@@ -37,7 +48,7 @@ public final class HomeScreenTest {
   }
 
   @Test
-  @CaptureScreenshots
+  @CaptureScreenshot
   public void mustRenderTrendingRepositoriesForToday() {
     whenGET(allOf(pathContains("search/repositories"),
         hasExactQueryParameters(
@@ -46,7 +57,7 @@ public final class HomeScreenTest {
             new QueryParam("order", "desc"))
     )).thenReturnFile("response/search/repositories/200_trending_today.json");
 
-    activityRule.launchActivity(new Intent());
+    activityTestRule.launchActivity(new Intent());
 
     TrendingRobot trendingRobot = homeRobot.navigateToTrendingScreen()
         .withTrendingTab(R.string.trending_today);
@@ -94,7 +105,7 @@ public final class HomeScreenTest {
             new QueryParam("order", "desc"))
     )).thenReturnFile("response/search/repositories/200_trending_week.json");
 
-    activityRule.launchActivity(new Intent());
+    activityTestRule.launchActivity(new Intent());
 
     TrendingRobot trendingRobot = homeRobot.navigateToTrendingScreen()
         .withTrendingTab(R.string.trending_last_week);
@@ -141,7 +152,7 @@ public final class HomeScreenTest {
             new QueryParam("order", "desc"))
     )).thenReturnFile("response/search/repositories/200_trending_month.json");
 
-    activityRule.launchActivity(new Intent());
+    activityTestRule.launchActivity(new Intent());
 
     TrendingRobot trendingRobot = homeRobot.navigateToTrendingScreen()
         .withTrendingTab(R.string.trending_last_month);
@@ -189,7 +200,7 @@ public final class HomeScreenTest {
             new QueryParam("order", "desc"))
     )).thenReturnEmpty(400);
 
-    activityRule.launchActivity(new Intent());
+    activityTestRule.launchActivity(new Intent());
 
     homeRobot.navigateToTrendingScreen()
         .withTrendingTab(R.string.trending_today)
@@ -227,7 +238,7 @@ public final class HomeScreenTest {
             new QueryParam("order", "desc"))
     )).thenReturnEmpty(500);
 
-    activityRule.launchActivity(new Intent());
+    activityTestRule.launchActivity(new Intent());
 
     homeRobot.navigateToTrendingScreen()
         .withTrendingTab(R.string.trending_today)
@@ -258,13 +269,123 @@ public final class HomeScreenTest {
 
   @Test
   public void mustRequestBackendAfterRetryButtonClicked() {
+    whenGET(allOf(pathContains("search/repositories"),
+        hasExactQueryParameters(
+            new QueryParam("q", "created:>=2017-08-29"),
+            new QueryParam("sort", "watchers"),
+            new QueryParam("order", "desc"))
+    )).thenReturnEmpty(400);
+
+    activityTestRule.launchActivity(new Intent());
+
+    homeRobot.navigateToTrendingScreen()
+        .withTrendingTab(R.string.trending_today)
+        .withErrorMessage("HTTP 400 Client Error")
+        .withRetryButtonVisible()
+        .retry();
+
+    verifyGET(allOf(pathContains("search/repositories"),
+        hasExactQueryParameters(
+            new QueryParam("q", "created:>=2017-08-29"),
+            new QueryParam("sort", "watchers"),
+            new QueryParam("order", "desc"))
+    )).exactly(2);
+
+    verifyGET(allOf(pathContains("search/repositories"),
+        hasExactQueryParameters(
+            new QueryParam("q", "created:>=2017-08-23"),
+            new QueryParam("sort", "watchers"),
+            new QueryParam("order", "desc"))
+    )).exactly(1);
+
+    verifyGET(allOf(pathContains("search/repositories"),
+        hasExactQueryParameters(
+            new QueryParam("q", "created:>=2017-07-31"),
+            new QueryParam("sort", "watchers"),
+            new QueryParam("order", "desc"))
+    )).never();
   }
 
   @Test
   public void mustRequestBackendAfterPullToRefresh() {
+    whenGET(allOf(pathContains("search/repositories"),
+        hasExactQueryParameters(
+            new QueryParam("q", "created:>=2017-08-29"),
+            new QueryParam("sort", "watchers"),
+            new QueryParam("order", "desc"))
+    )).thenReturnFile("response/search/repositories/200_trending_today.json");
+
+    activityTestRule.launchActivity(new Intent());
+
+    homeRobot.navigateToTrendingScreen()
+        .withTrendingTab(R.string.trending_today)
+        .pullToRefresh();
+
+    verifyGET(allOf(pathContains("search/repositories"),
+        hasExactQueryParameters(
+            new QueryParam("q", "created:>=2017-08-29"),
+            new QueryParam("sort", "watchers"),
+            new QueryParam("order", "desc"))
+    )).exactly(2);
+
+    verifyGET(allOf(pathContains("search/repositories"),
+        hasExactQueryParameters(
+            new QueryParam("q", "created:>=2017-08-23"),
+            new QueryParam("sort", "watchers"),
+            new QueryParam("order", "desc"))
+    )).exactly(1);
+
+    verifyGET(allOf(pathContains("search/repositories"),
+        hasExactQueryParameters(
+            new QueryParam("q", "created:>=2017-07-31"),
+            new QueryParam("sort", "watchers"),
+            new QueryParam("order", "desc"))
+    )).never();
   }
 
   @Test
   public void mustNavigateToBrowserOnRepositoryItemClicked() {
+    whenGET(allOf(pathContains("search/repositories"),
+        hasExactQueryParameters(
+            new QueryParam("q", "created:>=2017-08-29"),
+            new QueryParam("sort", "watchers"),
+            new QueryParam("order", "desc"))
+    )).thenReturnFile("response/search/repositories/200_trending_today.json");
+
+    activityTestRule.launchActivity(new Intent());
+
+    intending(not(isInternal())).respondWith(new ActivityResult(Activity.RESULT_OK, null));
+
+    TrendingRobot trendingRobot = homeRobot.navigateToTrendingScreen()
+        .withTrendingTab(R.string.trending_today);
+
+    trendingRobot.withRepositoryItemAt(0).clickOnRow();
+    trendingRobot.withRepositoryItemAt(1).clickOnRow();
+
+    intended(allOf(hasAction(Intent.ACTION_VIEW),
+        hasData("https://github.com/frappe/charts")));
+    intended(allOf(hasAction(Intent.ACTION_VIEW),
+        hasData("https://github.com/RedditSota/machine-learning-problems")));
+
+    verifyGET(allOf(pathContains("search/repositories"),
+        hasExactQueryParameters(
+            new QueryParam("q", "created:>=2017-08-29"),
+            new QueryParam("sort", "watchers"),
+            new QueryParam("order", "desc"))
+    )).exactly(1);
+
+    verifyGET(allOf(pathContains("search/repositories"),
+        hasExactQueryParameters(
+            new QueryParam("q", "created:>=2017-08-23"),
+            new QueryParam("sort", "watchers"),
+            new QueryParam("order", "desc"))
+    )).exactly(1);
+
+    verifyGET(allOf(pathContains("search/repositories"),
+        hasExactQueryParameters(
+            new QueryParam("q", "created:>=2017-07-31"),
+            new QueryParam("sort", "watchers"),
+            new QueryParam("order", "desc"))
+    )).never();
   }
 }
