@@ -55,6 +55,10 @@ android {
         }
     }
 
+    testOptions {
+        execution "ANDROID_TEST_ORCHESTRATOR"
+    }
+
     configurations.all {
         resolutionStrategy.force "com.google.code.findbugs:jsr305:${libraries.findbugs}"
     }
@@ -120,6 +124,7 @@ dependencies {
     testImplementation "nl.jqno.equalsverifier:equalsverifier:${libraries.equalsverifier}"
 
     // Android test dependencies
+    androidTestUtil "com.android.support.test:orchestrator:${libraries.testingsupport}"
     androidTestCompile "com.android.support.test:runner:${libraries.testingsupport}"
     androidTestCompile "com.android.support.test:rules:${libraries.testingsupport}"
 
