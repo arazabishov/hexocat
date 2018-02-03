@@ -34,7 +34,7 @@ script:
   bash build.sh
 
 after_success:
-- codecov
+  - bash <(curl -s https://codecov.io/bash)
 
 notifications:
   email: true
