@@ -18,7 +18,6 @@ buildscript {
         classpath "hu.supercluster:paperwork-plugin:1.2.7"
         classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.5"
         classpath "com.github.ben-manes:gradle-versions-plugin:0.17.0"
-        classpath "com.jaredsburrows:gradle-spoon-plugin:1.1.0"
     }
 }
 
@@ -73,13 +72,13 @@ ext {
 
             // test dependencies
             equalsverifier      : "2.3",
-            espresso            : "2.2.2",
+            espresso            : "3.0.1",
             mockito             : "2.8.9",
             assertj             : "2.8.0",
             junit               : "4.12",
-            spoon               : "2.0.0-SNAPSHOT",
             restmock            : "0.2.2",
             okhttpIdlingResource: "1.0.0",
+            testingsupport      : "1.0.1",
 
             // plugins
             errorpronecore      : "2.0.19"
