@@ -1,6 +1,5 @@
 apply plugin: "com.android.application"
 apply plugin: "org.sonarqube"
-apply plugin: "spoon"
 apply from: rootProject.file("plugins/android-checkstyle.gradle")
 apply from: rootProject.file("plugins/android-errorprone.gradle")
 apply from: rootProject.file("plugins/android-paperwork.gradle")
@@ -56,15 +55,13 @@ android {
         }
     }
 
+    testOptions {
+        execution "ANDROID_TEST_ORCHESTRATOR"
+    }
+
     configurations.all {
         resolutionStrategy.force "com.google.code.findbugs:jsr305:${libraries.findbugs}"
     }
-}
-
-spoon {
-    debug = true
-    noAnimations = true
-    grantAllPermissions = true
 }
 
 dependencies {
@@ -119,34 +116,26 @@ dependencies {
     // Plugin dependencies
     compileOnly "com.google.code.findbugs:annotations:${libraries.findbugs}"
 
-    // Test dependencies
+    // Unit test dependencies
     testImplementation "junit:junit:${libraries.junit}"
     testImplementation "org.assertj:assertj-core:${libraries.assertj}"
     testImplementation "org.mockito:mockito-core:${libraries.mockito}"
     testImplementation "com.squareup.leakcanary:leakcanary-android-no-op:${libraries.leakcanary}"
     testImplementation "nl.jqno.equalsverifier:equalsverifier:${libraries.equalsverifier}"
 
-    androidTestImplementation "com.squareup.spoon:spoon-client:${libraries.spoon}"
+    // Android test dependencies
+    androidTestUtil "com.android.support.test:orchestrator:${libraries.testingsupport}"
+    androidTestCompile "com.android.support.test:runner:${libraries.testingsupport}"
+    androidTestCompile "com.android.support.test:rules:${libraries.testingsupport}"
+
+    androidTestImplementation "com.android.support.test.espresso:espresso-idling-resource:${libraries.espresso}"
+    androidTestImplementation "com.android.support.test.espresso:espresso-core:${libraries.espresso}"
+    androidTestImplementation "com.android.support.test.espresso:espresso-intents:${libraries.espresso}"
+    androidTestImplementation "com.android.support.test.espresso:espresso-contrib:${libraries.espresso}"
+
     androidTestImplementation "com.github.andrzejchm.RESTMock:android:${libraries.restmock}"
     androidTestImplementation "com.squareup.okhttp3:mockwebserver:${libraries.okhttp}"
     androidTestImplementation "org.mockito:mockito-android:${libraries.mockito}"
     androidTestImplementation "com.squareup.rx.idler:rx2-idler:${libraries.rxidler}"
     androidTestImplementation "com.jakewharton.espresso:okhttp3-idling-resource:${libraries.okhttpIdlingResource}"
-
-    androidTestImplementation("com.android.support.test.espresso:espresso-idling-resource:${libraries.espresso}") {
-        exclude module: "support-annotations"
-    }
-    androidTestImplementation("com.android.support.test.espresso:espresso-core:${libraries.espresso}") {
-        exclude module: "support-annotations"
-    }
-    androidTestImplementation("com.android.support.test.espresso:espresso-intents:${libraries.espresso}") {
-        exclude module: "support-annotations"
-    }
-    androidTestImplementation("com.android.support.test.espresso:espresso-contrib:${libraries.espresso}") {
-        exclude module: "support-annotations"
-        exclude module: "recyclerview-v7"
-        exclude module: "appcompat-v7"
-        exclude module: "support-v4"
-        exclude module: "design"
-    }
 }
