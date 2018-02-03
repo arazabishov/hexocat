@@ -15,12 +15,8 @@ import static org.hamcrest.CoreMatchers.not;
 import android.app.Activity;
 import android.app.Instrumentation.ActivityResult;
 import android.content.Intent;
-import android.support.test.rule.ActivityTestRule;
+import android.support.test.espresso.intent.rule.IntentsTestRule;
 import com.abishov.hexocat.R;
-import com.abishov.hexocat.common.rule.CaptureScreenshot;
-import com.abishov.hexocat.common.rule.CaptureScreenshotTestRuleCallback;
-import com.abishov.hexocat.common.rule.CompositeActivityTestRule;
-import com.abishov.hexocat.common.rule.IntentsTestRuleCallback;
 import com.abishov.hexocat.common.rule.MockWebServerRule;
 import com.abishov.hexocat.home.trending.TrendingRobot;
 import io.appflate.restmock.utils.QueryParam;
@@ -31,11 +27,8 @@ import org.junit.Test;
 public final class HomeScreenTest {
 
   @Rule
-  public ActivityTestRule<HomeActivity> activityTestRule =
-      CompositeActivityTestRule.builder(HomeActivity.class)
-          .add(new CaptureScreenshotTestRuleCallback())
-          .add(new IntentsTestRuleCallback())
-          .build();
+  public final IntentsTestRule<HomeActivity> activityTestRule =
+      new IntentsTestRule<>(HomeActivity.class, false, false);
 
   @Rule
   public final MockWebServerRule mockWebServerRule = new MockWebServerRule();
@@ -48,7 +41,6 @@ public final class HomeScreenTest {
   }
 
   @Test
-  @CaptureScreenshot
   public void mustRenderTrendingRepositoriesForToday() {
     whenGET(allOf(pathContains("search/repositories"),
         hasExactQueryParameters(
@@ -97,7 +89,6 @@ public final class HomeScreenTest {
   }
 
   @Test
-  @CaptureScreenshot
   public void mustRenderTrendingRepositoriesForWeek() {
     whenGET(allOf(pathContains("search/repositories"),
         hasExactQueryParameters(
@@ -145,7 +136,6 @@ public final class HomeScreenTest {
   }
 
   @Test
-  @CaptureScreenshot
   public void mustRenderTrendingRepositoriesForMonth() {
     whenGET(allOf(pathContains("search/repositories"),
         hasExactQueryParameters(
