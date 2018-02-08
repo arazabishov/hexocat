@@ -74,6 +74,7 @@ afterEvaluate {
             }
 
             build.dependsOn "${coverageTaskName}"
+            build.dependsOn "connectedCheck"
         }
     }
 }
