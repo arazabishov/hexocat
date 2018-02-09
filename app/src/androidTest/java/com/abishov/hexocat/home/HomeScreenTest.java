@@ -305,8 +305,33 @@ public final class HomeScreenTest {
 
     activityTestRule.launchActivity(new Intent());
 
-    homeRobot.navigateToTrendingScreen()
-        .pullToRefresh();
+    TrendingRobot trendingRobot = homeRobot.navigateToTrendingScreen();
+
+    trendingRobot.withRepositoryItemAt(0)
+        .withName("charts")
+        .withStars(8760)
+        .withForks(263)
+        .withDescription("frappe — Responsive, modern SVG Charts with zero dependencies");
+    trendingRobot.withRepositoryItemAt(1)
+        .withName("state-of-the-art-result-for-machine-learning-problems")
+        .withStars(4238)
+        .withForks(597)
+        .withDescription("RedditSota — This repository provides state of the art "
+            + "(SoTA) results for all machine learning problems.");
+
+    trendingRobot.pullToRefresh();
+
+    trendingRobot.withRepositoryItemAt(0)
+        .withName("charts")
+        .withStars(8760)
+        .withForks(263)
+        .withDescription("frappe — Responsive, modern SVG Charts with zero dependencies");
+    trendingRobot.withRepositoryItemAt(1)
+        .withName("state-of-the-art-result-for-machine-learning-problems")
+        .withStars(4238)
+        .withForks(597)
+        .withDescription("RedditSota — This repository provides state of the art "
+            + "(SoTA) results for all machine learning problems.");
 
     verifyGET(allOf(pathContains("search/repositories"),
         hasExactQueryParameters(
