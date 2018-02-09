@@ -16,7 +16,6 @@ import android.app.Activity;
 import android.app.Instrumentation.ActivityResult;
 import android.content.Intent;
 import android.support.test.espresso.intent.rule.IntentsTestRule;
-import com.abishov.hexocat.R;
 import com.abishov.hexocat.common.rule.MockWebServerRule;
 import com.abishov.hexocat.home.trending.TrendingRobot;
 import io.appflate.restmock.utils.QueryParam;
@@ -51,8 +50,7 @@ public final class HomeScreenTest {
 
     activityTestRule.launchActivity(new Intent());
 
-    TrendingRobot trendingRobot = homeRobot.navigateToTrendingScreen()
-        .withTrendingTab(R.string.trending_today);
+    TrendingRobot trendingRobot = homeRobot.navigateToTrendingScreen();
 
     trendingRobot.withRepositoryItemAt(0)
         .withName("charts")
@@ -100,11 +98,7 @@ public final class HomeScreenTest {
     activityTestRule.launchActivity(new Intent());
 
     TrendingRobot trendingRobot = homeRobot.navigateToTrendingScreen()
-        .swipeTrendingPagerLeft();
-
-//    .withTrendingTab(R.string.trending_last_week);
-//    trendingRobot.withRetryButtonVisible();
-//    trendingRobot.withErrorMessage("HTTP 500 Server Error");
+        .swipeTrendingPagerToLeft();
 
     trendingRobot.withRepositoryItemAt(0)
         .withName("hangzhouYunQi2017ppt")
@@ -151,7 +145,8 @@ public final class HomeScreenTest {
     activityTestRule.launchActivity(new Intent());
 
     TrendingRobot trendingRobot = homeRobot.navigateToTrendingScreen()
-        .withTrendingTab(R.string.trending_last_month);
+        .swipeTrendingPagerToLeft()
+        .swipeTrendingPagerToLeft();
 
     trendingRobot.withRepositoryItemAt(0)
         .withName("deepo")
@@ -199,7 +194,6 @@ public final class HomeScreenTest {
     activityTestRule.launchActivity(new Intent());
 
     homeRobot.navigateToTrendingScreen()
-        .withTrendingTab(R.string.trending_today)
         .withErrorMessage("HTTP 400 Client Error")
         .withRetryButtonVisible();
 
@@ -237,7 +231,6 @@ public final class HomeScreenTest {
     activityTestRule.launchActivity(new Intent());
 
     homeRobot.navigateToTrendingScreen()
-        .withTrendingTab(R.string.trending_today)
         .withErrorMessage("HTTP 500 Server Error")
         .withRetryButtonVisible();
 
@@ -275,7 +268,6 @@ public final class HomeScreenTest {
     activityTestRule.launchActivity(new Intent());
 
     homeRobot.navigateToTrendingScreen()
-        .withTrendingTab(R.string.trending_today)
         .withErrorMessage("HTTP 400 Client Error")
         .withRetryButtonVisible()
         .retry();
@@ -314,7 +306,6 @@ public final class HomeScreenTest {
     activityTestRule.launchActivity(new Intent());
 
     homeRobot.navigateToTrendingScreen()
-        .withTrendingTab(R.string.trending_today)
         .pullToRefresh();
 
     verifyGET(allOf(pathContains("search/repositories"),
@@ -352,8 +343,7 @@ public final class HomeScreenTest {
 
     intending(not(isInternal())).respondWith(new ActivityResult(Activity.RESULT_OK, null));
 
-    TrendingRobot trendingRobot = homeRobot.navigateToTrendingScreen()
-        .withTrendingTab(R.string.trending_today);
+    TrendingRobot trendingRobot = homeRobot.navigateToTrendingScreen();
 
     trendingRobot.withRepositoryItemAt(0).clickOnRow();
     trendingRobot.withRepositoryItemAt(1).clickOnRow();
