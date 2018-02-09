@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/ArazAbishov/hexocat-android.svg?branch=master)](https://travis-ci.org/ArazAbishov/hexocat-android)  
+[![Build Status](https://travis-ci.org/ArazAbishov/hexocat-android.svg?branch=master)](https://travis-ci.org/ArazAbishov/hexocat-android)
 [![codecov](https://codecov.io/gh/ArazAbishov/hexocat-android/branch/master/graph/badge.svg)](https://codecov.io/gh/ArazAbishov/hexocat-android)
 
 # hexocat
