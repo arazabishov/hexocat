@@ -20,6 +20,7 @@ import com.abishov.hexocat.R;
 import com.abishov.hexocat.common.rule.MockWebServerRule;
 import com.abishov.hexocat.home.trending.TrendingRobot;
 import io.appflate.restmock.utils.QueryParam;
+import java.util.concurrent.TimeUnit;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -89,7 +90,7 @@ public final class HomeScreenTest {
   }
 
   @Test
-  public void mustRenderTrendingRepositoriesForWeek() {
+  public void mustRenderTrendingRepositoriesForWeek() throws InterruptedException {
     whenGET(allOf(pathContains("search/repositories"),
         hasExactQueryParameters(
             new QueryParam("q", "created:>=2017-08-23"),
@@ -102,16 +103,18 @@ public final class HomeScreenTest {
     TrendingRobot trendingRobot = homeRobot.navigateToTrendingScreen()
         .withTrendingTab(R.string.trending_last_week);
 
-//    trendingRobot.withRepositoryItemAt(0)
-//        .withName("hangzhouYunQi2017ppt")
-//        .withStars(3998)
-//        .withForks(1649)
-//        .withDescription("Alibaba-Technology");
-//    trendingRobot.withRepositoryItemAt(1)
-//        .withName("bottery")
-//        .withStars(3131)
-//        .withForks(143)
-//        .withDescription("google");
+    TimeUnit.SECONDS.sleep(1);
+
+    trendingRobot.withRepositoryItemAt(0)
+        .withName("hangzhouYunQi2017ppt")
+        .withStars(3998)
+        .withForks(1649)
+        .withDescription("Alibaba-Technology");
+    trendingRobot.withRepositoryItemAt(1)
+        .withName("bottery")
+        .withStars(3131)
+        .withForks(143)
+        .withDescription("google");
 
     verifyGET(allOf(pathContains("search/repositories"),
         hasExactQueryParameters(
