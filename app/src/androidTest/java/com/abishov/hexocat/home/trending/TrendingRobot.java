@@ -2,7 +2,6 @@ package com.abishov.hexocat.home.trending;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.action.ViewActions.swipeDown;
 import static android.support.test.espresso.action.ViewActions.swipeLeft;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -19,12 +18,6 @@ public final class TrendingRobot {
 
   public TrendingRobot retry() {
     onView(allOf(isDisplayed(), withId(R.id.button_retry))).perform(click());
-    return this;
-  }
-
-  public TrendingRobot pullToRefresh() {
-    onView(allOf(isDisplayed(), withId(R.id.swipe_refresh_layout_trending)))
-        .perform(withCustomConstraints(swipeDown(), isDisplayingAtLeast(80)));
     return this;
   }
 

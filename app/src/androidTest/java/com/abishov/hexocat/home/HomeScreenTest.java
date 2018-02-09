@@ -19,7 +19,6 @@ import android.support.test.espresso.intent.rule.IntentsTestRule;
 import com.abishov.hexocat.common.rule.MockWebServerRule;
 import com.abishov.hexocat.home.trending.TrendingRobot;
 import io.appflate.restmock.utils.QueryParam;
-import java.util.concurrent.TimeUnit;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -272,38 +271,6 @@ public final class HomeScreenTest {
         .withErrorMessage("HTTP 400 Client Error")
         .withRetryButtonVisible()
         .retry();
-
-    verifyGET(allOf(pathContains("search/repositories"),
-        hasExactQueryParameters(
-            new QueryParam("q", "created:>=2017-08-29"),
-            new QueryParam("sort", "watchers"),
-            new QueryParam("order", "desc"))
-    )).exactly(2);
-
-    verifyGET(allOf(pathContains("search/repositories"),
-        hasExactQueryParameters(
-            new QueryParam("q", "created:>=2017-08-23"),
-            new QueryParam("sort", "watchers"),
-            new QueryParam("order", "desc"))
-    )).exactly(1);
-
-    verifyGET(allOf(pathContains("search/repositories"),
-        hasExactQueryParameters(
-            new QueryParam("q", "created:>=2017-07-31"),
-            new QueryParam("sort", "watchers"),
-            new QueryParam("order", "desc"))
-    )).never();
-  }
-
-  @Test
-  public void mustRequestBackendAfterPullToRefresh() throws InterruptedException {
-    activityTestRule.launchActivity(new Intent());
-
-    TrendingRobot trendingRobot = homeRobot.navigateToTrendingScreen();
-
-    TimeUnit.SECONDS.sleep(5);
-
-    trendingRobot.retry();
 
     verifyGET(allOf(pathContains("search/repositories"),
         hasExactQueryParameters(
