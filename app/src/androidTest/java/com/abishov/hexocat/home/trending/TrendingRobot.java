@@ -23,7 +23,7 @@ public final class TrendingRobot {
   }
 
   public TrendingRobot pullToRefresh() {
-    onView(allOf(isDisplayed(), withId(R.id.recyclerview_trending)))
+    onView(allOf(isDisplayed(), withId(R.id.swipe_refresh_layout_trending)))
         .perform(withCustomConstraints(swipeDown(), isDisplayingAtLeast(80)));
     return this;
   }
