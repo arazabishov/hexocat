@@ -20,7 +20,6 @@ import com.abishov.hexocat.R;
 import com.abishov.hexocat.common.rule.MockWebServerRule;
 import com.abishov.hexocat.home.trending.TrendingRobot;
 import io.appflate.restmock.utils.QueryParam;
-import java.util.concurrent.TimeUnit;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -101,21 +100,22 @@ public final class HomeScreenTest {
     activityTestRule.launchActivity(new Intent());
 
     TrendingRobot trendingRobot = homeRobot.navigateToTrendingScreen()
-        .withTrendingTab(R.string.trending_last_week);
+        .swipeTrendingPagerLeft();
 
-    trendingRobot.withRetryButtonVisible();
-    trendingRobot.withErrorMessage("HTTP 500 Server Error");
+//    .withTrendingTab(R.string.trending_last_week);
+//    trendingRobot.withRetryButtonVisible();
+//    trendingRobot.withErrorMessage("HTTP 500 Server Error");
 
-//    trendingRobot.withRepositoryItemAt(0)
-//        .withName("hangzhouYunQi2017ppt")
-//        .withStars(3998)
-//        .withForks(1649)
-//        .withDescription("Alibaba-Technology");
-//    trendingRobot.withRepositoryItemAt(1)
-//        .withName("bottery")
-//        .withStars(3131)
-//        .withForks(143)
-//        .withDescription("google");
+    trendingRobot.withRepositoryItemAt(0)
+        .withName("hangzhouYunQi2017ppt")
+        .withStars(3998)
+        .withForks(1649)
+        .withDescription("Alibaba-Technology");
+    trendingRobot.withRepositoryItemAt(1)
+        .withName("bottery")
+        .withStars(3131)
+        .withForks(143)
+        .withDescription("google");
 
     verifyGET(allOf(pathContains("search/repositories"),
         hasExactQueryParameters(

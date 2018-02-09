@@ -3,6 +3,7 @@ package com.abishov.hexocat.home.trending;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.swipeDown;
+import static android.support.test.espresso.action.ViewActions.swipeLeft;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -33,6 +34,12 @@ public final class TrendingRobot {
 
   public TrendingRobot withTrendingTab(@IdRes int tab) {
     onView(allOf(isDescendantOfA(instanceOf(TabLayout.class)), withText(tab))).perform(click());
+    return this;
+  }
+
+  public TrendingRobot swipeTrendingPagerLeft() {
+    onView(withId(R.id.viewpager_trending))
+        .perform(withCustomConstraints(swipeLeft(), isDisplayingAtLeast(85)));
     return this;
   }
 
