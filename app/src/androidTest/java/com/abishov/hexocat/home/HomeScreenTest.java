@@ -19,6 +19,7 @@ import android.support.test.espresso.intent.rule.IntentsTestRule;
 import com.abishov.hexocat.common.rule.MockWebServerRule;
 import com.abishov.hexocat.home.trending.TrendingRobot;
 import io.appflate.restmock.utils.QueryParam;
+import java.util.concurrent.TimeUnit;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -295,10 +296,14 @@ public final class HomeScreenTest {
   }
 
   @Test
-  public void mustRequestBackendAfterPullToRefresh() {
+  public void mustRequestBackendAfterPullToRefresh() throws InterruptedException {
     activityTestRule.launchActivity(new Intent());
 
-    homeRobot.navigateToTrendingScreen().pullToRefresh();
+    TrendingRobot trendingRobot = homeRobot.navigateToTrendingScreen();
+
+    TimeUnit.SECONDS.sleep(5);
+
+    trendingRobot.pullToRefresh();
 
     verifyGET(allOf(pathContains("search/repositories"),
         hasExactQueryParameters(
