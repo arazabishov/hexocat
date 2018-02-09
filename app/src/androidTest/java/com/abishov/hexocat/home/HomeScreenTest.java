@@ -303,7 +303,7 @@ public final class HomeScreenTest {
 
     TimeUnit.SECONDS.sleep(5);
 
-    trendingRobot.pullToRefresh();
+    trendingRobot.retry();
 
     verifyGET(allOf(pathContains("search/repositories"),
         hasExactQueryParameters(
