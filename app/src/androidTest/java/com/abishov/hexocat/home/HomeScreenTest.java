@@ -103,18 +103,19 @@ public final class HomeScreenTest {
     TrendingRobot trendingRobot = homeRobot.navigateToTrendingScreen()
         .withTrendingTab(R.string.trending_last_week);
 
-    TimeUnit.SECONDS.sleep(1);
+    trendingRobot.withRetryButtonVisible();
+    trendingRobot.withErrorMessage("HTTP 500 Server Error");
 
-    trendingRobot.withRepositoryItemAt(0)
-        .withName("hangzhouYunQi2017ppt")
-        .withStars(3998)
-        .withForks(1649)
-        .withDescription("Alibaba-Technology");
-    trendingRobot.withRepositoryItemAt(1)
-        .withName("bottery")
-        .withStars(3131)
-        .withForks(143)
-        .withDescription("google");
+//    trendingRobot.withRepositoryItemAt(0)
+//        .withName("hangzhouYunQi2017ppt")
+//        .withStars(3998)
+//        .withForks(1649)
+//        .withDescription("Alibaba-Technology");
+//    trendingRobot.withRepositoryItemAt(1)
+//        .withName("bottery")
+//        .withStars(3131)
+//        .withForks(143)
+//        .withDescription("google");
 
     verifyGET(allOf(pathContains("search/repositories"),
         hasExactQueryParameters(
