@@ -16,7 +16,6 @@ import android.app.Activity;
 import android.app.Instrumentation.ActivityResult;
 import android.content.Intent;
 import android.support.test.espresso.intent.rule.IntentsTestRule;
-import com.abishov.hexocat.R;
 import com.abishov.hexocat.common.rule.MockWebServerRule;
 import com.abishov.hexocat.home.trending.TrendingRobot;
 import io.appflate.restmock.utils.QueryParam;
@@ -51,8 +50,7 @@ public final class HomeScreenTest {
 
     activityTestRule.launchActivity(new Intent());
 
-    TrendingRobot trendingRobot = homeRobot.navigateToTrendingScreen()
-        .withTrendingTab(R.string.trending_today);
+    TrendingRobot trendingRobot = homeRobot.navigateToTrendingScreen();
 
     trendingRobot.withRepositoryItemAt(0)
         .withName("charts")
@@ -89,7 +87,7 @@ public final class HomeScreenTest {
   }
 
   @Test
-  public void mustRenderTrendingRepositoriesForWeek() {
+  public void mustRenderTrendingRepositoriesForWeek() throws InterruptedException {
     whenGET(allOf(pathContains("search/repositories"),
         hasExactQueryParameters(
             new QueryParam("q", "created:>=2017-08-23"),
@@ -100,7 +98,7 @@ public final class HomeScreenTest {
     activityTestRule.launchActivity(new Intent());
 
     TrendingRobot trendingRobot = homeRobot.navigateToTrendingScreen()
-        .withTrendingTab(R.string.trending_last_week);
+        .swipeTrendingPagerToLeft();
 
     trendingRobot.withRepositoryItemAt(0)
         .withName("hangzhouYunQi2017ppt")
@@ -147,7 +145,8 @@ public final class HomeScreenTest {
     activityTestRule.launchActivity(new Intent());
 
     TrendingRobot trendingRobot = homeRobot.navigateToTrendingScreen()
-        .withTrendingTab(R.string.trending_last_month);
+        .swipeTrendingPagerToLeft()
+        .swipeTrendingPagerToLeft();
 
     trendingRobot.withRepositoryItemAt(0)
         .withName("deepo")
@@ -195,7 +194,6 @@ public final class HomeScreenTest {
     activityTestRule.launchActivity(new Intent());
 
     homeRobot.navigateToTrendingScreen()
-        .withTrendingTab(R.string.trending_today)
         .withErrorMessage("HTTP 400 Client Error")
         .withRetryButtonVisible();
 
@@ -233,7 +231,6 @@ public final class HomeScreenTest {
     activityTestRule.launchActivity(new Intent());
 
     homeRobot.navigateToTrendingScreen()
-        .withTrendingTab(R.string.trending_today)
         .withErrorMessage("HTTP 500 Server Error")
         .withRetryButtonVisible();
 
@@ -271,47 +268,9 @@ public final class HomeScreenTest {
     activityTestRule.launchActivity(new Intent());
 
     homeRobot.navigateToTrendingScreen()
-        .withTrendingTab(R.string.trending_today)
         .withErrorMessage("HTTP 400 Client Error")
         .withRetryButtonVisible()
         .retry();
-
-    verifyGET(allOf(pathContains("search/repositories"),
-        hasExactQueryParameters(
-            new QueryParam("q", "created:>=2017-08-29"),
-            new QueryParam("sort", "watchers"),
-            new QueryParam("order", "desc"))
-    )).exactly(2);
-
-    verifyGET(allOf(pathContains("search/repositories"),
-        hasExactQueryParameters(
-            new QueryParam("q", "created:>=2017-08-23"),
-            new QueryParam("sort", "watchers"),
-            new QueryParam("order", "desc"))
-    )).exactly(1);
-
-    verifyGET(allOf(pathContains("search/repositories"),
-        hasExactQueryParameters(
-            new QueryParam("q", "created:>=2017-07-31"),
-            new QueryParam("sort", "watchers"),
-            new QueryParam("order", "desc"))
-    )).never();
-  }
-
-  @Test
-  public void mustRequestBackendAfterPullToRefresh() {
-    whenGET(allOf(pathContains("search/repositories"),
-        hasExactQueryParameters(
-            new QueryParam("q", "created:>=2017-08-29"),
-            new QueryParam("sort", "watchers"),
-            new QueryParam("order", "desc"))
-    )).thenReturnFile("response/search/repositories/200_trending_today.json");
-
-    activityTestRule.launchActivity(new Intent());
-
-    homeRobot.navigateToTrendingScreen()
-        .withTrendingTab(R.string.trending_today)
-        .pullToRefresh();
 
     verifyGET(allOf(pathContains("search/repositories"),
         hasExactQueryParameters(
@@ -348,8 +307,7 @@ public final class HomeScreenTest {
 
     intending(not(isInternal())).respondWith(new ActivityResult(Activity.RESULT_OK, null));
 
-    TrendingRobot trendingRobot = homeRobot.navigateToTrendingScreen()
-        .withTrendingTab(R.string.trending_today);
+    TrendingRobot trendingRobot = homeRobot.navigateToTrendingScreen();
 
     trendingRobot.withRepositoryItemAt(0).clickOnRow();
     trendingRobot.withRepositoryItemAt(1).clickOnRow();

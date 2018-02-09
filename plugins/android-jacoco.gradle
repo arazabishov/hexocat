@@ -1,5 +1,9 @@
 apply plugin: "jacoco"
 
+jacoco {
+    toolVersion "0.8.0"
+}
+
 afterEvaluate {
 
     // Grab all build types and product flavors
@@ -23,11 +27,11 @@ afterEvaluate {
             }
 
             def testTaskName = "test${sourceName.capitalize()}UnitTest"
-            def coverageTaskName = "${testTaskName}Coverage"
+            def coverageTaskName = "jacoco${buildTypeName.capitalize()}TestCoverage"
 
             // Create coverage task of form "testFlavorTypeUnitTestCoverage"
             // depending on "testFlavorTypeUnitTest"
-            task "${coverageTaskName}"(type: JacocoReport, dependsOn: "$testTaskName") {
+            task "${coverageTaskName}"(type: JacocoReport, dependsOn: ["$testTaskName", "createDebugCoverageReport"]) {
                 group = "Reporting"
                 description = "Generate Jacoco coverage reports for the ${sourceName.capitalize()} build."
 
@@ -57,7 +61,11 @@ afterEvaluate {
 
                 additionalSourceDirs = files(coverageSourceDirs)
                 sourceDirectories = files(coverageSourceDirs)
-                executionData = files("${project.buildDir}/jacoco/${testTaskName}.exec")
+
+                executionData = fileTree(dir: "$buildDir", includes: [
+                        "jacoco/${testTaskName}.exec",
+                        "outputs/code-coverage/connected/*coverage.ec"
+                ])
 
                 reports {
                     xml.enabled = true
@@ -66,6 +74,7 @@ afterEvaluate {
             }
 
             build.dependsOn "${coverageTaskName}"
+            build.dependsOn "connectedCheck"
         }
     }
 }
