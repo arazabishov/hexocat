@@ -66,7 +66,16 @@ android {
     }
 }
 
+tasks.withType(JavaCompile) {
+    if (!name.toLowerCase().contains("test")) {
+        options.compilerArgs += ["-Xep:NullAway:ERROR", "-XepOpt:NullAway:AnnotatedPackages=com.uber"]
+    }
+}
+
 dependencies {
+    annotationProcessor "com.uber.nullaway:nullaway:${libraries.nullaway}"
+    errorprone "com.google.errorprone:error_prone_core:${libraries.errorpronecore}"
+
     implementation "hu.supercluster:paperwork:${libraries.paperwork}"
 
     // Support libraries

@@ -82,6 +82,7 @@ ext {
             testingsupport      : "1.0.1",
 
             // plugins
-            errorpronecore      : "2.2.0"
+            errorpronecore      : "2.2.0",
+            nullaway            : "0.3.3"
     ]
 }
