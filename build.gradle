@@ -13,7 +13,7 @@ buildscript {
     dependencies {
         classpath "com.android.tools.build:gradle:3.0.1"
         classpath "com.getkeepsafe.dexcount:dexcount-gradle-plugin:0.7.3"
-        classpath "net.ltgt.gradle:gradle-errorprone-plugin:0.0.11"
+        classpath "net.ltgt.gradle:gradle-errorprone-plugin:0.0.13"
         classpath "com.gradle:build-scan-plugin:1.9"
         classpath "hu.supercluster:paperwork-plugin:1.2.7"
         classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.5"
@@ -82,6 +82,7 @@ ext {
             testingsupport      : "1.0.1",
 
             // plugins
-            errorpronecore      : "2.0.19"
+            errorpronecore      : "2.2.0",
+            nullaway            : "0.3.3"
     ]
 }
