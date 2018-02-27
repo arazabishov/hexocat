@@ -4,6 +4,10 @@ jacoco {
     toolVersion "0.8.0"
 }
 
+tasks.withType(Test) {
+    jacoco.includeNoLocationClasses = true
+}
+
 afterEvaluate {
 
     // Grab all build types and product flavors
