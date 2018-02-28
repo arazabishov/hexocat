@@ -49,6 +49,7 @@ public final class TrendingView extends FrameLayout {
     super(context, attrs);
   }
 
+  @SuppressWarnings("NullAway")
   @Override
   protected void onFinishInflate() {
     super.onFinishInflate();

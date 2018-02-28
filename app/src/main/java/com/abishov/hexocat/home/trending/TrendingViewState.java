@@ -26,7 +26,8 @@ abstract class TrendingViewState implements Parcelable {
   }
 
   static TrendingViewState failure(Throwable throwable) {
-    return new AutoValue_TrendingViewState(false, false, false, true, throwable.getMessage(),
+    String failureMessage = throwable.getMessage() == null ? "" : throwable.getMessage();
+    return new AutoValue_TrendingViewState(false, false, false, true, failureMessage,
         Collections.unmodifiableList(Collections.emptyList()));
   }
 

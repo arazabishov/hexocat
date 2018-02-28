@@ -1,7 +1,7 @@
 apply plugin: "com.android.application"
+apply plugin: "net.ltgt.errorprone"
 apply plugin: "org.sonarqube"
 apply from: rootProject.file("plugins/android-checkstyle.gradle")
-apply from: rootProject.file("plugins/android-errorprone.gradle")
 apply from: rootProject.file("plugins/android-paperwork.gradle")
 apply from: rootProject.file("plugins/android-dexcount.gradle")
 apply from: rootProject.file("plugins/android-findbugs.gradle")
@@ -72,8 +72,13 @@ android {
 }
 
 tasks.withType(JavaCompile) {
+    options.compilerArgs += ["-XepExcludedPaths:.*/build/generated/.*"]
+
     if (!name.toLowerCase().contains("test")) {
-        options.compilerArgs += ["-Xep:NullAway:ERROR", "-XepOpt:NullAway:AnnotatedPackages=com.uber"]
+        options.compilerArgs += [
+                "-Xep:NullAway:ERROR",
+                "-XepOpt:NullAway:AnnotatedPackages=com.abishov"
+        ]
     }
 }
 
