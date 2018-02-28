@@ -53,6 +53,7 @@ public final class RepositoryItemView extends RelativeLayout {
     }
   }
 
+  @SuppressWarnings("NullAway")
   @Override
   protected void onFinishInflate() {
     super.onFinishInflate();

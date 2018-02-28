@@ -2,6 +2,7 @@ package com.abishov.hexocat.home.trending;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,6 +28,7 @@ public final class TrendingFragment extends BaseFragment implements TrendingCont
   @Inject
   TrendingContract.Presenter presenter;
 
+  @Nullable
   private TrendingView view;
 
   public static TrendingFragment create(int days) {
@@ -46,14 +48,14 @@ public final class TrendingFragment extends BaseFragment implements TrendingCont
 
   @Nullable
   @Override
-  public View onCreateView(LayoutInflater inflater,
+  public View onCreateView(@NonNull LayoutInflater inflater,
       @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
     return inflater.inflate(R.layout.trending_view, container, false);
   }
 
   @Override
   @SuppressFBWarnings("BC_UNCONFIRMED_CAST")
-  public void onViewCreated(View trendingView, @Nullable Bundle savedInstanceState) {
+  public void onViewCreated(@NonNull View trendingView, @Nullable Bundle savedInstanceState) {
     view = (TrendingView) trendingView;
     presenter.onAttach(this);
   }
@@ -67,17 +69,27 @@ public final class TrendingFragment extends BaseFragment implements TrendingCont
 
   @Override
   public Observable<SearchQuery> searchQueries() {
-    int days = getArguments().getInt(ARG_DAYS);
-    SearchQuery searchQuery = new SearchQuery.Builder()
-        .createdSince(LocalDate.now(clock).minusDays(days))
-        .build();
-    return Observable.merge(view.onSwipeRefreshLayout(), view.onRetry())
-        .startWith(new Object())
-        .switchMap(event -> Observable.just(searchQuery));
+    if (view != null) {
+      int days = getArguments().getInt(ARG_DAYS);
+      SearchQuery searchQuery = new SearchQuery.Builder()
+          .createdSince(LocalDate.now(clock).minusDays(days))
+          .build();
+      return Observable.merge(view.onSwipeRefreshLayout(), view.onRetry())
+          .startWith(new Object())
+          .switchMap(event -> Observable.just(searchQuery));
+    }
+
+    return Observable.empty();
   }
 
   @Override
   public Consumer<TrendingViewState> bindTo() {
+    if (view == null) {
+      return (state) -> {
+        // noop
+      };
+    }
+
     return view.bindTo();
   }
 }

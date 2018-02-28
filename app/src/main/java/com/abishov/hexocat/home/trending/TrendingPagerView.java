@@ -22,6 +22,7 @@ public final class TrendingPagerView extends CoordinatorLayout {
     super(context, attrs);
   }
 
+  @SuppressWarnings("NullAway")
   @Override
   protected void onFinishInflate() {
     super.onFinishInflate();

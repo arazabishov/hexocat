@@ -33,6 +33,7 @@ public final class HomeActivity extends AppCompatActivity implements HasSupportF
   @Inject
   Picasso picasso;
 
+  @SuppressWarnings("NullAway")
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     AndroidInjection.inject(this);

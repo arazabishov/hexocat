@@ -27,6 +27,7 @@ public class Hexocat extends Application implements HasActivityInjector {
   @Inject
   Paperwork paperwork;
 
+  @SuppressWarnings("NullAway")
   @Override
   public void onCreate() {
     super.onCreate();
