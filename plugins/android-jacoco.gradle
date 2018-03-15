@@ -8,77 +8,44 @@ tasks.withType(Test) {
     jacoco.includeNoLocationClasses = true
 }
 
+task jacocoDebugTestCoverage(type: JacocoReport, dependsOn: ["testDebugUnitTest", "createDebugCoverageReport"]) {
+    group = "Reporting"
+    description = "Generate Jacoco coverage reports for the debug build."
+
+    classDirectories = fileTree(
+            dir: "${project.buildDir}/intermediates/classes/debug",
+            excludes: [
+                    '**/R.class',
+                    '**/R$*.class',
+                    '**/*$ViewInjector*.*',
+                    '**/*$ViewBinder*.*',
+                    '**/BuildConfig.*',
+                    '**/Manifest*.*',
+                    '**/*$Lambda$*.*',
+                    '**/*$inlined$*.*',
+                    '**/*Module.*',
+                    '**/*Dagger*.*',
+                    '**/*MembersInjector*.*',
+                    '**/*_Provide*Factory*.*'
+            ]
+    )
+
+    def coverageSourceDirs = ["src/main/java", "src/debug/java",]
+
+    additionalSourceDirs = files(coverageSourceDirs)
+    sourceDirectories = files(coverageSourceDirs)
+
+    executionData = fileTree(dir: "$buildDir", includes: [
+            "jacoco/testDebugUnitTest.exec",
+            "outputs/code-coverage/connected/*coverage.ec"
+    ])
+
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
+}
+
 afterEvaluate {
-
-    // Grab all build types and product flavors
-    def buildTypes = android.buildTypes.collect { type -> type.name }
-    def productFlavors = android.productFlavors.collect { flavor -> flavor.name }
-
-    // When no product flavors defined, use empty
-    if (!productFlavors) {
-        productFlavors.add("")
-    }
-
-    productFlavors.each { productFlavorName ->
-        buildTypes.each { buildTypeName ->
-            def sourceName, sourcePath
-
-            if (!productFlavorName) {
-                sourceName = sourcePath = "${buildTypeName}"
-            } else {
-                sourceName = "${productFlavorName}${buildTypeName.capitalize()}"
-                sourcePath = "${productFlavorName}/${buildTypeName}"
-            }
-
-            def testTaskName = "test${sourceName.capitalize()}UnitTest"
-            def coverageTaskName = "jacoco${buildTypeName.capitalize()}TestCoverage"
-
-            // Create coverage task of form "testFlavorTypeUnitTestCoverage"
-            // depending on "testFlavorTypeUnitTest"
-            task "${coverageTaskName}"(type: JacocoReport, dependsOn: ["$testTaskName", "createDebugCoverageReport"]) {
-                group = "Reporting"
-                description = "Generate Jacoco coverage reports for the ${sourceName.capitalize()} build."
-
-                classDirectories = fileTree(
-                        dir: "${project.buildDir}/intermediates/classes/${sourcePath}",
-                        excludes: [
-                                '**/R.class',
-                                '**/R$*.class',
-                                '**/*$ViewInjector*.*',
-                                '**/*$ViewBinder*.*',
-                                '**/BuildConfig.*',
-                                '**/Manifest*.*',
-                                '**/*$Lambda$*.*',
-                                '**/*$inlined$*.*',
-                                '**/*Module.*',
-                                '**/*Dagger*.*',
-                                '**/*MembersInjector*.*',
-                                '**/*_Provide*Factory*.*'
-                        ]
-                )
-
-                def coverageSourceDirs = [
-                        "src/main/java",
-                        "src/$productFlavorName/java",
-                        "src/$buildTypeName/java"
-                ]
-
-                additionalSourceDirs = files(coverageSourceDirs)
-                sourceDirectories = files(coverageSourceDirs)
-
-                executionData = fileTree(dir: "$buildDir", includes: [
-                        "jacoco/${testTaskName}.exec",
-                        "outputs/code-coverage/connected/*coverage.ec"
-                ])
-
-                reports {
-                    xml.enabled = true
-                    html.enabled = true
-                }
-            }
-
-            build.dependsOn "${coverageTaskName}"
-            build.dependsOn "connectedCheck"
-        }
-    }
+    connectedCheck.dependsOn "jacocoDebugTestCoverage"
 }
