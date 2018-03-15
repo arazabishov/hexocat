@@ -46,6 +46,4 @@ task jacocoDebugTestCoverage(type: JacocoReport, dependsOn: ["testDebugUnitTest"
     }
 }
 
-afterEvaluate {
-    connectedCheck.dependsOn "jacocoDebugTestCoverage"
-}
+connectedCheck.dependsOn "jacocoDebugTestCoverage"
