@@ -8,77 +8,69 @@ tasks.withType(Test) {
     jacoco.includeNoLocationClasses = true
 }
 
-afterEvaluate {
+def debugCoverageSourceDirs = files([
+        "src/main/java", "src/debug/java",
+])
 
-    // Grab all build types and product flavors
-    def buildTypes = android.buildTypes.collect { type -> type.name }
-    def productFlavors = android.productFlavors.collect { flavor -> flavor.name }
+def debugExecutionData = fileTree(dir: "$buildDir", includes: [
+        "jacoco/testDebugUnitTest.exec",
+        "outputs/code-coverage/connected/*coverage.ec"
+])
 
-    // When no product flavors defined, use empty
-    if (!productFlavors) {
-        productFlavors.add("")
+def debugClassDirectories = fileTree(
+        dir: "${project.buildDir}/intermediates/classes/debug",
+        excludes: [
+                '**/R.class',
+                '**/R$*.class',
+                '**/*$ViewInjector*.*',
+                '**/*$ViewBinder*.*',
+                '**/BuildConfig.*',
+                '**/Manifest*.*',
+                '**/*$Lambda$*.*',
+                '**/*$inlined$*.*',
+                '**/*Module.*',
+                '**/*Dagger*.*',
+                '**/*MembersInjector*.*',
+                '**/*_Provide*Factory*.*'
+        ]
+)
+
+task jacocoDebugTestCoverage(type: JacocoReport, dependsOn: ["testDebugUnitTest", "createDebugCoverageReport"]) {
+    group = "Reporting"
+    description = "Generate Jacoco coverage reports for the debug build."
+
+    classDirectories = debugClassDirectories
+
+    additionalSourceDirs = debugCoverageSourceDirs
+    sourceDirectories = debugCoverageSourceDirs
+
+    executionData = debugExecutionData
+
+    reports {
+        xml.enabled = true
+        html.enabled = true
     }
+}
 
-    productFlavors.each { productFlavorName ->
-        buildTypes.each { buildTypeName ->
-            def sourceName, sourcePath
+task jacocoDebugTestCoverageVerification(type: JacocoCoverageVerification, dependsOn: ["jacocoDebugTestCoverage"]) {
+    group = "Reporting"
+    description = "Verify that the test coverage requirements are met."
 
-            if (!productFlavorName) {
-                sourceName = sourcePath = "${buildTypeName}"
-            } else {
-                sourceName = "${productFlavorName}${buildTypeName.capitalize()}"
-                sourcePath = "${productFlavorName}/${buildTypeName}"
+    classDirectories = debugClassDirectories
+
+    additionalSourceDirs = debugCoverageSourceDirs
+    sourceDirectories = debugCoverageSourceDirs
+
+    executionData = debugExecutionData
+
+    violationRules {
+        rule {
+            limit {
+                minimum = 0.6
             }
-
-            def testTaskName = "test${sourceName.capitalize()}UnitTest"
-            def coverageTaskName = "jacoco${buildTypeName.capitalize()}TestCoverage"
-
-            // Create coverage task of form "testFlavorTypeUnitTestCoverage"
-            // depending on "testFlavorTypeUnitTest"
-            task "${coverageTaskName}"(type: JacocoReport, dependsOn: ["$testTaskName", "createDebugCoverageReport"]) {
-                group = "Reporting"
-                description = "Generate Jacoco coverage reports for the ${sourceName.capitalize()} build."
-
-                classDirectories = fileTree(
-                        dir: "${project.buildDir}/intermediates/classes/${sourcePath}",
-                        excludes: [
-                                '**/R.class',
-                                '**/R$*.class',
-                                '**/*$ViewInjector*.*',
-                                '**/*$ViewBinder*.*',
-                                '**/BuildConfig.*',
-                                '**/Manifest*.*',
-                                '**/*$Lambda$*.*',
-                                '**/*$inlined$*.*',
-                                '**/*Module.*',
-                                '**/*Dagger*.*',
-                                '**/*MembersInjector*.*',
-                                '**/*_Provide*Factory*.*'
-                        ]
-                )
-
-                def coverageSourceDirs = [
-                        "src/main/java",
-                        "src/$productFlavorName/java",
-                        "src/$buildTypeName/java"
-                ]
-
-                additionalSourceDirs = files(coverageSourceDirs)
-                sourceDirectories = files(coverageSourceDirs)
-
-                executionData = fileTree(dir: "$buildDir", includes: [
-                        "jacoco/${testTaskName}.exec",
-                        "outputs/code-coverage/connected/*coverage.ec"
-                ])
-
-                reports {
-                    xml.enabled = true
-                    html.enabled = true
-                }
-            }
-
-            build.dependsOn "${coverageTaskName}"
-            build.dependsOn "connectedCheck"
         }
     }
 }
+
+connectedCheck.dependsOn "jacocoDebugTestCoverage"
+connectedCheck.dependsOn "jacocoDebugTestCoverageVerification"
