@@ -1,4 +1,5 @@
 apply plugin: "com.android.application"
+apply plugin: "kotlin-android"
 apply plugin: "net.ltgt.errorprone"
 apply plugin: "org.sonarqube"
 apply from: rootProject.file("plugins/android-checkstyle.gradle")
@@ -86,6 +87,7 @@ dependencies {
     annotationProcessor "com.uber.nullaway:nullaway:${libraries.nullaway}"
     errorprone "com.google.errorprone:error_prone_core:${libraries.errorpronecore}"
 
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$rootProject.ext.kotlin"
     implementation "hu.supercluster:paperwork:${libraries.paperwork}"
 
     // Support libraries

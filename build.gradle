@@ -19,6 +19,7 @@ buildscript {
         classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.5"
         classpath "com.github.ben-manes:gradle-versions-plugin:0.17.0"
         classpath "org.jacoco:org.jacoco.core:0.8.0"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.2.31"
     }
 }
 
@@ -42,6 +43,8 @@ task clean(type: Delete) {
 }
 
 ext {
+    kotlin = "1.2.31"
+
     versions = [
             sdk   : 26,
             tools : "26.0.2",
