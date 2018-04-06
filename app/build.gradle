@@ -1,7 +1,6 @@
 apply plugin: "com.android.application"
 apply plugin: "kotlin-android"
 apply plugin: "net.ltgt.errorprone"
-apply plugin: "org.sonarqube"
 apply from: rootProject.file("plugins/android-checkstyle.gradle")
 apply from: rootProject.file("plugins/android-paperwork.gradle")
 apply from: rootProject.file("plugins/android-dexcount.gradle")
