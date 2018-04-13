@@ -78,8 +78,5 @@ ext {
             restmock            : "0.3.1",
             okhttpIdlingResource: "1.0.0",
             testingsupport      : "1.0.1",
-
-            // plugins
-            nullaway            : "0.3.3"
     ]
 }
