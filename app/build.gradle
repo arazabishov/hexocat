@@ -1,6 +1,5 @@
 apply plugin: "com.android.application"
 apply plugin: "kotlin-android"
-apply plugin: "net.ltgt.errorprone"
 apply plugin: "kotlin-kapt"
 apply from: rootProject.file("plugins/android-checkstyle.gradle")
 apply from: rootProject.file("plugins/android-paperwork.gradle")
@@ -71,21 +70,7 @@ android {
     }
 }
 
-tasks.withType(JavaCompile) {
-    options.compilerArgs += ["-XepExcludedPaths:.*/build/generated/.*"]
-
-    if (!name.toLowerCase().contains("test")) {
-        options.compilerArgs += [
-                "-Xep:NullAway:ERROR",
-                "-XepOpt:NullAway:AnnotatedPackages=com.abishov"
-        ]
-    }
-}
-
 dependencies {
-    annotationProcessor "com.uber.nullaway:nullaway:${libraries.nullaway}"
-    errorprone "com.google.errorprone:error_prone_core:${libraries.errorpronecore}"
-
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$rootProject.ext.kotlin"
     implementation "hu.supercluster:paperwork:${libraries.paperwork}"
 
