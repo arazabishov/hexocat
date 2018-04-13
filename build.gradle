@@ -41,8 +41,8 @@ ext {
     kotlin = "1.2.31"
 
     versions = [
-            sdk   : 26,
-            tools : "26.0.2",
+            sdk   : 27,
+            tools : "27.0.3",
             minsdk: 16
     ]
 
