@@ -40,7 +40,7 @@ public final class RepositoryAdapter extends Adapter<RepositoryViewHolder>
   }
 
   @Override
-  public void accept(List<RepositoryViewModel> repositoryViewModels) throws Exception { // NOPMD
+  public void accept(List<RepositoryViewModel> repositoryViewModels) { // NOPMD
     repositories.clear();
     repositories.addAll(repositoryViewModels);
     notifyDataSetChanged();

@@ -8,7 +8,7 @@ import java.util.Collections;
 import java.util.List;
 
 @AutoValue
-abstract class TrendingViewState implements Parcelable {
+public abstract class TrendingViewState implements Parcelable {
 
   static TrendingViewState idle() {
     return new AutoValue_TrendingViewState(true, false, false, false, "",

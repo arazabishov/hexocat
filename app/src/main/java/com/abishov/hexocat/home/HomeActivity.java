@@ -10,7 +10,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.abishov.hexocat.R;
 import com.abishov.hexocat.common.picasso.PicassoServiceLocator;
-import com.abishov.hexocat.home.trending.TrendingPagerFragment;
+import com.abishov.hexocat.home.trending.TrendingPagerFragmentKt;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 import dagger.android.AndroidInjection;
@@ -71,7 +71,7 @@ public final class HomeActivity extends AppCompatActivity implements HasSupportF
     Fragment fragment;
 
     if (viewId == R.id.item_trending) {
-      fragment = TrendingPagerFragment.create();
+      fragment = TrendingPagerFragmentKt.create();
     } else {
       fragment = new Fragment();
     }
