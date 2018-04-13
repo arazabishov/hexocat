@@ -3,10 +3,9 @@ apply plugin: "com.gradle.build-scan"
 
 buildscript {
     repositories {
-        jcenter()
-
         maven { url("https://plugins.gradle.org/m2/") }
-        maven { url("https://maven.google.com") }
+        jcenter()
+        google()
     }
 
     dependencies {
@@ -29,10 +28,9 @@ buildScan {
 allprojects {
     repositories {
         jcenter()
+        google()
 
         maven { url("https://jitpack.io") }
-        maven { url("https://maven.google.com") }
-        maven { url("https://oss.sonatype.org/content/repositories/snapshots/") }
     }
 }
 

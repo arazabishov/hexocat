@@ -1,6 +1,7 @@
 apply plugin: "com.android.application"
 apply plugin: "kotlin-android"
 apply plugin: "net.ltgt.errorprone"
+apply plugin: "kotlin-kapt"
 apply from: rootProject.file("plugins/android-checkstyle.gradle")
 apply from: rootProject.file("plugins/android-paperwork.gradle")
 apply from: rootProject.file("plugins/android-dexcount.gradle")
@@ -104,15 +105,15 @@ dependencies {
     // Google Dagger
     implementation "com.google.dagger:dagger:${libraries.dagger}"
     implementation "com.google.dagger:dagger-android-support:${libraries.dagger}"
-    annotationProcessor "com.google.dagger:dagger-compiler:${libraries.dagger}"
-    annotationProcessor "com.google.dagger:dagger-android-processor:${libraries.dagger}"
+    kapt "com.google.dagger:dagger-compiler:${libraries.dagger}"
+    kapt "com.google.dagger:dagger-android-processor:${libraries.dagger}"
 
     compileOnly "com.jakewharton.auto.value:auto-value-annotations:${libraries.autovalueann}"
-    annotationProcessor "com.google.auto.value:auto-value:${libraries.autovalue}"
+    kapt "com.google.auto.value:auto-value:${libraries.autovalue}"
 
     compileOnly "com.ryanharter.auto.value:auto-value-gson-annotations:${libraries.autovaluegson}"
-    annotationProcessor "com.ryanharter.auto.value:auto-value-gson:${libraries.autovaluegson}"
-    annotationProcessor "com.ryanharter.auto.value:auto-value-parcel:${libraries.autovalueparcel}"
+    kapt "com.ryanharter.auto.value:auto-value-gson:${libraries.autovaluegson}"
+    kapt "com.ryanharter.auto.value:auto-value-parcel:${libraries.autovalueparcel}"
 
     // Square libraries
     implementation "com.squareup.picasso:picasso:${libraries.picasso}"
@@ -132,7 +133,7 @@ dependencies {
     implementation "com.jakewharton.timber:timber:${libraries.timber}"
     implementation "com.jakewharton:butterknife:${libraries.butterknife}"
     implementation "com.jakewharton.threetenabp:threetenabp:${libraries.threetenabp}"
-    annotationProcessor "com.jakewharton:butterknife-compiler:${libraries.butterknife}"
+    kapt "com.jakewharton:butterknife-compiler:${libraries.butterknife}"
 
     // Plugin dependencies
     compileOnly "com.google.code.findbugs:annotations:${libraries.findbugs}"
