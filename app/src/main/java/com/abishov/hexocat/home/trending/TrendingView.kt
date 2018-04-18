@@ -19,6 +19,7 @@ import com.abishov.hexocat.R
 import com.abishov.hexocat.common.views.DividerItemDecoration
 import com.abishov.hexocat.home.repository.RepositoryAdapter
 import com.abishov.hexocat.home.repository.RepositoryAdapter.TrendingViewClickListener
+import com.abishov.hexocat.home.repository.RepositoryViewModel
 import com.jakewharton.rxbinding2.support.v4.widget.RxSwipeRefreshLayout
 import com.jakewharton.rxbinding2.view.RxView
 import io.reactivex.Observable
@@ -91,10 +92,12 @@ class TrendingView(context: Context, attrs: AttributeSet?) : FrameLayout(context
   }
 
   private fun onRepositoryItemClick(): TrendingViewClickListener {
-    return TrendingViewClickListener {
-      context.startActivity(
-        Intent(Intent.ACTION_VIEW, Uri.parse(it.url()))
-      )
+    return object : TrendingViewClickListener {
+      override fun onRepositoryClick(repository: RepositoryViewModel) {
+        context.startActivity(
+          Intent(Intent.ACTION_VIEW, Uri.parse(repository.url()))
+        )
+      }
     }
   }
 }

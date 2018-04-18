@@ -15,14 +15,14 @@ import javax.inject.Singleton
 
 @Singleton
 @Component(
-  modules = arrayOf(
+  modules = [
     AppModule::class,
     NetworkModule::class,
     PicassoModule::class,
     SchedulerModule::class,
     AndroidInjectionModule::class,
     AppBindings::class
-  )
+  ]
 )
 interface AppComponent {
 

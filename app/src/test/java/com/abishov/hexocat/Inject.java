@@ -15,7 +15,7 @@ public final class Inject {
 
   public static Gson gson() {
     return new GsonBuilder()
-        .registerTypeAdapterFactory(HexocatAdapterFactory.create())
+        .registerTypeAdapterFactory(HexocatAdapterFactory.Companion.create())
         .create();
   }
 }

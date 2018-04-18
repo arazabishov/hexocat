@@ -29,17 +29,17 @@ internal class TrendingPresenter @Inject constructor(
   private fun fetchRepositories(query: SearchQuery): Observable<TrendingViewState> {
     return trendingRepository.trendingRepositories(query)
       .subscribeOn(schedulerProvider.io())
-      .switchMap { repositories ->
-        Observable.fromIterable(repositories)
-          .map { repo ->
-            val description = if (repo.description() == null) "" else repo.description()
-            val forks = repo.forks().toString()
-            val stars = repo.stars().toString()
+      .switchMap {
+        Observable.fromIterable(it)
+          .map {
+            val description = if (it.description() == null) "" else it.description()
+            val forks = it.forks().toString()
+            val stars = it.stars().toString()
             RepositoryViewModel.create(
-              repo.name(), description, forks, stars,
-              repo.owner().avatarUrl(),
-              repo.owner().login(),
-              repo.htmlUrl()
+              it.name(), description, forks, stars,
+              it.owner().avatarUrl(),
+              it.owner().login(),
+              it.htmlUrl()
             )
           }
           .toList()

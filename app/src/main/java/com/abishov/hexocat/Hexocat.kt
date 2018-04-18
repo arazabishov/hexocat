@@ -70,15 +70,15 @@ open class Hexocat : Application(), HasActivityInjector {
     appComponent.inject(this)
   }
 
-  protected fun setUpLeakCanary() {
-    if (BuildConfig.DEBUG) {
-      refWatcher = LeakCanary.install(this)
+  private fun setUpLeakCanary() {
+    refWatcher = if (BuildConfig.DEBUG) {
+      LeakCanary.install(this)
     } else {
-      refWatcher = RefWatcher.DISABLED
+      RefWatcher.DISABLED
     }
   }
 
-  protected fun setUpTimber() {
+  private fun setUpTimber() {
     if (BuildConfig.DEBUG) {
       Timber.plant(Timber.DebugTree())
     } else {
