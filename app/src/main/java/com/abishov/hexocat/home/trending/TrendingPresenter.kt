@@ -32,22 +32,25 @@ internal class TrendingPresenter @Inject constructor(
       .switchMap {
         Observable.fromIterable(it)
           .map {
-            val description = if (it.description() == null) "" else it.description()
-            val forks = it.forks().toString()
-            val stars = it.stars().toString()
-            RepositoryViewModel.create(
-              it.name(), description, forks, stars,
-              it.owner().avatarUrl(),
-              it.owner().login(),
-              it.htmlUrl()
+            val description = if (it.description == null) "" else it.description
+            val forks = it.forks.toString()
+            val stars = it.stars.toString()
+            RepositoryViewModel(
+              it.name, description, forks, stars,
+              it.owner.avatarUrl,
+              it.owner.login,
+              it.htmlUrl
             )
           }
           .toList()
           .toObservable()
       }
-      .map { TrendingViewState.success(it) }
-      .startWith(TrendingViewState.progress())
-      .onErrorReturn { TrendingViewState.failure(it) }
+      .map { TrendingViewState.Success(it) as TrendingViewState }
+      .startWith(TrendingViewState.InProgress())
+      .onErrorReturn {
+        val message = it.message ?: ""
+        TrendingViewState.Failure(message)
+      }
       .observeOn(schedulerProvider.ui())
   }
 }

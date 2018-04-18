@@ -1,9 +1,9 @@
 package com.abishov.hexocat.common.network
 
 import android.content.Context
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
-import com.google.gson.TypeAdapterFactory
+import com.squareup.moshi.JsonAdapter
+import com.squareup.moshi.KotlinJsonAdapterFactory
+import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
 import okhttp3.Cache
@@ -15,7 +15,7 @@ import retrofit2.CallAdapter
 import retrofit2.Converter
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
-import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.moshi.MoshiConverterFactory
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
@@ -23,12 +23,11 @@ import javax.inject.Singleton
 private const val OK_HTTP = "OkHttp"
 
 @Module
-@Singleton
 class NetworkModule {
 
   @Provides
   @Singleton
-  internal fun gsonAdapterFactory(): TypeAdapterFactory = HexocatAdapterFactory.create()
+  internal fun jsonAdapterFactory(): JsonAdapter.Factory = KotlinJsonAdapterFactory();
 
   @Provides
   @Singleton
@@ -36,15 +35,17 @@ class NetworkModule {
 
   @Provides
   @Singleton
-  internal fun gson(adapterFactory: TypeAdapterFactory): Gson {
-    return GsonBuilder()
-      .registerTypeAdapterFactory(adapterFactory)
-      .create()
+  internal fun moshi(adapterFactory: JsonAdapter.Factory): Moshi {
+    return Moshi.Builder()
+      .add(adapterFactory)
+      .build()
   }
 
   @Provides
   @Singleton
-  internal fun gsonFactory(gson: Gson): Converter.Factory = GsonConverterFactory.create(gson)
+  internal fun converterFactory(moshi: Moshi): Converter.Factory {
+    return MoshiConverterFactory.create(moshi)
+  }
 
   @Provides
   @Singleton

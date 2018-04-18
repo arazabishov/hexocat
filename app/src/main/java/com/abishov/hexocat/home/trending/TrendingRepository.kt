@@ -13,6 +13,6 @@ internal class TrendingRepository @Inject constructor(private val service: Trend
 
   fun trendingRepositories(query: SearchQuery): Observable<List<Repository>> {
     return service.repositories(query, Sort.STARS, Order.DESC)
-      .switchMap { Observable.just(it.items()) }
+      .switchMap { Observable.just(it.items) }
   }
 }

@@ -12,7 +12,6 @@ import okhttp3.OkHttpClient
 import javax.inject.Singleton
 
 @Module
-@Singleton
 class PicassoModule {
 
   @Provides

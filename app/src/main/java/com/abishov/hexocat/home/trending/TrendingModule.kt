@@ -6,7 +6,6 @@ import dagger.Provides
 import retrofit2.Retrofit
 
 @Module
-@FragmentScope
 internal class TrendingModule {
 
   @Provides

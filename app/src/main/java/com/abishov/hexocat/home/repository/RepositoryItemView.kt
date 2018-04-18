@@ -59,23 +59,23 @@ class RepositoryItemView(context: Context, attrs: AttributeSet) : RelativeLayout
   }
 
   fun bindTo(repository: RepositoryViewModel) {
-    picasso.load(repository.avatarUrl())
+    picasso.load(repository.avatarUrl)
       .placeholder(R.drawable.avatar)
       .fit()
       .transform(transformation)
       .into(imageViewLogo)
 
-    textViewRepositoryName.text = repository.name()
-    textViewForks.text = repository.forks()
-    textViewStars.text = repository.stars()
+    textViewRepositoryName.text = repository.name
+    textViewForks.text = repository.forks
+    textViewStars.text = repository.stars
 
     val description = Truss()
-    description.append(repository.login())
+    description.append(repository.login)
 
-    if (!TextUtils.isEmpty(repository.description())) {
+    if (!TextUtils.isEmpty(repository.description)) {
       description.pushSpan(ForegroundColorSpan(descriptionColor))
         .append(" — ")
-        .append(repository.description())
+        .append(repository.description)
         .popSpan()
     }
 

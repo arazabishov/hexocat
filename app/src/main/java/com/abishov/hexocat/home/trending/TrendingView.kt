@@ -78,16 +78,22 @@ class TrendingView(context: Context, attrs: AttributeSet?) : FrameLayout(context
     return RxView.clicks(buttonRetry)
   }
 
-  fun bindTo(state: TrendingViewState) { // NOPMD
-    recyclerViewTrending.visibility = if (state.isSuccess) View.VISIBLE else View.GONE
-    swipeRefreshLayout.isRefreshing = state.isInProgress
-    buttonRetry.visibility = if (state.isFailure) View.VISIBLE else View.GONE
-    textViewError.visibility = if (state.isFailure) View.VISIBLE else View.GONE
+  fun bindTo(state: TrendingViewState) {
+    recyclerViewTrending.visibility =
+        if (state is TrendingViewState.Success) {
+          View.VISIBLE
+        } else {
+          View.GONE
+        }
 
-    if (state.isSuccess) {
-      repositoryAdapter.accept(state.items())
-    } else if (state.isFailure) {
-      textViewError.text = state.error()
+    swipeRefreshLayout.isRefreshing = state is TrendingViewState.InProgress
+    buttonRetry.visibility = if (state is TrendingViewState.Failure) View.VISIBLE else View.GONE
+    textViewError.visibility = if (state is TrendingViewState.Failure) View.VISIBLE else View.GONE
+
+    if (state is TrendingViewState.Success) {
+      repositoryAdapter.accept(state.items)
+    } else if (state is TrendingViewState.Failure) {
+      textViewError.text = state.error
     }
   }
 
@@ -95,7 +101,7 @@ class TrendingView(context: Context, attrs: AttributeSet?) : FrameLayout(context
     return object : TrendingViewClickListener {
       override fun onRepositoryClick(repository: RepositoryViewModel) {
         context.startActivity(
-          Intent(Intent.ACTION_VIEW, Uri.parse(repository.url()))
+          Intent(Intent.ACTION_VIEW, Uri.parse(repository.url))
         )
       }
     }

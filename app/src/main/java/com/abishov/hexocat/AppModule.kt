@@ -8,7 +8,6 @@ import hu.supercluster.paperwork.Paperwork
 import javax.inject.Singleton
 
 @Module
-@Singleton
 internal class AppModule {
 
   @Provides
