@@ -9,7 +9,7 @@ buildscript {
     }
 
     dependencies {
-        classpath "com.android.tools.build:gradle:3.1.0"
+        classpath "com.android.tools.build:gradle:3.1.1"
         classpath "com.getkeepsafe.dexcount:dexcount-gradle-plugin:0.8.2"
         classpath "com.gradle:build-scan-plugin:1.9"
         classpath "hu.supercluster:paperwork-plugin:1.2.7"
@@ -30,6 +30,7 @@ allprojects {
         google()
 
         maven { url("https://jitpack.io") }
+        maven { url("https://oss.sonatype.org/content/repositories/snapshots/") }
     }
 }
 
@@ -48,24 +49,21 @@ ext {
 
     libraries = [
             gson                : "2.8.1",
-            dagger              : "2.12",
+            moshi               : "1.6.0-SNAPSHOT",
+            dagger              : "2.15",
             support             : "27.1.1",
             picasso             : "2.5.2",
             okpicasso           : "1.1.0",
             paperwork           : "1.2.7",
             timber              : "4.5.1",
-            leakcanary          : "1.5.1",
+            leakcanary          : "1.5.4",
             rxjava              : "2.1.6",
             rxidler             : "0.9.0",
-            rxandroid           : "2.0.1",
+            rxandroid           : "2.0.2",
             rxbindings          : "2.0.0",
             butterknife         : "8.8.1",
             okhttp              : "3.9.0",
             retrofit            : "2.3.0",
-            autovalueann        : "1.5",
-            autovalue           : "1.5.1",
-            autovaluegson       : "0.6.0",
-            autovalueparcel     : "0.2.5",
             findbugs            : "3.0.1",
             threetenabp         : "1.0.5",
 

@@ -84,28 +84,22 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxandroid:${libraries.rxandroid}"
     implementation "io.reactivex.rxjava2:rxjava:${libraries.rxjava}"
 
-    // Google libraries
-    implementation "com.google.code.gson:gson:${libraries.gson}"
+    implementation"com.squareup.moshi:moshi:${libraries.moshi}"
+    implementation "com.squareup.moshi:moshi-kotlin:${libraries.moshi}"
 
     // Google Dagger
     implementation "com.google.dagger:dagger:${libraries.dagger}"
     implementation "com.google.dagger:dagger-android-support:${libraries.dagger}"
+
     kapt "com.google.dagger:dagger-compiler:${libraries.dagger}"
     kapt "com.google.dagger:dagger-android-processor:${libraries.dagger}"
-
-    compileOnly "com.jakewharton.auto.value:auto-value-annotations:${libraries.autovalueann}"
-    kapt "com.google.auto.value:auto-value:${libraries.autovalue}"
-
-    compileOnly "com.ryanharter.auto.value:auto-value-gson-annotations:${libraries.autovaluegson}"
-    kapt "com.ryanharter.auto.value:auto-value-gson:${libraries.autovaluegson}"
-    kapt "com.ryanharter.auto.value:auto-value-parcel:${libraries.autovalueparcel}"
 
     // Square libraries
     implementation "com.squareup.picasso:picasso:${libraries.picasso}"
     implementation "com.squareup.okhttp3:okhttp:${libraries.okhttp}"
     implementation "com.squareup.okhttp3:logging-interceptor:${libraries.okhttp}"
     implementation "com.squareup.retrofit2:retrofit:${libraries.retrofit}"
-    implementation "com.squareup.retrofit2:converter-gson:${libraries.retrofit}"
+    implementation "com.squareup.retrofit2:converter-moshi:${libraries.retrofit}"
     implementation "com.squareup.retrofit2:adapter-rxjava2:${libraries.retrofit}"
     debugImplementation "com.squareup.leakcanary:leakcanary-android:${libraries.leakcanary}"
     releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:${libraries.leakcanary}"
