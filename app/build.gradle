@@ -125,7 +125,9 @@ dependencies {
     testImplementation "org.assertj:assertj-core:${libraries.assertj}"
     testImplementation "org.mockito:mockito-core:${libraries.mockito}"
     testImplementation "com.squareup.leakcanary:leakcanary-android-no-op:${libraries.leakcanary}"
-    testImplementation "nl.jqno.equalsverifier:equalsverifier:${libraries.equalsverifier}"
+
+    testImplementation "com.willowtreeapps.assertk:assertk:${libraries.assertk}"
+    testImplementation "com.nhaarman:mockito-kotlin-kt1.1:${libraries.mockitok}"
 
     // Android test dependencies
     androidTestUtil "com.android.support.test:orchestrator:${libraries.testingsupport}"
