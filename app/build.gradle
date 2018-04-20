@@ -1,12 +1,10 @@
 apply plugin: "com.android.application"
-apply plugin: "net.ltgt.errorprone"
-apply plugin: "org.sonarqube"
-apply from: rootProject.file("plugins/android-checkstyle.gradle")
+apply plugin: "kotlin-android"
+apply plugin: "kotlin-kapt"
 apply from: rootProject.file("plugins/android-paperwork.gradle")
 apply from: rootProject.file("plugins/android-dexcount.gradle")
 apply from: rootProject.file("plugins/android-findbugs.gradle")
 apply from: rootProject.file("plugins/android-jacoco.gradle")
-apply from: rootProject.file("plugins/android-pmd.gradle")
 
 def versions = rootProject.ext.versions
 def libraries = rootProject.ext.libraries
@@ -36,12 +34,11 @@ android {
         abortOnError true
         disable "GoogleAppIndexingWarning"
         warning "InvalidPackage"
-        warning 'InvalidPackage'
     }
 
     packagingOptions {
         exclude "META-INF/LICENSE"
-        exclude 'META-INF/rxjava.properties'
+        exclude "META-INF/rxjava.properties"
     }
 
     compileOptions {
@@ -71,21 +68,8 @@ android {
     }
 }
 
-tasks.withType(JavaCompile) {
-    options.compilerArgs += ["-XepExcludedPaths:.*/build/generated/.*"]
-
-    if (!name.toLowerCase().contains("test")) {
-        options.compilerArgs += [
-                "-Xep:NullAway:ERROR",
-                "-XepOpt:NullAway:AnnotatedPackages=com.abishov"
-        ]
-    }
-}
-
 dependencies {
-    annotationProcessor "com.uber.nullaway:nullaway:${libraries.nullaway}"
-    errorprone "com.google.errorprone:error_prone_core:${libraries.errorpronecore}"
-
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$rootProject.ext.kotlin"
     implementation "hu.supercluster:paperwork:${libraries.paperwork}"
 
     // Support libraries
@@ -98,28 +82,25 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxandroid:${libraries.rxandroid}"
     implementation "io.reactivex.rxjava2:rxjava:${libraries.rxjava}"
 
-    // Google libraries
-    implementation "com.google.code.gson:gson:${libraries.gson}"
-
-    // Google Dagger
+    // Google
+    kapt "com.google.dagger:dagger-compiler:${libraries.dagger}"
     implementation "com.google.dagger:dagger:${libraries.dagger}"
+
+    kapt "com.google.dagger:dagger-android-processor:${libraries.dagger}"
     implementation "com.google.dagger:dagger-android-support:${libraries.dagger}"
-    annotationProcessor "com.google.dagger:dagger-compiler:${libraries.dagger}"
-    annotationProcessor "com.google.dagger:dagger-android-processor:${libraries.dagger}"
 
-    compileOnly "com.jakewharton.auto.value:auto-value-annotations:${libraries.autovalueann}"
-    annotationProcessor "com.google.auto.value:auto-value:${libraries.autovalue}"
-
-    compileOnly "com.ryanharter.auto.value:auto-value-gson-annotations:${libraries.autovaluegson}"
-    annotationProcessor "com.ryanharter.auto.value:auto-value-gson:${libraries.autovaluegson}"
-    annotationProcessor "com.ryanharter.auto.value:auto-value-parcel:${libraries.autovalueparcel}"
+    kapt "android.arch.persistence.room:compiler:$libraries.room"
+    implementation "android.arch.persistence.room:runtime:$libraries.room"
+    implementation "android.arch.persistence.room:rxjava2:$libraries.room"
 
     // Square libraries
+    implementation "com.squareup.moshi:moshi:${libraries.moshi}"
+    implementation "com.squareup.moshi:moshi-kotlin:${libraries.moshi}"
     implementation "com.squareup.picasso:picasso:${libraries.picasso}"
     implementation "com.squareup.okhttp3:okhttp:${libraries.okhttp}"
     implementation "com.squareup.okhttp3:logging-interceptor:${libraries.okhttp}"
     implementation "com.squareup.retrofit2:retrofit:${libraries.retrofit}"
-    implementation "com.squareup.retrofit2:converter-gson:${libraries.retrofit}"
+    implementation "com.squareup.retrofit2:converter-moshi:${libraries.retrofit}"
     implementation "com.squareup.retrofit2:adapter-rxjava2:${libraries.retrofit}"
     debugImplementation "com.squareup.leakcanary:leakcanary-android:${libraries.leakcanary}"
     releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:${libraries.leakcanary}"
@@ -132,7 +113,7 @@ dependencies {
     implementation "com.jakewharton.timber:timber:${libraries.timber}"
     implementation "com.jakewharton:butterknife:${libraries.butterknife}"
     implementation "com.jakewharton.threetenabp:threetenabp:${libraries.threetenabp}"
-    annotationProcessor "com.jakewharton:butterknife-compiler:${libraries.butterknife}"
+    kapt "com.jakewharton:butterknife-compiler:${libraries.butterknife}"
 
     // Plugin dependencies
     compileOnly "com.google.code.findbugs:annotations:${libraries.findbugs}"
@@ -142,7 +123,9 @@ dependencies {
     testImplementation "org.assertj:assertj-core:${libraries.assertj}"
     testImplementation "org.mockito:mockito-core:${libraries.mockito}"
     testImplementation "com.squareup.leakcanary:leakcanary-android-no-op:${libraries.leakcanary}"
-    testImplementation "nl.jqno.equalsverifier:equalsverifier:${libraries.equalsverifier}"
+
+    testImplementation "com.willowtreeapps.assertk:assertk:${libraries.assertk}"
+    testImplementation "com.nhaarman:mockito-kotlin-kt1.1:${libraries.mockitok}"
 
     // Android test dependencies
     androidTestUtil "com.android.support.test:orchestrator:${libraries.testingsupport}"

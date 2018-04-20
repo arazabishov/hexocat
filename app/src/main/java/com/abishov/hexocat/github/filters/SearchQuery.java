@@ -1,9 +1,9 @@
 package com.abishov.hexocat.github.filters;
 
-import static com.abishov.hexocat.common.utils.Preconditions.isNull;
 import static org.threeten.bp.format.DateTimeFormatter.ISO_LOCAL_DATE;
 
 import android.support.annotation.Nullable;
+import com.abishov.hexocat.common.utils.Preconditions;
 import org.threeten.bp.LocalDate;
 
 public final class SearchQuery {
@@ -11,7 +11,7 @@ public final class SearchQuery {
   private final LocalDate createdSince;
 
   SearchQuery(Builder builder) {
-    createdSince = isNull(builder.createdSince, "createdSince == null");
+    createdSince = Preconditions.INSTANCE.isNull(builder.createdSince, "createdSince == null");
   }
 
   @Override
