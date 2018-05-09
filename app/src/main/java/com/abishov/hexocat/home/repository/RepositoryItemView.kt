@@ -2,7 +2,6 @@ package com.abishov.hexocat.home.repository
 
 import android.content.Context
 import android.support.v4.content.ContextCompat
-import android.text.TextUtils
 import android.text.style.ForegroundColorSpan
 import android.util.AttributeSet
 import android.util.TypedValue
@@ -13,7 +12,7 @@ import butterknife.BindView
 import butterknife.ButterKnife
 import com.abishov.hexocat.R
 import com.abishov.hexocat.common.picasso.PicassoServiceLocator
-import com.abishov.hexocat.common.views.Truss
+import com.abishov.hexocat.common.views.truss
 import com.squareup.picasso.Picasso
 import com.squareup.picasso.Transformation
 
@@ -69,14 +68,15 @@ class RepositoryItemView(context: Context, attrs: AttributeSet) : RelativeLayout
     textViewForks.text = repository.forks
     textViewStars.text = repository.stars
 
-    val description = Truss()
-    description.append(repository.login)
+    val description = truss {
+      append(repository.login)
+    }
 
-    if (!TextUtils.isEmpty(repository.description)) {
-      description.pushSpan(ForegroundColorSpan(descriptionColor))
-        .append(" — ")
-        .append(repository.description)
-        .popSpan()
+    if (!repository.description.isBlank()) {
+      description.span(ForegroundColorSpan(descriptionColor)) {
+        append(" — ")
+        append(repository.description)
+      }
     }
 
     textViewRepositoryDescription.text = description.build()
