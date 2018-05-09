@@ -42,9 +42,8 @@ class TrendingFragment : BaseFragment(), TrendingContract.View {
 
   override fun onCreateView(
     inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-  ) = inflater.inflate(R.layout.trending_view, container, false)
+  ): View? = inflater.inflate(R.layout.trending_view, container, false)
 
-  // @SuppressFBWarnings("BC_UNCONFIRMED_CAST")
   override fun onViewCreated(trendingView: View, savedInstanceState: Bundle?) {
     view = trendingView as TrendingView
     presenter.onAttach(this)

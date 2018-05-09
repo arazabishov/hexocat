@@ -1,4 +1,4 @@
-package com.abishov.hexocat.home
+package com.abishov.hexocat.home.trending
 
 import android.app.Activity
 import android.app.Instrumentation.ActivityResult
@@ -8,7 +8,7 @@ import android.support.test.espresso.intent.Intents.intending
 import android.support.test.espresso.intent.matcher.IntentMatchers.*
 import android.support.test.espresso.intent.rule.IntentsTestRule
 import com.abishov.hexocat.common.rule.MockWebServerRule
-import com.abishov.hexocat.home.trending.trendingScreen
+import com.abishov.hexocat.home.HomeActivity
 import io.appflate.restmock.RESTMockServer.whenGET
 import io.appflate.restmock.RequestsVerifier.verifyGET
 import io.appflate.restmock.utils.QueryParam
@@ -20,7 +20,7 @@ import org.hamcrest.CoreMatchers.not
 import org.junit.Rule
 import org.junit.Test
 
-class HomeScreenTest {
+class TrendingScreenTest {
 
   @get:Rule
   val activityTestRule = IntentsTestRule(
