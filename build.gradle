@@ -9,13 +9,13 @@ buildscript {
     }
 
     dependencies {
-        classpath "com.android.tools.build:gradle:3.1.1"
+        classpath "com.android.tools.build:gradle:3.1.2"
         classpath "com.getkeepsafe.dexcount:dexcount-gradle-plugin:0.8.2"
         classpath "com.gradle:build-scan-plugin:1.9"
         classpath "hu.supercluster:paperwork-plugin:1.2.7"
         classpath "com.github.ben-manes:gradle-versions-plugin:0.17.0"
         classpath "org.jacoco:org.jacoco.core:0.8.0"
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.2.31"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.2.41"
     }
 }
 
@@ -48,7 +48,8 @@ ext {
     ]
 
     libraries = [
-            room                : "1.0.0",
+            ktx                 : "0.3",
+            room                : "1.1.0",
             moshi               : "1.6.0-SNAPSHOT",
             dagger              : "2.15",
             support             : "27.1.1",
