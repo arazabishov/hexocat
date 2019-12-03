@@ -43,7 +43,7 @@ class DividerItemDecoration(
     }
   }
 
-  override fun onDraw(canvas: Canvas, parent: RecyclerView, state: RecyclerView.State?) {
+  override fun onDraw(canvas: Canvas, parent: RecyclerView, state: RecyclerView.State) {
     parent.layoutManager?.let {
       if (orientation == VERTICAL) {
         drawVertical(canvas, parent)
@@ -83,7 +83,7 @@ class DividerItemDecoration(
 
     for (i in 0 until childCount) {
       val child = parent.getChildAt(i)
-      parent.layoutManager.getDecoratedBoundsWithMargins(child, bounds)
+      parent.layoutManager?.getDecoratedBoundsWithMargins(child, bounds)
 
       val right = bounds.right + Math.round(child.translationX)
       val left = right - divider.intrinsicWidth
@@ -96,7 +96,7 @@ class DividerItemDecoration(
   }
 
   override fun getItemOffsets(
-    outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State?
+    outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State
   ) {
     if (orientation == VERTICAL) {
       outRect.set(0, 0, 0, divider.intrinsicHeight)
