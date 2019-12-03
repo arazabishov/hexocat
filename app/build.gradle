@@ -2,7 +2,6 @@ apply plugin: "com.android.application"
 apply plugin: "kotlin-android"
 apply plugin: "kotlin-kapt"
 apply from: rootProject.file("plugins/android-paperwork.gradle")
-apply from: rootProject.file("plugins/android-dexcount.gradle")
 apply from: rootProject.file("plugins/android-findbugs.gradle")
 apply from: rootProject.file("plugins/android-jacoco.gradle")
 
