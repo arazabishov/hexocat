@@ -1,8 +1,8 @@
 package com.abishov.hexocat.common.espresso
 
-import android.support.test.espresso.matcher.BoundedMatcher
-import android.support.v4.util.Preconditions.checkNotNull
-import android.support.v7.widget.RecyclerView
+import androidx.test.espresso.matcher.BoundedMatcher
+import androidx.core.util.Preconditions.checkNotNull
+import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import org.hamcrest.Description
 import org.hamcrest.Matcher

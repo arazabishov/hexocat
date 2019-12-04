@@ -3,16 +3,15 @@ package com.abishov.hexocat.home.trending
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.os.Build
-import android.support.v4.widget.SwipeRefreshLayout
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.TextView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.abishov.hexocat.R
@@ -45,8 +44,7 @@ class TrendingView(context: Context, attrs: AttributeSet?) : FrameLayout(context
 
   private val isRtl: Boolean
     get() {
-      return Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2
-          && layoutDirection == View.LAYOUT_DIRECTION_RTL
+      return layoutDirection == View.LAYOUT_DIRECTION_RTL
     }
 
   override fun onFinishInflate() {

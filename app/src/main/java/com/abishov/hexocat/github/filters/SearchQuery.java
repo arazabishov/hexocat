@@ -2,7 +2,7 @@ package com.abishov.hexocat.github.filters;
 
 import static org.threeten.bp.format.DateTimeFormatter.ISO_LOCAL_DATE;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import java.util.Objects;
 import org.threeten.bp.LocalDate;
 

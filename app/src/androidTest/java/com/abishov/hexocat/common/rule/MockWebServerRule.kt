@@ -1,10 +1,10 @@
 package com.abishov.hexocat.common.rule
 
-import android.support.test.espresso.Espresso
+import androidx.test.espresso.Espresso
 import com.abishov.hexocat.HexocatTestApp
 import com.jakewharton.espresso.OkHttp3IdlingResource
 import io.appflate.restmock.RESTMockServer
-import okhttp3.HttpUrl
+import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import org.junit.rules.TestRule
 import org.junit.runner.Description
 import org.junit.runners.model.Statement
@@ -16,7 +16,7 @@ class MockWebServerRule : TestRule {
 
       @Throws(Throwable::class)
       override fun evaluate() {
-        val baseUrl = HttpUrl.parse(RESTMockServer.getUrl())
+        val baseUrl = RESTMockServer.getUrl().toHttpUrlOrNull()
         HexocatTestApp.overrideBaseUrl(baseUrl!!)
 
         RESTMockServer.reset()

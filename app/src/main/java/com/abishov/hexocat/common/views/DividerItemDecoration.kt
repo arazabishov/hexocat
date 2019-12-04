@@ -20,10 +20,10 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Rect
 import android.graphics.drawable.Drawable
-import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.LinearLayout
 import androidx.core.content.withStyledAttributes
+import androidx.recyclerview.widget.RecyclerView
 
 private val ATTRS = intArrayOf(android.R.attr.listDivider)
 
@@ -35,7 +35,7 @@ class DividerItemDecoration(
 ) : RecyclerView.ItemDecoration() {
 
   private val bounds = Rect()
-  private lateinit var divider: Drawable
+  private var divider: Drawable? = null
 
   init {
     context.withStyledAttributes(attrs = ATTRS) {
@@ -65,10 +65,10 @@ class DividerItemDecoration(
       parent.getDecoratedBoundsWithMargins(child, bounds)
 
       val bottom = bounds.bottom + Math.round(child.translationY)
-      val top = bottom - divider.intrinsicHeight
+      val top = bottom - (divider?.intrinsicHeight ?: 0)
 
-      divider.setBounds(left, top, right, bottom)
-      divider.draw(canvas)
+      divider?.setBounds(left, top, right, bottom)
+      divider?.draw(canvas)
     }
 
     canvas.restore()
@@ -86,22 +86,22 @@ class DividerItemDecoration(
       parent.layoutManager?.getDecoratedBoundsWithMargins(child, bounds)
 
       val right = bounds.right + Math.round(child.translationX)
-      val left = right - divider.intrinsicWidth
+      val left = right - (divider?.intrinsicWidth ?: 0)
 
-      divider.setBounds(left, top, right, bottom)
-      divider.draw(canvas)
+      divider?.setBounds(left, top, right, bottom)
+      divider?.draw(canvas)
     }
 
     canvas.restore()
   }
 
   override fun getItemOffsets(
-    outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State
+          outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State
   ) {
     if (orientation == VERTICAL) {
-      outRect.set(0, 0, 0, divider.intrinsicHeight)
+      outRect.set(0, 0, 0, divider?.intrinsicHeight ?: 0)
     } else {
-      outRect.set(0, 0, divider.intrinsicWidth, 0)
+      outRect.set(0, 0, divider?.intrinsicWidth ?: 0, 0)
     }
   }
 

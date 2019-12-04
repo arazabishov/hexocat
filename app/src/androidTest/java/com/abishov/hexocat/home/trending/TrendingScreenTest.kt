@@ -3,10 +3,10 @@ package com.abishov.hexocat.home.trending
 import android.app.Activity
 import android.app.Instrumentation.ActivityResult
 import android.content.Intent
-import android.support.test.espresso.intent.Intents.intended
-import android.support.test.espresso.intent.Intents.intending
-import android.support.test.espresso.intent.matcher.IntentMatchers.*
-import android.support.test.espresso.intent.rule.IntentsTestRule
+import androidx.test.espresso.intent.Intents.intended
+import androidx.test.espresso.intent.Intents.intending
+import androidx.test.espresso.intent.matcher.IntentMatchers.*
+import androidx.test.espresso.intent.rule.IntentsTestRule
 import com.abishov.hexocat.common.rule.MockWebServerRule
 import com.abishov.hexocat.home.HomeActivity
 import io.appflate.restmock.RESTMockServer.whenGET
@@ -255,7 +255,7 @@ class TrendingScreenTest {
     activityTestRule.launchActivity(Intent())
 
     trendingScreen {
-      errorMessage("HTTP 400 Client Error")
+      errorMessage("HTTP 400 ")
       retryButtonIsVisible()
     }
 
@@ -309,7 +309,7 @@ class TrendingScreenTest {
     activityTestRule.launchActivity(Intent())
 
     trendingScreen {
-      errorMessage("HTTP 500 Server Error")
+      errorMessage("HTTP 500 ")
       retryButtonIsVisible()
     }
 
@@ -363,7 +363,7 @@ class TrendingScreenTest {
     activityTestRule.launchActivity(Intent())
 
     trendingScreen {
-      errorMessage("HTTP 400 Client Error")
+      errorMessage("HTTP 400 ")
       retryButtonIsVisible()
       retry()
     }

@@ -10,7 +10,7 @@ import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import hu.supercluster.paperwork.Paperwork
-import okhttp3.HttpUrl
+import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import org.threeten.bp.Clock
 import timber.log.Timber
 import javax.inject.Inject
@@ -88,7 +88,7 @@ open class Hexocat : Application(), HasAndroidInjector {
 
   protected open fun prepareAppComponent(): AppComponent {
     return DaggerAppComponent.builder()
-      .baseUrl(HttpUrl.parse("http://api.github.com")!!)
+      .baseUrl("http://api.github.com".toHttpUrlOrNull()!!)
       .clock(Clock.systemDefaultZone())
       .application(this)
       .build()

@@ -40,8 +40,8 @@ ext {
     ]
 
     libraries = [
-            ktx                 : "0.3",
-            room                : "1.1.0",
+            ktx                 : "1.1.0",
+            room                : "2.2.2",
             moshi               : "1.9.2",
             dagger              : "2.25.2",
             support             : "28.0.0",
@@ -54,11 +54,11 @@ ext {
             rxidler             : "0.9.0",
             rxandroid           : "2.0.2",
             rxbindings          : "2.0.0",
-            butterknife         : "8.8.1",
-            okhttp              : "3.9.0",
-            retrofit            : "2.3.0",
+            butterknife         : "10.2.0",
+            okhttp              : "4.2.2",
+            retrofit            : "2.6.1",
             findbugs            : "3.0.1",
-            threetenabp         : "1.0.5",
+            threetenabp         : "1.2.1",
 
             // test dependencies
             espresso            : "3.0.1",
@@ -67,7 +67,7 @@ ext {
             assertj             : "2.8.0",
             assertk             : "0.10",
             junit               : "4.12",
-            restmock            : "0.3.1",
+            restmock            : "0.4.1",
             okhttpIdlingResource: "1.0.0",
             testingsupport      : "1.0.1",
     ]

@@ -27,6 +27,12 @@ android {
         archivesBaseName = "app-${versionName}-${versionCode}"
 
         testInstrumentationRunner "com.abishov.hexocat.HexocatTestRunner"
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [ "room.incremental":"true" ]
+            }
+        }
     }
 
     lintOptions {
@@ -54,7 +60,7 @@ android {
     }
 
     testOptions {
-        execution "ANDROID_TEST_ORCHESTRATOR"
+        execution "ANDROIDX_TEST_ORCHESTRATOR"
         animationsDisabled true
 
         unitTests {
@@ -73,10 +79,10 @@ dependencies {
     implementation "hu.supercluster:paperwork:${libraries.paperwork}"
 
     // Support libraries
-    implementation "com.android.support:design:${libraries.support}"
-    implementation "com.android.support:appcompat-v7:${libraries.support}"
-    implementation "com.android.support:support-annotations:${libraries.support}"
-    implementation "com.android.support:recyclerview-v7:${libraries.support}"
+    implementation "com.google.android.material:material:1.0.0"
+    implementation "androidx.appcompat:appcompat:1.1.0"
+    implementation "androidx.annotation:annotation:1.1.0"
+    implementation "androidx.recyclerview:recyclerview:1.1.0"
 
     // ReactiveX
     implementation "io.reactivex.rxjava2:rxandroid:${libraries.rxandroid}"
@@ -89,9 +95,9 @@ dependencies {
     kapt "com.google.dagger:dagger-android-processor:${libraries.dagger}"
     implementation "com.google.dagger:dagger-android-support:${libraries.dagger}"
 
-    kapt "android.arch.persistence.room:compiler:$libraries.room"
-    implementation "android.arch.persistence.room:runtime:$libraries.room"
-    implementation "android.arch.persistence.room:rxjava2:$libraries.room"
+    kapt "androidx.room:room-compiler:2.2.2"
+    implementation "androidx.room:room-runtime:2.2.2"
+    implementation "androidx.room:room-rxjava2:2.2.2"
 
     // Square libraries
     implementation "com.squareup.moshi:moshi:${libraries.moshi}"
@@ -128,14 +134,14 @@ dependencies {
     testImplementation "com.nhaarman:mockito-kotlin-kt1.1:${libraries.mockitok}"
 
     // Android test dependencies
-    androidTestUtil "com.android.support.test:orchestrator:${libraries.testingsupport}"
-    androidTestImplementation "com.android.support.test:runner:${libraries.testingsupport}"
-    androidTestImplementation "com.android.support.test:rules:${libraries.testingsupport}"
+    androidTestUtil "androidx.test:orchestrator:1.2.0"
+    androidTestImplementation "androidx.test.ext:junit:1.1.1"
+    androidTestImplementation "androidx.test:rules:1.2.0"
 
-    androidTestImplementation "com.android.support.test.espresso:espresso-idling-resource:${libraries.espresso}"
-    androidTestImplementation "com.android.support.test.espresso:espresso-core:${libraries.espresso}"
-    androidTestImplementation "com.android.support.test.espresso:espresso-intents:${libraries.espresso}"
-    androidTestImplementation "com.android.support.test.espresso:espresso-contrib:${libraries.espresso}"
+    androidTestImplementation "androidx.test.espresso:espresso-idling-resource:3.2.0"
+    androidTestImplementation "androidx.test.espresso:espresso-core:3.2.0"
+    androidTestImplementation "androidx.test.espresso:espresso-intents:3.2.0"
+    androidTestImplementation "androidx.test.espresso:espresso-contrib:3.2.0"
 
     androidTestImplementation "com.github.andrzejchm.RESTMock:android:${libraries.restmock}"
     androidTestImplementation "com.squareup.okhttp3:mockwebserver:${libraries.okhttp}"

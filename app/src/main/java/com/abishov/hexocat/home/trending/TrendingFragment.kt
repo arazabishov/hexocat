@@ -35,7 +35,7 @@ class TrendingFragment : BaseFragment(), TrendingContract.View {
 
   private var view: TrendingView? = null
 
-  override fun onAttach(context: Context?) {
+  override fun onAttach(context: Context) {
     AndroidSupportInjection.inject(this)
     super.onAttach(context)
   }
