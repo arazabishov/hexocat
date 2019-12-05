@@ -21,4 +21,8 @@ jobs:
         tag: default
         abi: x86
         api: 26
+    - name: Uploading test coverage reports
+      uses: codecov/codecov-action@v1
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
 
