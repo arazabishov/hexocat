@@ -4,8 +4,8 @@ import android.content.Context
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.StateListDrawable
-import android.support.annotation.IdRes
-import android.support.test.espresso.matcher.BoundedMatcher
+import androidx.annotation.IdRes
+import androidx.test.espresso.matcher.BoundedMatcher
 import android.view.View
 import android.widget.TextView
 import org.hamcrest.Description

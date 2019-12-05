@@ -1,7 +1,7 @@
 package com.abishov.hexocat
 
 import com.squareup.moshi.Moshi
-import com.squareup.moshi.kotlin.KotlinJsonAdapterFactory
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 
 object Inject {
 

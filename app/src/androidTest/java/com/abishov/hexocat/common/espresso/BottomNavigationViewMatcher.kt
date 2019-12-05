@@ -1,7 +1,7 @@
 package com.abishov.hexocat.common.espresso
 
-import android.support.design.internal.BottomNavigationItemView
-import android.support.test.espresso.matcher.BoundedMatcher
+import com.google.android.material.bottomnavigation.BottomNavigationItemView
+import androidx.test.espresso.matcher.BoundedMatcher
 import android.view.View
 import org.hamcrest.Description
 import org.hamcrest.Matcher

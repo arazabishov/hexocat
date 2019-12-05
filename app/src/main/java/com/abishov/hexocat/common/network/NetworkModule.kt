@@ -3,7 +3,7 @@ package com.abishov.hexocat.common.network
 import android.content.Context
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
-import com.squareup.moshi.kotlin.KotlinJsonAdapterFactory
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
 import dagger.Provides
 import okhttp3.Cache
@@ -19,6 +19,8 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
+import javax.net.ssl.SSLSocketFactory
+import javax.net.ssl.X509TrustManager
 
 private const val OK_HTTP = "OkHttp"
 
@@ -56,25 +58,41 @@ class NetworkModule {
   @Provides
   @Singleton
   internal fun okHttpLogging(cache: Cache): Interceptor {
-    return HttpLoggingInterceptor { message ->
-      Timber.tag(OK_HTTP).d(message)
-      Timber.tag(OK_HTTP).v(
-        "Cache: requests=[%s], network=[%s], hits=[%s]",
-        cache.requestCount(), cache.networkCount(), cache.hitCount()
-      )
-    }.setLevel(HttpLoggingInterceptor.Level.BASIC)
+    val interceptor = HttpLoggingInterceptor(object: HttpLoggingInterceptor.Logger {
+        override fun log(message: String) {
+            Timber.tag(OK_HTTP).d(message)
+            Timber.tag(OK_HTTP).v(
+                    "Cache: requests=[%s], network=[%s], hits=[%s]",
+                    cache.requestCount(), cache.networkCount(), cache.hitCount()
+            )
+        }
+    })
+
+    return interceptor.apply {
+      level = HttpLoggingInterceptor.Level.BASIC
+    }
   }
 
   @Provides
   @Singleton
-  internal fun okHttpClient(logger: Interceptor, cache: Cache): OkHttpClient {
-    return OkHttpClient.Builder()
+  internal fun okHttpClient(
+          logger: Interceptor,
+          cache: Cache,
+          sslSocketFactory: SSLSocketFactory?,
+          trustManager: X509TrustManager?
+  ): OkHttpClient {
+    var builder = OkHttpClient.Builder()
       .addInterceptor(logger)
       .cache(cache)
       .connectTimeout(32, TimeUnit.SECONDS)
       .writeTimeout(32, TimeUnit.SECONDS)
       .readTimeout(32, TimeUnit.SECONDS)
-      .build()
+
+      if (sslSocketFactory != null && trustManager != null) {
+        builder = builder.sslSocketFactory(sslSocketFactory, trustManager)
+      }
+
+      return builder.build()
   }
 
   @Provides

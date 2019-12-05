@@ -1,27 +1,18 @@
 apply plugin: "com.github.ben-manes.versions"
-apply plugin: "com.gradle.build-scan"
 
 buildscript {
     repositories {
-        maven { url("https://plugins.gradle.org/m2/") }
         jcenter()
         google()
     }
 
     dependencies {
-        classpath "com.android.tools.build:gradle:3.1.2"
-        classpath "com.getkeepsafe.dexcount:dexcount-gradle-plugin:0.8.2"
-        classpath "com.gradle:build-scan-plugin:1.9"
+        classpath "com.github.ben-manes:gradle-versions-plugin:0.27.0"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.61"
         classpath "hu.supercluster:paperwork-plugin:1.2.7"
-        classpath "com.github.ben-manes:gradle-versions-plugin:0.17.0"
-        classpath "org.jacoco:org.jacoco.core:0.8.0"
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.2.41"
+        classpath "com.android.tools.build:gradle:3.5.2"
+        classpath "org.jacoco:org.jacoco.core:0.8.5"
     }
-}
-
-buildScan {
-    licenseAgreementUrl = "https://gradle.com/terms-of-service"
-    licenseAgree = "yes"
 }
 
 allprojects {
@@ -29,8 +20,9 @@ allprojects {
         jcenter()
         google()
 
-        maven { url("https://jitpack.io") }
-        maven { url("https://oss.sonatype.org/content/repositories/snapshots/") }
+        maven {
+            url("https://jitpack.io")
+        }
     }
 }
 
@@ -39,20 +31,20 @@ task clean(type: Delete) {
 }
 
 ext {
-    kotlin = "1.2.31"
+    kotlin = "1.3.61"
 
     versions = [
-            sdk   : 27,
-            tools : "27.0.3",
-            minsdk: 16
+            sdk   : 28,
+            tools : "28.0.3",
+            minsdk: 21
     ]
 
     libraries = [
-            ktx                 : "0.3",
-            room                : "1.1.0",
-            moshi               : "1.6.0-SNAPSHOT",
-            dagger              : "2.15",
-            support             : "27.1.1",
+            ktx                 : "1.1.0",
+            room                : "2.2.2",
+            moshi               : "1.9.2",
+            dagger              : "2.25.2",
+            support             : "28.0.0",
             picasso             : "2.5.2",
             okpicasso           : "1.1.0",
             paperwork           : "1.2.7",
@@ -62,11 +54,11 @@ ext {
             rxidler             : "0.9.0",
             rxandroid           : "2.0.2",
             rxbindings          : "2.0.0",
-            butterknife         : "8.8.1",
-            okhttp              : "3.9.0",
-            retrofit            : "2.3.0",
+            butterknife         : "10.2.0",
+            okhttp              : "4.2.2",
+            retrofit            : "2.6.1",
             findbugs            : "3.0.1",
-            threetenabp         : "1.0.5",
+            threetenabp         : "1.2.1",
 
             // test dependencies
             espresso            : "3.0.1",
@@ -75,7 +67,7 @@ ext {
             assertj             : "2.8.0",
             assertk             : "0.10",
             junit               : "4.12",
-            restmock            : "0.3.1",
+            restmock            : "0.4.1",
             okhttpIdlingResource: "1.0.0",
             testingsupport      : "1.0.1",
     ]

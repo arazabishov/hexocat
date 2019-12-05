@@ -12,6 +12,8 @@ import okhttp3.HttpUrl
 import okhttp3.OkHttpClient
 import org.threeten.bp.Clock
 import javax.inject.Singleton
+import javax.net.ssl.SSLSocketFactory
+import javax.net.ssl.X509TrustManager
 
 @Singleton
 @Component(
@@ -44,6 +46,12 @@ interface AppComponent {
 
     @BindsInstance
     fun requestHandler(requestHandler: RequestHandler?): Builder
+
+    @BindsInstance
+    fun sslSocketFactory(sslSocketFactory: SSLSocketFactory?): Builder
+
+    @BindsInstance
+    fun trustManager(trustManager: X509TrustManager?): Builder
 
     fun build(): AppComponent
   }

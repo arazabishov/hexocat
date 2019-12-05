@@ -1,7 +1,8 @@
 package com.abishov.hexocat
 
-import android.support.test.InstrumentationRegistry
+import androidx.test.platform.app.InstrumentationRegistry
 import com.abishov.hexocat.common.picasso.MockRequestHandler
+import io.appflate.restmock.RESTMockServer
 import okhttp3.HttpUrl
 import org.threeten.bp.Clock
 import org.threeten.bp.LocalDateTime
@@ -19,9 +20,11 @@ class HexocatTestApp : Hexocat() {
       return super.prepareAppComponent()
     }
 
-    val assetManager = InstrumentationRegistry.getContext().assets
+    val assetManager = InstrumentationRegistry.getInstrumentation().context.assets
     return DaggerAppComponent.builder()
       .requestHandler(MockRequestHandler(assetManager))
+      .sslSocketFactory(RESTMockServer.getSSLSocketFactory())
+      .trustManager(RESTMockServer.getTrustManager())
       .clock(createFixedClockInstance(TEST_BASE_DATE))
       .application(this)
       .baseUrl(baseUrl!!)
@@ -30,7 +33,10 @@ class HexocatTestApp : Hexocat() {
 
   companion object {
     val instance: HexocatTestApp
-      get() = InstrumentationRegistry.getTargetContext().applicationContext as HexocatTestApp
+      get() {
+        val instrumentation = InstrumentationRegistry.getInstrumentation()
+        return instrumentation.targetContext.applicationContext as HexocatTestApp
+      }
 
     fun overrideBaseUrl(baseUrl: HttpUrl) {
       instance.baseUrl = baseUrl

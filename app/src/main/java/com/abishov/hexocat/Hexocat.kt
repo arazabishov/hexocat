@@ -1,27 +1,27 @@
 package com.abishov.hexocat
 
-import android.app.Activity
 import android.app.Application
 import android.os.StrictMode
 import com.abishov.hexocat.common.utils.CrashReportingTree
 import com.jakewharton.threetenabp.AndroidThreeTen
 import com.squareup.leakcanary.LeakCanary
 import com.squareup.leakcanary.RefWatcher
+import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
-import dagger.android.HasActivityInjector
+import dagger.android.HasAndroidInjector
 import hu.supercluster.paperwork.Paperwork
-import okhttp3.HttpUrl
+import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import org.threeten.bp.Clock
 import timber.log.Timber
 import javax.inject.Inject
 
-open class Hexocat : Application(), HasActivityInjector {
+open class Hexocat : Application(), HasAndroidInjector {
 
   protected lateinit var appComponent: AppComponent
   protected lateinit var refWatcher: RefWatcher
 
   @Inject
-  internal lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Activity>
+  internal lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Any>
 
   @Inject
   internal lateinit var paperwork: Paperwork
@@ -46,7 +46,7 @@ open class Hexocat : Application(), HasActivityInjector {
     setupStrictMode()
   }
 
-  override fun activityInjector() = dispatchingAndroidInjector
+  override fun androidInjector(): AndroidInjector<Any> = dispatchingAndroidInjector
 
   private fun setupStrictMode() {
     if (BuildConfig.DEBUG) {
@@ -88,7 +88,7 @@ open class Hexocat : Application(), HasActivityInjector {
 
   protected open fun prepareAppComponent(): AppComponent {
     return DaggerAppComponent.builder()
-      .baseUrl(HttpUrl.parse("http://api.github.com")!!)
+      .baseUrl("http://api.github.com".toHttpUrlOrNull()!!)
       .clock(Clock.systemDefaultZone())
       .application(this)
       .build()

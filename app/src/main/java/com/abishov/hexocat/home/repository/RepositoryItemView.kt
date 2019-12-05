@@ -1,7 +1,7 @@
 package com.abishov.hexocat.home.repository
 
 import android.content.Context
-import android.support.v4.content.ContextCompat
+import androidx.core.content.ContextCompat
 import android.text.style.ForegroundColorSpan
 import android.util.AttributeSet
 import android.util.TypedValue
