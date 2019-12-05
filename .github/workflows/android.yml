@@ -13,7 +13,7 @@ jobs:
       with:
         java-version: 1.8
     - name: Build with Gradle and run integration tests
-    - uses: malinskiy/action-android/emulator-run-cmd@release/0.0.5
+      uses: malinskiy/action-android/emulator-run-cmd@release/0.0.5
         with:
           cmd: ./../../build.sh
           tag: default
