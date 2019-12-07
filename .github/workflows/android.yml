@@ -1,6 +1,6 @@
 name: Android CI
 
-on: [push, pull_request]
+on: [pull_request]
 
 jobs:
   build:
@@ -17,7 +17,7 @@ jobs:
     - name: Build with Gradle and run integration tests
       uses: malinskiy/action-android/emulator-run-cmd@release/0.0.5
       with:
-        cmd: sh hexocat-android/build.sh
+        cmd: cd hexocat-android && sh build.sh
         tag: default
         abi: x86
         api: 26
