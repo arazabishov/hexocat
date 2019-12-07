@@ -17,7 +17,7 @@ jobs:
     - name: Build with Gradle and run integration tests
       uses: malinskiy/action-android/emulator-run-cmd@release/0.0.5
       with:
-        cmd: cd hexocat-android && sh build.sh
+        cmd: cd hexocat_android && sh build.sh
         tag: default
         abi: x86
         api: 26
