@@ -58,14 +58,14 @@ class NetworkModule {
   @Provides
   @Singleton
   internal fun okHttpLogging(cache: Cache): Interceptor {
-    val interceptor = HttpLoggingInterceptor(object: HttpLoggingInterceptor.Logger {
-        override fun log(message: String) {
-            Timber.tag(OK_HTTP).d(message)
-            Timber.tag(OK_HTTP).v(
-                    "Cache: requests=[%s], network=[%s], hits=[%s]",
-                    cache.requestCount(), cache.networkCount(), cache.hitCount()
-            )
-        }
+    val interceptor = HttpLoggingInterceptor(object : HttpLoggingInterceptor.Logger {
+      override fun log(message: String) {
+        Timber.tag(OK_HTTP).d(message)
+        Timber.tag(OK_HTTP).v(
+          "Cache: requests=[%s], network=[%s], hits=[%s]",
+          cache.requestCount(), cache.networkCount(), cache.hitCount()
+        )
+      }
     })
 
     return interceptor.apply {
@@ -76,10 +76,10 @@ class NetworkModule {
   @Provides
   @Singleton
   internal fun okHttpClient(
-          logger: Interceptor,
-          cache: Cache,
-          sslSocketFactory: SSLSocketFactory?,
-          trustManager: X509TrustManager?
+    logger: Interceptor,
+    cache: Cache,
+    sslSocketFactory: SSLSocketFactory?,
+    trustManager: X509TrustManager?
   ): OkHttpClient {
     var builder = OkHttpClient.Builder()
       .addInterceptor(logger)
@@ -88,11 +88,11 @@ class NetworkModule {
       .writeTimeout(32, TimeUnit.SECONDS)
       .readTimeout(32, TimeUnit.SECONDS)
 
-      if (sslSocketFactory != null && trustManager != null) {
-        builder = builder.sslSocketFactory(sslSocketFactory, trustManager)
-      }
+    if (sslSocketFactory != null && trustManager != null) {
+      builder = builder.sslSocketFactory(sslSocketFactory, trustManager)
+    }
 
-      return builder.build()
+    return builder.build()
   }
 
   @Provides
