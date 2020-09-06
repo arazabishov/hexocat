@@ -26,12 +26,12 @@ class MockRequestHandler(private val assetManager: AssetManager) : RequestHandle
   }
 
   @Throws(IOException::class)
-  override fun load(request: Request, networkPolicy: Int): RequestHandler.Result? {
-    val imagePath = request.uri.path.substring(1)
+  override fun load(request: Request, networkPolicy: Int): Result? {
+    val imagePath = request.uri.path?.substring(1) ?: return null
     val cacheHit = emulatedDiskCache.get(imagePath) != null
 
     if (cacheHit) {
-      return RequestHandler.Result(loadBitmap(imagePath), Picasso.LoadedFrom.DISK)
+      return Result(loadBitmap(imagePath), Picasso.LoadedFrom.DISK)
     }
 
     if (NetworkPolicy.isOfflineOnly(networkPolicy)) {
@@ -43,7 +43,7 @@ class MockRequestHandler(private val assetManager: AssetManager) : RequestHandle
     fileDescriptor.close()
 
     emulatedDiskCache.put(imagePath, size)
-    return RequestHandler.Result(loadBitmap(imagePath), Picasso.LoadedFrom.NETWORK)
+    return Result(loadBitmap(imagePath), Picasso.LoadedFrom.NETWORK)
   }
 
   @Throws(IOException::class)

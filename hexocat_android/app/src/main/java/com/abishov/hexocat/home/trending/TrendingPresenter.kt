@@ -12,7 +12,7 @@ import javax.inject.Inject
 @FragmentScope
 internal class TrendingPresenter @Inject constructor(
   private val schedulerProvider: SchedulerProvider,
-  private val trendingRepository: TrendingRepository
+  private val trendingRepositoriesService: TrendingService
 ) : TrendingContract.Presenter {
   private val compositeDisposable = CompositeDisposable()
 
@@ -27,19 +27,21 @@ internal class TrendingPresenter @Inject constructor(
   }
 
   private fun fetchRepositories(query: SearchQuery): Observable<TrendingViewState> {
-    return trendingRepository.trendingRepositories(query)
+    return trendingRepositoriesService.search(query, 64)
       .subscribeOn(schedulerProvider.io())
-      .switchMap {
-        Observable.fromIterable(it)
+      .switchMap { trendingRepositories ->
+        Observable.fromIterable(trendingRepositories)
           .map {
-            val description = if (it.description == null) "" else it.description
-            val forks = it.forks.toString()
-            val stars = it.stars.toString()
+            val description = it.description ?: ""
+
+            val forks = it.forkCount.toString()
+            val stars = it.stargazers.totalCount.toString()
+
             RepositoryViewModel(
               it.name, description, forks, stars,
-              it.owner.avatarUrl,
+              it.owner.avatarUrl.toString(),
               it.owner.login,
-              it.htmlUrl
+              it.url.toString()
             )
           }
           .toList()

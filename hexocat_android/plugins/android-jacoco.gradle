@@ -39,12 +39,12 @@ task jacocoDebugTestCoverage(type: JacocoReport, dependsOn: ["testDebugUnitTest"
     group = "Reporting"
     description = "Generate Jacoco coverage reports for the debug build."
 
-    classDirectories = debugClassDirectories
+    classDirectories.from = debugClassDirectories
 
-    additionalSourceDirs = debugCoverageSourceDirs
-    sourceDirectories = debugCoverageSourceDirs
+    additionalSourceDirs.from = debugCoverageSourceDirs
+    sourceDirectories.from = debugCoverageSourceDirs
 
-    executionData = debugExecutionData
+    executionData.from = debugExecutionData
 
     reports {
         xml.enabled = true
@@ -56,12 +56,12 @@ task jacocoDebugTestCoverageVerification(type: JacocoCoverageVerification, depen
     group = "Reporting"
     description = "Verify that the test coverage requirements are met."
 
-    classDirectories = debugClassDirectories
+    classDirectories.from = debugClassDirectories
 
-    additionalSourceDirs = debugCoverageSourceDirs
-    sourceDirectories = debugCoverageSourceDirs
+    additionalSourceDirs.from = debugCoverageSourceDirs
+    sourceDirectories.from = debugCoverageSourceDirs
 
-    executionData = debugExecutionData
+    executionData.from = debugExecutionData
 
     violationRules {
         rule {

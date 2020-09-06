@@ -16,9 +16,11 @@ class MockWebServerRule : TestRule {
 
       @Throws(Throwable::class)
       override fun evaluate() {
-        val baseUrl = RESTMockServer.getUrl().toHttpUrlOrNull()
-        HexocatTestApp.overrideBaseUrl(baseUrl!!)
+        val baseUrl = RESTMockServer.getUrl().toHttpUrlOrNull()?.newBuilder()
+          ?.addPathSegment("graphql")
+          ?.build() ?: throw IllegalStateException("MockWebServer failed to initialise")
 
+        HexocatTestApp.overrideBaseUrl(baseUrl)
         RESTMockServer.reset()
 
         val client = HexocatTestApp.instance.appComponent().okHttpClient()

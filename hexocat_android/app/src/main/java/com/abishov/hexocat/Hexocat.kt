@@ -88,7 +88,7 @@ open class Hexocat : Application(), HasAndroidInjector {
 
   protected open fun prepareAppComponent(): AppComponent {
     return DaggerAppComponent.builder()
-      .baseUrl("https://api.github.com".toHttpUrlOrNull()!!)
+      .baseUrl("https://api.github.com/graphql".toHttpUrlOrNull()!!)
       .clock(Clock.systemDefaultZone())
       .application(this)
       .build()

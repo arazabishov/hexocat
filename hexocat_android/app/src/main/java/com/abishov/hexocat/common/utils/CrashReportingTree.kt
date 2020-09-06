@@ -7,7 +7,7 @@ import java.util.*
 
 class CrashReportingTree(private val paperwork: Paperwork) : Timber.Tree() {
 
-  override fun log(priority: Int, tag: String, message: String, throwable: Throwable?) {
+  override fun log(priority: Int, tag: String?, message: String, throwable: Throwable?) {
     if (priority == Log.VERBOSE || priority == Log.DEBUG) {
       return
     }

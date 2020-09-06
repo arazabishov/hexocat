@@ -59,9 +59,7 @@ class TrendingFragment : BaseFragment(), TrendingContract.View {
     val trendingView = view ?: return Observable.empty()
 
     val days = arguments!!.getInt(ARG_DAYS)
-    val searchQuery = SearchQuery.Builder()
-      .createdSince(LocalDate.now(clock).minusDays(days.toLong()))
-      .build()
+    val searchQuery = SearchQuery(LocalDate.now(clock).minusDays(days.toLong()))
     return Observable.merge(trendingView.onSwipeRefreshLayout(), trendingView.onRetry())
       .startWith(Any())
       .switchMap { Observable.just(searchQuery) }
