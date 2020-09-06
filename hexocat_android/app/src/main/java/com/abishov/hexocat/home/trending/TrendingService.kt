@@ -1,20 +1,29 @@
 package com.abishov.hexocat.home.trending
 
-import com.abishov.hexocat.github.Pager
-import com.abishov.hexocat.github.Repository
-import com.abishov.hexocat.github.filters.Order
 import com.abishov.hexocat.github.filters.SearchQuery
-import com.abishov.hexocat.github.filters.Sort
+import com.apollographql.apollo.ApolloClient
+import com.apollographql.apollo.rx2.Rx2Apollo
+import com.github.TrendingRepositoriesQuery
+import com.github.TrendingRepositoriesQuery.AsRepository
 import io.reactivex.Observable
-import retrofit2.http.GET
-import retrofit2.http.Query
+import javax.inject.Inject
 
-internal interface TrendingService {
+class TrendingService @Inject constructor(private val client: ApolloClient) {
 
-  @GET("search/repositories")
-  fun repositories(
-    @Query("q") query: SearchQuery,
-    @Query("sort") sort: Sort,
-    @Query("order") order: Order
-  ): Observable<Pager<Repository>>
+  fun search(query: SearchQuery, count: Int): Observable<List<AsRepository>> {
+    val apolloQuery = TrendingRepositoriesQuery(
+      query = query.toString(),
+      number_of_repos = count
+    )
+
+    return Rx2Apollo.from(client.query(apolloQuery))
+      .map { response ->
+        val responseData = response.data?.search?.edges ?: listOf()
+
+        responseData.map {
+          it?.node?.asRepository
+            ?: throw IllegalArgumentException("API response is not structured as expected")
+        }
+      }
+  }
 }

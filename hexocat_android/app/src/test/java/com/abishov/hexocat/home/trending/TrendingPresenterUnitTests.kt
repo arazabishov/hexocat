@@ -3,10 +3,11 @@ package com.abishov.hexocat.home.trending
 import assertk.assert
 import assertk.assertions.*
 import com.abishov.hexocat.common.schedulers.TrampolineSchedulersProvider
-import com.abishov.hexocat.github.Repository
-import com.abishov.hexocat.github.User
+import com.abishov.hexocat.github.filters.Order
 import com.abishov.hexocat.github.filters.SearchQuery
+import com.abishov.hexocat.github.filters.Sort
 import com.abishov.hexocat.home.repository.RepositoryViewModel
+import com.github.TrendingRepositoriesQuery.*
 import com.nhaarman.mockito_kotlin.whenever
 import io.reactivex.subjects.BehaviorSubject
 import org.assertj.core.api.Java6Assertions.assertThat
@@ -24,16 +25,16 @@ class TrendingPresenterUnitTests {
   private lateinit var trendingView: TrendingContract.View
 
   @Mock
-  private lateinit var trendingRepository: TrendingRepository
+  private lateinit var trendingService: TrendingService
 
   @Captor
   private lateinit var repositoriesConsumer: ArgumentCaptor<TrendingViewState>
 
   private lateinit var viewQueries: BehaviorSubject<SearchQuery>
-  private lateinit var listResults: BehaviorSubject<List<Repository>>
+  private lateinit var listResults: BehaviorSubject<List<AsRepository>>
   private lateinit var searchQuery: SearchQuery
 
-  private lateinit var repositories: List<Repository>
+  private lateinit var repositories: List<AsRepository>
   private lateinit var repositoryViewModels: List<RepositoryViewModel>
 
   private lateinit var trendingPresenter: TrendingPresenter
@@ -46,29 +47,29 @@ class TrendingPresenterUnitTests {
     listResults = BehaviorSubject.create()
 
     trendingPresenter = TrendingPresenter(
-      TrampolineSchedulersProvider(), trendingRepository
+      TrampolineSchedulersProvider(), trendingService
     )
 
-    val owner = User(
+    val owner = Owner(
       login = "test_login",
-      htmlUrl = "test_html_url",
+      url = "test_html_url",
       avatarUrl = "test_avatar_url"
     )
 
     repositories = Arrays.asList(
-      Repository(
+      AsRepository(
         name = "test_repository_one",
-        htmlUrl = "test_html_url_one",
-        forks = 5,
-        stars = 10,
+        url = "test_html_url_one",
+        forkCount = 5,
+        stargazers = Stargazers(totalCount = 10),
         description = "test_description_one",
         owner = owner
       ),
-      Repository(
+      AsRepository(
         name = "test_repository_two",
-        htmlUrl = "test_html_url_two",
-        forks = 7,
-        stars = 11,
+        url = "test_html_url_two",
+        forkCount = 7,
+        stargazers = Stargazers(totalCount = 11),
         description = "test_description_two",
         owner = owner
       )
@@ -95,12 +96,9 @@ class TrendingPresenterUnitTests {
       )
     )
 
-    searchQuery = SearchQuery.Builder()
-      .createdSince(LocalDate.parse("2017-08-10"))
-      .build()
-
+    searchQuery = SearchQuery(LocalDate.parse("2017-08-10"))
     whenever(trendingView.searchQueries()).thenReturn(viewQueries)
-    whenever(trendingRepository.trendingRepositories(searchQuery)).thenReturn(
+    whenever(trendingService.search(searchQuery, 64)).thenReturn(
       listResults
     )
   }

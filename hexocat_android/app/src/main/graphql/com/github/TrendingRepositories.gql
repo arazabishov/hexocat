@@ -1,0 +1,23 @@
+query TrendingRepositories($query: String!, $number_of_repos: Int!){
+  search(query: $query, type: REPOSITORY, first: $number_of_repos) {
+    repositoryCount
+    edges {
+      node {
+        ... on Repository {
+          url
+          name
+          forkCount
+          description
+          owner {
+            url
+            login
+            avatarUrl
+          }
+          stargazers {
+            totalCount
+          }
+        }
+      }
+    }
+  }
+}
