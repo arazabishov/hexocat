@@ -1,4 +1,4 @@
-[![Build Status](https://github.com/arazabishov/hexocat/workflows/.github/workflows/android.yml/badge.svg)](https://github.com/ArazAbishov/hexocat)
+[![build](https://github.com/ArazAbishov/hexocat/workflows/build/badge.svg)](https://github.com/ArazAbishov/hexocat)
 [![codecov](https://codecov.io/gh/ArazAbishov/hexocat/branch/master/graph/badge.svg)](https://codecov.io/gh/ArazAbishov/hexocat)
 
 # hexocat
