@@ -48,13 +48,20 @@ android {
 
         testInstrumentationRunner "com.abishov.hexocat.HexocatTestRunner"
 
-        javaCompileOptions {
-            annotationProcessorOptions {
-                arguments = ["room.incremental": "true"]
-            }
-        }
-
         buildConfigField "String", "GITHUB_PAT", "\"${project.githubPat}\""
+    }
+
+    buildFeatures {
+        compose true
+    }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+        useIR = true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion "1.0.0-alpha03"
     }
 
     lintOptions {
@@ -71,10 +78,6 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
-    }
-
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
 
     buildTypes {
@@ -108,10 +111,24 @@ dependencies {
     implementation "hu.supercluster:paperwork:${libraries.paperwork}"
 
     // Support libraries
-    implementation "com.google.android.material:material:1.2.0"
+    implementation "com.google.android.material:material:1.2.1"
     implementation "androidx.appcompat:appcompat:1.2.0"
     implementation "androidx.annotation:annotation:1.1.0"
     implementation "androidx.recyclerview:recyclerview:1.1.0"
+
+    implementation 'androidx.compose.ui:ui:1.0.0-alpha03'
+
+    // Tooling support (Previews, etc.)
+    implementation "androidx.ui:ui-tooling:1.0.0-alpha03"
+
+    // Foundation (Border, Background, Box, Image, Scroll, shapes, animations, etc.)
+    implementation "androidx.compose.foundation:foundation:1.0.0-alpha03"
+    implementation "androidx.compose.material:material-icons-extended:1.0.0-alpha03"
+
+    // Material Design
+    implementation "androidx.compose.material:material:1.0.0-alpha03"
+
+    implementation "dev.chrisbanes.accompanist:accompanist-coil:0.2.1"
 
     // ReactiveX
     implementation "io.reactivex.rxjava2:rxandroid:${libraries.rxandroid}"
@@ -124,12 +141,7 @@ dependencies {
     kapt "com.google.dagger:dagger-android-processor:${libraries.dagger}"
     implementation "com.google.dagger:dagger-android-support:${libraries.dagger}"
 
-    kapt "androidx.room:room-compiler:${libraries.room}"
-    implementation "androidx.room:room-runtime:${libraries.room}"
-    implementation "androidx.room:room-rxjava2:${libraries.room}"
-
     // Square libraries
-    implementation "com.squareup.picasso:picasso:${libraries.picasso}"
     implementation "com.squareup.okhttp3:okhttp:${libraries.okhttp}"
     implementation "com.squareup.okhttp3:logging-interceptor:${libraries.okhttp}"
     debugImplementation "com.squareup.leakcanary:leakcanary-android:${libraries.leakcanary}"
@@ -139,11 +151,8 @@ dependencies {
     implementation "com.jakewharton.rxbinding2:rxbinding:${libraries.rxbindings}"
     implementation "com.jakewharton.rxbinding2:rxbinding-support-v4:${libraries.rxbindings}"
     implementation "com.jakewharton.rxbinding2:rxbinding-appcompat-v7:${libraries.rxbindings}"
-    implementation "com.jakewharton.picasso:picasso2-okhttp3-downloader:${libraries.okpicasso}"
     implementation "com.jakewharton.timber:timber:${libraries.timber}"
-    implementation "com.jakewharton:butterknife:${libraries.butterknife}"
     implementation "com.jakewharton.threetenabp:threetenabp:${libraries.threetenabp}"
-    kapt "com.jakewharton:butterknife-compiler:${libraries.butterknife}"
 
     // Unit test dependencies
     testImplementation "junit:junit:${libraries.junit}"
@@ -163,6 +172,7 @@ dependencies {
     androidTestImplementation "androidx.test.espresso:espresso-core:3.3.0"
     androidTestImplementation "androidx.test.espresso:espresso-intents:3.3.0"
     androidTestImplementation "androidx.test.espresso:espresso-contrib:3.3.0"
+    androidTestImplementation "androidx.ui:ui-test:1.0.0-alpha03"
 
     androidTestImplementation "com.github.andrzejchm.RESTMock:android:${libraries.restmock}"
     androidTestImplementation "com.squareup.okhttp3:mockwebserver:${libraries.okhttp}"

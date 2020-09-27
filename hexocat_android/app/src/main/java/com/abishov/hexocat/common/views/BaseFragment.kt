@@ -8,7 +8,7 @@ abstract class BaseFragment : Fragment() {
   override fun onDestroyView() {
     super.onDestroyView()
 
-    (activity!!.applicationContext as Hexocat)
+    (requireActivity().applicationContext as Hexocat)
       .refWatcher().watch(this)
   }
 }

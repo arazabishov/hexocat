@@ -1,152 +1,152 @@
 package com.abishov.hexocat.home.trending
 
 import android.app.Activity
-import android.app.Instrumentation.ActivityResult
+import android.app.Instrumentation
+import android.content.Context
 import android.content.Intent
+import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.Intents.intended
 import androidx.test.espresso.intent.Intents.intending
 import androidx.test.espresso.intent.matcher.IntentMatchers.*
-import androidx.test.espresso.intent.rule.IntentsTestRule
+import androidx.ui.test.createAndroidComposeRule
+import com.abishov.hexocat.HexocatTestApp
 import com.abishov.hexocat.common.rule.MockWebServerRule
 import com.abishov.hexocat.home.HomeActivity
 import io.appflate.restmock.RESTMockServer.whenPOST
 import io.appflate.restmock.RequestsVerifier.verifyPOST
 import io.appflate.restmock.utils.RequestMatchers.pathContains
-import org.hamcrest.CoreMatchers.allOf
-import org.hamcrest.CoreMatchers.not
+import org.hamcrest.Matchers.allOf
+import org.hamcrest.Matchers.not
+import org.junit.After
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.junit.rules.RuleChain
 
 class TrendingScreenTest {
+  private lateinit var context: Context
+  private val composeTestRule = createAndroidComposeRule<HomeActivity>()
 
   @get:Rule
-  val activityTestRule = IntentsTestRule(
-    HomeActivity::class.java, false, false
-  )
+  val chainedRule: RuleChain = RuleChain.outerRule(MockWebServerRule())
+    .around(composeTestRule)
 
-  @get:Rule
-  val mockWebServerRule = MockWebServerRule()
+  private fun trendingScreen(func: TrendingRobot.() -> Unit) {
+    trendingScreen(composeTestRule, context, func)
+  }
+
+  @Before
+  fun setUp() {
+    context = HexocatTestApp.instance
+    Intents.init()
+  }
+
+  @After
+  fun tearDown() {
+    Intents.release()
+  }
 
   @Test
   fun mustRenderTrendingRepositoriesForToday() {
     whenPOST(pathContains("graphql"))
-      .thenReturnFile("response/search/repositories/200_trending_today.json")
-
-    activityTestRule.launchActivity(Intent())
+      .thenReturnFile("response/search/repositories/200_trending.json")
 
     trendingScreen {
-      repositoryAt(0) {
-        name("awesome-php-migrations")
-        stars(74)
-        forks(1)
-        description(
-          "migrify — Awesome sources for PHP projects migrations - legacy, " +
-              "pattern refactoring, framework switches, temlates and configs..."
-        )
+      withRepository("AmnesiaTheDarkDescent") {
+        owner("FrictionalGames")
+        languages("CMake", "Objective-C", "Perl", "C")
       }
 
-      repositoryAt(1) {
-        name("gbajs2")
-        stars(51)
-        forks(6)
-        description(
-          "andychase — gbajs2 is a Game Boy Advance emulator written in Javascript " +
-              "from scratch using HTML5 technologies like Canvas and Web Audio. It is freely " +
-              "licensed and works in any modern browser without plugins."
-        )
+      withRepository("kb") {
+        owner("gnebbia")
+        description("A minimalist command line knowledge base manager")
+        languages("Makefile", "Python", "Shell", "Ruby")
+        topics("knowledge", "cheatsheets", "procedures", "methodology")
       }
 
-      repositoryAt(2) {
-        name("asyncio-buffered-pipeline")
-        stars(33)
-        forks(0)
-        description(
-          "michalc — Utility function to parallelise pipelines " +
-              "of Python asyncio iterators/generators"
-        )
+      withRepository("fastmac") {
+        owner("fastai")
+        description("Get a MacOS or Linux shell, for free, in around 2 minutes")
+        languages("Shell")
+        topics("tmate", "ssh", "workflow", "macos")
       }
     }
 
-    verifyPOST(pathContains("graphql")).atLeast(1)
+    verifyPOST(pathContains("graphql"))
   }
 
   @Test
   fun mustRender400ErrorMessage() {
-    whenPOST(pathContains("graphql")).thenReturnEmpty(400)
-
-    activityTestRule.launchActivity(Intent())
+    whenPOST(pathContains("graphql"))
+      .thenReturnEmpty(400)
 
     trendingScreen {
-      errorMessage("HTTP 400 ")
+      errorMessage("HTTP 400")
       retryButtonIsVisible()
     }
 
-    verifyPOST(pathContains("graphql")).atLeast(1)
+    verifyPOST(pathContains("graphql"))
   }
 
   @Test
   fun mustRender500ErrorMessage() {
-    whenPOST(pathContains("graphql")).thenReturnEmpty(500)
-
-    activityTestRule.launchActivity(Intent())
+    whenPOST(pathContains("graphql"))
+      .thenReturnEmpty(500)
 
     trendingScreen {
-      errorMessage("HTTP 500 ")
+      errorMessage("HTTP 500")
       retryButtonIsVisible()
     }
 
-    verifyPOST(pathContains("graphql")).atLeast(1)
+    verifyPOST(pathContains("graphql"))
   }
 
   @Test
   fun mustRequestBackendAfterRetryButtonClicked() {
-    whenPOST(pathContains("graphql")).thenReturnEmpty(400)
-
-    activityTestRule.launchActivity(Intent())
+    whenPOST(pathContains("graphql"))
+      .thenReturnEmpty(400)
 
     trendingScreen {
-      errorMessage("HTTP 400 ")
+      errorMessage("HTTP 400")
       retryButtonIsVisible()
       retry()
+
+      // since mocked server returns 400, the
+      // same result is expected
+      errorMessage("HTTP 400")
+      retryButtonIsVisible()
     }
 
-    verifyPOST(pathContains("graphql")).atLeast(2)
+    verifyPOST(pathContains("graphql"))
+      .exactly(2)
   }
 
   @Test
   fun mustNavigateToBrowserOnRepositoryItemClicked() {
-    whenPOST(pathContains("graphql"))
-      .thenReturnFile("response/search/repositories/200_trending_today.json")
-
-    activityTestRule.launchActivity(Intent())
-
-    intending(not(isInternal())).respondWith(ActivityResult(Activity.RESULT_OK, null))
-
-    trendingScreen {
-      repositoryAt(0) { clickOnRow() }
-      repositoryAt(1) { clickOnRow() }
-      repositoryAt(2) { clickOnRow() }
+    val verifyClickedOn: (String) -> Unit = { url ->
+      intended(allOf(hasAction(Intent.ACTION_VIEW), hasData(url)))
     }
 
-    intended(
-      allOf(
-        hasAction(Intent.ACTION_VIEW),
-        hasData("https://github.com/migrify/awesome-php-migrations")
-      )
-    )
-    intended(
-      allOf(
-        hasAction(Intent.ACTION_VIEW),
-        hasData("https://github.com/andychase/gbajs2")
-      )
-    )
-    intended(
-      allOf(
-        hasAction(Intent.ACTION_VIEW),
-        hasData("https://github.com/michalc/asyncio-buffered-pipeline")
+    whenPOST(pathContains("graphql"))
+      .thenReturnFile("response/search/repositories/200_trending.json")
+
+    intending(not(isInternal())).respondWith(
+      Instrumentation.ActivityResult(
+        Activity.RESULT_OK,
+        null
       )
     )
 
-    verifyPOST(pathContains("graphql")).atLeast(1)
+    trendingScreen {
+      withRepository("AmnesiaTheDarkDescent") { clickOnRow() }
+      withRepository("kb") { clickOnRow() }
+      withRepository("fastmac") { clickOnRow() }
+    }
+
+    verifyClickedOn("https://github.com/FrictionalGames/AmnesiaTheDarkDescent")
+    verifyClickedOn("https://github.com/gnebbia/kb")
+    verifyClickedOn("https://github.com/fastai/fastmac")
+
+    verifyPOST(pathContains("graphql"))
   }
 }

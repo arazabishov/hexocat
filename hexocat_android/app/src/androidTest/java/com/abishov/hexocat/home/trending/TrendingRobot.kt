@@ -1,17 +1,20 @@
 package com.abishov.hexocat.home.trending
 
+import android.content.Context
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.matcher.ViewMatchers.*
+import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.ui.test.*
 import com.abishov.hexocat.R
 import com.abishov.hexocat.common.espresso.BottomNavigationViewMatcher
-import com.abishov.hexocat.common.espresso.CustomConstraintViewAction.Companion.withCustomConstraints
 import com.abishov.hexocat.home.repository.RepositoryItemRobot
-import org.hamcrest.CoreMatchers.allOf
 
-fun trendingScreen(func: TrendingRobot.() -> Unit): TrendingRobot {
+fun trendingScreen(
+  composeTestRule: ComposeTestRule,
+  context: Context,
+  func: TrendingRobot.() -> Unit
+): TrendingRobot {
   try {
     onView(withId(R.id.item_trending))
       .check(matches(BottomNavigationViewMatcher.isNavigationItemChecked))
@@ -21,37 +24,41 @@ fun trendingScreen(func: TrendingRobot.() -> Unit): TrendingRobot {
       .check(matches(BottomNavigationViewMatcher.isNavigationItemChecked))
   }
 
-  return TrendingRobot().apply { func() }
+  return TrendingRobot(composeTestRule, context).apply { func() }
 }
 
-class TrendingRobot {
-
-  fun retry() {
-    onView(allOf(isDisplayed(), withId(R.id.button_retry)))
-      .perform(click())
+class TrendingRobot(
+  private val composeTestRule: ComposeTestRule,
+  private val context: Context
+) {
+  private fun retryButton(): SemanticsNodeInteraction {
+    return composeTestRule.onNodeWithText(
+      text = context.getString(R.string.home_action_retry),
+      useUnmergedTree = true
+    )
   }
 
-  fun swipeLeft() {
-    onView(withId(R.id.viewpager_trending))
-      .perform(withCustomConstraints(ViewActions.swipeLeft(),
-        isDisplayingAtLeast(80)))
+  fun retry() {
+    retryButton().assertIsDisplayed()
+      .performClick()
   }
 
   fun errorMessage(error: String) {
-    onView(allOf(withId(R.id.textview_error), isDisplayed()))
-      .check(matches(withText(error)))
+    onNode(hasSubstring(error), useUnmergedTree = true)
+      .assertIsDisplayed()
   }
 
   fun retryButtonIsVisible() {
-    onView(allOf(isDisplayed(), withId(R.id.button_retry)))
-      .check(matches(isDisplayed()))
+    retryButton().assertIsDisplayed()
   }
 
-  fun repositoryAt(
-    position: Int, func: RepositoryItemRobot.() -> Unit
+  fun withRepository(
+    repositoryName: String,
+    func: RepositoryItemRobot.() -> Unit
   ): RepositoryItemRobot {
     return RepositoryItemRobot(
-      allOf(withId(R.id.recyclerview_trending), isDisplayed()), position
+      composeTestRule = composeTestRule,
+      name = repositoryName
     ).apply { func() }
   }
 }

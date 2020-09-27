@@ -1,6 +1,6 @@
 package com.abishov.hexocat.common.rule
 
-import androidx.test.espresso.Espresso
+import androidx.test.espresso.IdlingRegistry
 import com.abishov.hexocat.HexocatTestApp
 import com.jakewharton.espresso.OkHttp3IdlingResource
 import io.appflate.restmock.RESTMockServer
@@ -26,11 +26,11 @@ class MockWebServerRule : TestRule {
         val client = HexocatTestApp.instance.appComponent().okHttpClient()
         val okhttpIdlingResource = OkHttp3IdlingResource.create("okhttp", client)
 
-        Espresso.registerIdlingResources(okhttpIdlingResource)
+        IdlingRegistry.getInstance().register(okhttpIdlingResource)
         try {
           base.evaluate()
         } finally {
-          Espresso.unregisterIdlingResources(okhttpIdlingResource)
+          IdlingRegistry.getInstance().unregister(okhttpIdlingResource)
         }
       }
     }
