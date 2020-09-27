@@ -3,10 +3,10 @@ package com.abishov.hexocat.home.trending
 import assertk.assert
 import assertk.assertions.*
 import com.abishov.hexocat.common.schedulers.TrampolineSchedulersProvider
-import com.abishov.hexocat.github.filters.Order
+import com.abishov.hexocat.composables.LanguageViewModel
+import com.abishov.hexocat.composables.TopicViewModel
 import com.abishov.hexocat.github.filters.SearchQuery
-import com.abishov.hexocat.github.filters.Sort
-import com.abishov.hexocat.home.repository.RepositoryViewModel
+import com.abishov.hexocat.composables.RepositoryViewModel
 import com.github.TrendingRepositoriesQuery.*
 import com.nhaarman.mockito_kotlin.whenever
 import io.reactivex.subjects.BehaviorSubject
@@ -51,19 +51,37 @@ class TrendingPresenterUnitTests {
     )
 
     val owner = Owner(
-      login = "test_login",
       url = "test_html_url",
-      avatarUrl = "test_avatar_url"
+      login = "test_login",
+      avatarUrl = "http://github.com/test_avatar_url"
     )
 
-    repositories = Arrays.asList(
+    val topics = RepositoryTopics(
+      edges = listOf(
+        Edge1(node = Node(topic = Topic(name = "test_topic_1"))),
+        Edge1(node = Node(topic = Topic(name = "test_topic_2")))
+      )
+    )
+
+    val languages = Languages(
+      edges = listOf(
+        Edge2(node = Node1(name = "test_lang_1", color = "test_lang_color_1")),
+        Edge2(node = Node1(name = "test_lang_2", color = "test_lang_color_2"))
+      )
+    )
+
+    repositories = listOf(
       AsRepository(
         name = "test_repository_one",
         url = "test_html_url_one",
         forkCount = 5,
         stargazers = Stargazers(totalCount = 10),
         description = "test_description_one",
-        owner = owner
+        openGraphImageUrl = "test_banner_url_one",
+        usesCustomOpenGraphImage = true,
+        owner = owner,
+        repositoryTopics = topics,
+        languages = languages
       ),
       AsRepository(
         name = "test_repository_two",
@@ -71,34 +89,52 @@ class TrendingPresenterUnitTests {
         forkCount = 7,
         stargazers = Stargazers(totalCount = 11),
         description = "test_description_two",
-        owner = owner
+        openGraphImageUrl = "test_banner_url_two",
+        usesCustomOpenGraphImage = true,
+        owner = owner,
+        repositoryTopics = RepositoryTopics(edges = listOf()),
+        languages = Languages(edges = listOf())
       )
     )
 
-    repositoryViewModels = Arrays.asList(
+    repositoryViewModels = listOf(
       RepositoryViewModel(
         name = "test_repository_one",
         description = "test_description_one",
         forks = "5",
         stars = "10",
-        avatarUrl = "test_avatar_url",
+        avatarUrl = "http://github.com/test_avatar_url?s=128",
         login = "test_login",
-        url = "test_html_url_one"
+        url = "test_html_url_one",
+        bannerUrl = "test_banner_url_one",
+        usesBannerUrl = true,
+        topics = listOf(
+          TopicViewModel(name = "test_topic_1"),
+          TopicViewModel(name = "test_topic_2")
+        ),
+        languages = listOf(
+          LanguageViewModel(name = "test_lang_1", color = "test_lang_color_1"),
+          LanguageViewModel(name = "test_lang_2", color = "test_lang_color_2")
+        )
       ),
       RepositoryViewModel(
         name = "test_repository_two",
         description = "test_description_two",
         forks = "7",
         stars = "11",
-        avatarUrl = "test_avatar_url",
+        avatarUrl = "http://github.com/test_avatar_url?s=128",
         login = "test_login",
-        url = "test_html_url_two"
+        url = "test_html_url_two",
+        bannerUrl = "test_banner_url_two",
+        usesBannerUrl = true,
+        topics = listOf(),
+        languages = listOf()
       )
     )
 
     searchQuery = SearchQuery(LocalDate.parse("2017-08-10"))
     whenever(trendingView.searchQueries()).thenReturn(viewQueries)
-    whenever(trendingService.search(searchQuery, 64)).thenReturn(
+    whenever(trendingService.search(searchQuery, 32)).thenReturn(
       listResults
     )
   }
@@ -107,7 +143,7 @@ class TrendingPresenterUnitTests {
   @Throws(Exception::class)
   fun `presenter must propagate correct states on success`() {
     trendingPresenter.onAttach(trendingView)
-    assertThat(viewQueries.hasObservers()).isTrue()
+    assertThat(viewQueries.hasObservers()).isTrue
 
     viewQueries.onNext(searchQuery)
     listResults.onNext(repositories)
@@ -128,7 +164,7 @@ class TrendingPresenterUnitTests {
   @Throws(Exception::class)
   fun `presenter must propagate correct states on failure`() {
     trendingPresenter.onAttach(trendingView)
-    assertThat(viewQueries.hasObservers()).isTrue()
+    assertThat(viewQueries.hasObservers()).isTrue
 
     viewQueries.onNext(searchQuery)
     listResults.onError(Throwable("test_message"))

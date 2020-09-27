@@ -1,4 +1,4 @@
-query TrendingRepositories($query: String!, $number_of_repos: Int!){
+query TrendingRepositories($query: String!, $number_of_repos: Int!) {
   search(query: $query, type: REPOSITORY, first: $number_of_repos) {
     repositoryCount
     edges {
@@ -8,6 +8,8 @@ query TrendingRepositories($query: String!, $number_of_repos: Int!){
           name
           forkCount
           description
+          openGraphImageUrl
+          usesCustomOpenGraphImage
           owner {
             url
             login
@@ -15,6 +17,23 @@ query TrendingRepositories($query: String!, $number_of_repos: Int!){
           }
           stargazers {
             totalCount
+          }
+          repositoryTopics(first: 4) {
+            edges {
+              node {
+                topic {
+                  name
+                }
+              }
+            }
+          }
+          languages(first: 4) {
+            edges {
+              node {
+                name
+                color
+              }
+            }
           }
         }
       }

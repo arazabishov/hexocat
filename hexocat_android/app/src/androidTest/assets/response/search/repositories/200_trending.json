@@ -1,0 +1,257 @@
+{
+  "data": {
+    "search": {
+      "__typename": "SearchResultItemConnection",
+      "repositoryCount": 1224752,
+      "edges": [
+        {
+          "__typename": "SearchResultItemEdge",
+          "node": {
+            "__typename": "Repository",
+            "url": "https://github.com/FrictionalGames/AmnesiaTheDarkDescent",
+            "name": "AmnesiaTheDarkDescent",
+            "forkCount": 218,
+            "description": null,
+            "openGraphImageUrl": "https://avatars3.githubusercontent.com/u/273555?s=400&v=4",
+            "usesCustomOpenGraphImage": false,
+            "owner": {
+              "__typename": "Organization",
+              "url": "https://github.com/FrictionalGames",
+              "login": "FrictionalGames",
+              "avatarUrl": "https://avatars0.githubusercontent.com/u/273555?v=4"
+            },
+            "stargazers": {
+              "__typename": "StargazerConnection",
+              "totalCount": 2507
+            },
+            "repositoryTopics": {
+              "__typename": "RepositoryTopicConnection",
+              "edges": []
+            },
+            "languages": {
+              "__typename": "LanguageConnection",
+              "edges": [
+                {
+                  "__typename": "LanguageEdge",
+                  "node": {
+                    "__typename": "Language",
+                    "name": "CMake",
+                    "color": null
+                  }
+                },
+                {
+                  "__typename": "LanguageEdge",
+                  "node": {
+                    "__typename": "Language",
+                    "name": "Objective-C",
+                    "color": "#438eff"
+                  }
+                },
+                {
+                  "__typename": "LanguageEdge",
+                  "node": {
+                    "__typename": "Language",
+                    "name": "Perl",
+                    "color": "#0298c3"
+                  }
+                },
+                {
+                  "__typename": "LanguageEdge",
+                  "node": {
+                    "__typename": "Language",
+                    "name": "C",
+                    "color": "#555555"
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "__typename": "SearchResultItemEdge",
+          "node": {
+            "__typename": "Repository",
+            "url": "https://github.com/gnebbia/kb",
+            "name": "kb",
+            "forkCount": 45,
+            "description": "A minimalist command line knowledge base manager",
+            "openGraphImageUrl": "https://avatars1.githubusercontent.com/u/16106651?s=400&v=4",
+            "usesCustomOpenGraphImage": false,
+            "owner": {
+              "__typename": "User",
+              "url": "https://github.com/gnebbia",
+              "login": "gnebbia",
+              "avatarUrl": "https://avatars0.githubusercontent.com/u/16106651?v=4"
+            },
+            "stargazers": {
+              "__typename": "StargazerConnection",
+              "totalCount": 1908
+            },
+            "repositoryTopics": {
+              "__typename": "RepositoryTopicConnection",
+              "edges": [
+                {
+                  "__typename": "RepositoryTopicEdge",
+                  "node": {
+                    "__typename": "RepositoryTopic",
+                    "topic": {
+                      "__typename": "Topic",
+                      "name": "knowledge"
+                    }
+                  }
+                },
+                {
+                  "__typename": "RepositoryTopicEdge",
+                  "node": {
+                    "__typename": "RepositoryTopic",
+                    "topic": {
+                      "__typename": "Topic",
+                      "name": "cheatsheets"
+                    }
+                  }
+                },
+                {
+                  "__typename": "RepositoryTopicEdge",
+                  "node": {
+                    "__typename": "RepositoryTopic",
+                    "topic": {
+                      "__typename": "Topic",
+                      "name": "procedures"
+                    }
+                  }
+                },
+                {
+                  "__typename": "RepositoryTopicEdge",
+                  "node": {
+                    "__typename": "RepositoryTopic",
+                    "topic": {
+                      "__typename": "Topic",
+                      "name": "methodology"
+                    }
+                  }
+                }
+              ]
+            },
+            "languages": {
+              "__typename": "LanguageConnection",
+              "edges": [
+                {
+                  "__typename": "LanguageEdge",
+                  "node": {
+                    "__typename": "Language",
+                    "name": "Makefile",
+                    "color": "#427819"
+                  }
+                },
+                {
+                  "__typename": "LanguageEdge",
+                  "node": {
+                    "__typename": "Language",
+                    "name": "Python",
+                    "color": "#3572A5"
+                  }
+                },
+                {
+                  "__typename": "LanguageEdge",
+                  "node": {
+                    "__typename": "Language",
+                    "name": "Shell",
+                    "color": "#89e051"
+                  }
+                },
+                {
+                  "__typename": "LanguageEdge",
+                  "node": {
+                    "__typename": "Language",
+                    "name": "Ruby",
+                    "color": "#701516"
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "__typename": "SearchResultItemEdge",
+          "node": {
+            "__typename": "Repository",
+            "url": "https://github.com/fastai/fastmac",
+            "name": "fastmac",
+            "forkCount": 60,
+            "description": "Get a MacOS or Linux shell, for free, in around 2 minutes",
+            "openGraphImageUrl": "https://repository-images.githubusercontent.com/294794406/cd249600-f441-11ea-873e-71e5332c7427",
+            "usesCustomOpenGraphImage": true,
+            "owner": {
+              "__typename": "Organization",
+              "url": "https://github.com/fastai",
+              "login": "fastai",
+              "avatarUrl": "https://avatars3.githubusercontent.com/u/20547620?v=4"
+            },
+            "stargazers": {
+              "__typename": "StargazerConnection",
+              "totalCount": 1600
+            },
+            "repositoryTopics": {
+              "__typename": "RepositoryTopicConnection",
+              "edges": [
+                {
+                  "__typename": "RepositoryTopicEdge",
+                  "node": {
+                    "__typename": "RepositoryTopic",
+                    "topic": {
+                      "__typename": "Topic",
+                      "name": "tmate"
+                    }
+                  }
+                },
+                {
+                  "__typename": "RepositoryTopicEdge",
+                  "node": {
+                    "__typename": "RepositoryTopic",
+                    "topic": {
+                      "__typename": "Topic",
+                      "name": "ssh"
+                    }
+                  }
+                },
+                {
+                  "__typename": "RepositoryTopicEdge",
+                  "node": {
+                    "__typename": "RepositoryTopic",
+                    "topic": {
+                      "__typename": "Topic",
+                      "name": "workflow"
+                    }
+                  }
+                },
+                {
+                  "__typename": "RepositoryTopicEdge",
+                  "node": {
+                    "__typename": "RepositoryTopic",
+                    "topic": {
+                      "__typename": "Topic",
+                      "name": "macos"
+                    }
+                  }
+                }
+              ]
+            },
+            "languages": {
+              "__typename": "LanguageConnection",
+              "edges": [
+                {
+                  "__typename": "LanguageEdge",
+                  "node": {
+                    "__typename": "Language",
+                    "name": "Shell",
+                    "color": "#89e051"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  }
+}

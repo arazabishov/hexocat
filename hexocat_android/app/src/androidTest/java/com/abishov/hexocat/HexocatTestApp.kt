@@ -1,7 +1,6 @@
 package com.abishov.hexocat
 
 import androidx.test.platform.app.InstrumentationRegistry
-import com.abishov.hexocat.common.picasso.MockRequestHandler
 import io.appflate.restmock.RESTMockServer
 import okhttp3.HttpUrl
 import org.threeten.bp.Clock
@@ -20,9 +19,7 @@ class HexocatTestApp : Hexocat() {
       return super.prepareAppComponent()
     }
 
-    val assetManager = InstrumentationRegistry.getInstrumentation().context.assets
     return DaggerAppComponent.builder()
-      .requestHandler(MockRequestHandler(assetManager))
       .sslSocketFactory(RESTMockServer.getSSLSocketFactory())
       .trustManager(RESTMockServer.getTrustManager())
       .clock(createFixedClockInstance(TEST_BASE_DATE))
