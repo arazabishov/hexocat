@@ -4,11 +4,11 @@ import android.app.Activity
 import android.app.Instrumentation
 import android.content.Context
 import android.content.Intent
+import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.Intents.intended
 import androidx.test.espresso.intent.Intents.intending
 import androidx.test.espresso.intent.matcher.IntentMatchers.*
-import androidx.ui.test.createAndroidComposeRule
 import com.abishov.hexocat.HexocatTestApp
 import com.abishov.hexocat.common.rule.MockWebServerRule
 import com.abishov.hexocat.home.HomeActivity

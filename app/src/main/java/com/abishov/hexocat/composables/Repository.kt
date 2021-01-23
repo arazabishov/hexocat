@@ -1,32 +1,29 @@
 package com.abishov.hexocat.composables
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Box
-import androidx.compose.foundation.Text
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.layout.RowScope.gravity
 import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import dev.chrisbanes.accompanist.coil.CoilImageWithCrossfade
+import dev.chrisbanes.accompanist.coil.CoilImage
 
 @Composable
 private fun Avatar(url: String) {
-  CoilImageWithCrossfade(
+  CoilImage(
     data = url,
+    fadeIn = true,
     contentScale = ContentScale.Fit,
     modifier = Modifier
       .preferredSize(40.dp)
-      .gravity(Alignment.Top)
       .clip(RoundedCornerShape(4.dp))
   )
 }
@@ -53,7 +50,9 @@ private fun Author(username: String) {
 
 @Composable
 private fun Header(repository: RepositoryViewModel) {
-  Row(modifier = Modifier.padding(16.dp)) {
+  Row(
+    modifier = Modifier.padding(16.dp)
+  ) {
     Avatar(url = repository.avatarUrl)
     Column(modifier = Modifier.padding(start = 16.dp)) {
       Name(name = repository.name)
@@ -75,8 +74,9 @@ private fun Description(description: String) {
 
 @Composable
 private fun Banner(url: String) {
-  CoilImageWithCrossfade(
+  CoilImage(
     data = url,
+    fadeIn = true,
     contentScale = ContentScale.Crop,
     modifier = Modifier
       .fillMaxWidth()
@@ -91,9 +91,10 @@ fun RepositoryItem(
   onRepositoryClick: (repository: RepositoryViewModel) -> Unit
 ) {
   Box(
-    modifier = Modifier.fillMaxWidth()
+    modifier = Modifier
       .fillMaxWidth()
-      .padding(horizontal = 8.dp, vertical = 4.dp)
+      .fillMaxWidth()
+      .padding(horizontal = 8.dp, vertical = 4.dp),
   ) {
     val cardBorderStroke = BorderStroke(
       1.dp, MaterialTheme.colors.onSurface.copy(alpha = 0.12f)
@@ -101,7 +102,8 @@ fun RepositoryItem(
 
     Card(
       elevation = 0.dp,
-      modifier = Modifier.fillMaxWidth()
+      modifier = Modifier
+        .fillMaxWidth()
         .clickable(onClick = { onRepositoryClick(repository) }),
       shape = CutCornerShape(4.dp),
       border = cardBorderStroke

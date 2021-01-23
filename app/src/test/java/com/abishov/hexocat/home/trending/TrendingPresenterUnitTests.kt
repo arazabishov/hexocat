@@ -1,16 +1,15 @@
 package com.abishov.hexocat.home.trending
 
-import assertk.assert
+import assertk.assertThat
 import assertk.assertions.*
 import com.abishov.hexocat.common.schedulers.TrampolineSchedulersProvider
 import com.abishov.hexocat.composables.LanguageViewModel
+import com.abishov.hexocat.composables.RepositoryViewModel
 import com.abishov.hexocat.composables.TopicViewModel
 import com.abishov.hexocat.github.filters.SearchQuery
-import com.abishov.hexocat.composables.RepositoryViewModel
 import com.github.TrendingRepositoriesQuery.*
-import com.nhaarman.mockito_kotlin.whenever
+import com.nhaarman.mockitokotlin2.whenever
 import io.reactivex.subjects.BehaviorSubject
-import org.assertj.core.api.Java6Assertions.assertThat
 import org.junit.Before
 import org.junit.Test
 import org.mockito.*
@@ -143,7 +142,7 @@ class TrendingPresenterUnitTests {
   @Throws(Exception::class)
   fun `presenter must propagate correct states on success`() {
     trendingPresenter.onAttach(trendingView)
-    assertThat(viewQueries.hasObservers()).isTrue
+    assertThat(viewQueries.hasObservers()).isTrue()
 
     viewQueries.onNext(searchQuery)
     listResults.onNext(repositories)
@@ -153,18 +152,18 @@ class TrendingPresenterUnitTests {
       .accept(repositoriesConsumer.capture())
 
     val viewStateProgress = repositoriesConsumer.allValues[0]
-    assert(viewStateProgress).isInstanceOf(TrendingViewState.InProgress::class)
+    assertThat(viewStateProgress).isInstanceOf(TrendingViewState.InProgress::class)
 
     val viewStateSuccess = repositoriesConsumer.allValues[1]
-    assert(viewStateSuccess).isInstanceOf(TrendingViewState.Success::class)
-    assert((viewStateSuccess as TrendingViewState.Success).items).isEqualTo(repositoryViewModels)
+    assertThat(viewStateSuccess).isInstanceOf(TrendingViewState.Success::class)
+    assertThat((viewStateSuccess as TrendingViewState.Success).items).isEqualTo(repositoryViewModels)
   }
 
   @Test
   @Throws(Exception::class)
   fun `presenter must propagate correct states on failure`() {
     trendingPresenter.onAttach(trendingView)
-    assertThat(viewQueries.hasObservers()).isTrue
+    assertThat(viewQueries.hasObservers()).isTrue()
 
     viewQueries.onNext(searchQuery)
     listResults.onError(Throwable("test_message"))
@@ -174,17 +173,17 @@ class TrendingPresenterUnitTests {
       .accept(repositoriesConsumer.capture())
 
     val viewStateProgress = repositoriesConsumer.allValues[0]
-    assert(viewStateProgress).isInstanceOf(TrendingViewState.InProgress::class)
+    assertThat(viewStateProgress).isInstanceOf(TrendingViewState.InProgress::class)
 
     val viewStateFailure = repositoriesConsumer.allValues[1]
-    assert(viewStateFailure).isInstanceOf(TrendingViewState.Failure::class)
+    assertThat(viewStateFailure).isInstanceOf(TrendingViewState.Failure::class)
   }
 
   @Test
   @Throws(Exception::class)
   fun `presenter must propagate correct states when no items`() {
     trendingPresenter.onAttach(trendingView)
-    assert(viewQueries.hasObservers()).isTrue()
+    assertThat(viewQueries.hasObservers()).isTrue()
 
     viewQueries.onNext(searchQuery)
     listResults.onNext(ArrayList())
@@ -194,24 +193,24 @@ class TrendingPresenterUnitTests {
       .accept(repositoriesConsumer.capture())
 
     val viewStateProgress = repositoriesConsumer.allValues[0]
-    assert(viewStateProgress).isInstanceOf(TrendingViewState.InProgress::class)
+    assertThat(viewStateProgress).isInstanceOf(TrendingViewState.InProgress::class)
 
     val viewStateSuccess = repositoriesConsumer.allValues[1]
-    assert(viewStateSuccess).isInstanceOf(TrendingViewState.Success::class)
-    assert((viewStateSuccess as TrendingViewState.Success).items).isEmpty()
+    assertThat(viewStateSuccess).isInstanceOf(TrendingViewState.Success::class)
+    assertThat((viewStateSuccess as TrendingViewState.Success).items).isEmpty()
   }
 
   @Test
   fun `presenter must unsubscribe from view on detach`() {
-    assert(listResults.hasObservers()).isFalse()
-    assert(viewQueries.hasObservers()).isFalse()
+    assertThat(listResults.hasObservers()).isFalse()
+    assertThat(viewQueries.hasObservers()).isFalse()
 
     trendingPresenter.onAttach(trendingView)
-    assert(listResults.hasObservers()).isFalse()
-    assert(viewQueries.hasObservers()).isTrue()
+    assertThat(listResults.hasObservers()).isFalse()
+    assertThat(viewQueries.hasObservers()).isTrue()
 
     trendingPresenter.onDetach()
-    assert(listResults.hasObservers()).isFalse()
-    assert(viewQueries.hasObservers()).isFalse()
+    assertThat(listResults.hasObservers()).isFalse()
+    assertThat(viewQueries.hasObservers()).isFalse()
   }
 }

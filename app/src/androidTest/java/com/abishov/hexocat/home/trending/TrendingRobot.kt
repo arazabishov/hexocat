@@ -1,11 +1,12 @@
 package com.abishov.hexocat.home.trending
 
 import android.content.Context
+import androidx.compose.ui.test.*
+import androidx.compose.ui.test.junit4.ComposeTestRule
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.withId
-import androidx.ui.test.*
 import com.abishov.hexocat.R
 import com.abishov.hexocat.common.espresso.BottomNavigationViewMatcher
 import com.abishov.hexocat.home.repository.RepositoryItemRobot
@@ -44,7 +45,7 @@ class TrendingRobot(
   }
 
   fun errorMessage(error: String) {
-    onNode(hasSubstring(error), useUnmergedTree = true)
+    composeTestRule.onNode(hasSubstring(error), useUnmergedTree = true)
       .assertIsDisplayed()
   }
 
