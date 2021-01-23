@@ -1,6 +1,7 @@
 package com.abishov.hexocat.home.repository
 
-import androidx.ui.test.*
+import androidx.compose.ui.test.*
+import androidx.compose.ui.test.junit4.ComposeTestRule
 
 class RepositoryItemRobot(
   private val composeTestRule: ComposeTestRule,

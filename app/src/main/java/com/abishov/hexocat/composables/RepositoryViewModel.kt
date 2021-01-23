@@ -1,8 +1,5 @@
 package com.abishov.hexocat.composables
 
-import com.abishov.hexocat.composables.LanguageViewModel
-import com.abishov.hexocat.composables.TopicViewModel
-
 data class RepositoryViewModel(
   val name: String,
   val description: String,
