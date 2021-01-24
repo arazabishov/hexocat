@@ -4,9 +4,9 @@ import com.abishov.hexocat.common.dagger.FragmentScope
 import com.abishov.hexocat.common.schedulers.SchedulerProvider
 import com.abishov.hexocat.common.utils.OnErrorHandler
 import com.abishov.hexocat.composables.LanguageViewModel
+import com.abishov.hexocat.composables.RepositoryViewModel
 import com.abishov.hexocat.composables.TopicViewModel
 import com.abishov.hexocat.github.filters.SearchQuery
-import com.abishov.hexocat.composables.RepositoryViewModel
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
@@ -38,15 +38,13 @@ internal class TrendingPresenter @Inject constructor(
             val description = it.description ?: ""
 
             val forks = it.forkCount.toString()
-            val stars = it.stargazers.totalCount.toString()
+            val stars = it.stargazerCount.toString()
             val avatarUrl = it.owner.avatarUrl.toString().toHttpUrlOrNull()?.newBuilder()
               ?.addQueryParameter("s", "128")?.build()
               ?.toString() ?: ""
 
-            val languages = it.languages?.edges?.mapNotNull { edge ->
-              edge?.node?.let { node ->
-                LanguageViewModel(node.name, node.color ?: "")
-              }
+            val languages = it.primaryLanguage?.let { language ->
+              listOf(LanguageViewModel(language.name, language.color ?: ""))
             } ?: listOf()
 
             val topics = it.repositoryTopics.edges?.mapNotNull { edge ->

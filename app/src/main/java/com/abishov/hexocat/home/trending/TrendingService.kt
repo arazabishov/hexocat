@@ -13,7 +13,8 @@ class TrendingService @Inject constructor(private val client: ApolloClient) {
   fun search(query: SearchQuery, count: Int): Observable<List<AsRepository>> {
     val apolloQuery = TrendingRepositoriesQuery(
       query = query.toString(),
-      number_of_repos = count
+      number_of_repos = count,
+      repository_topics = 2
     )
 
     return Rx2Apollo.from(client.query(apolloQuery))

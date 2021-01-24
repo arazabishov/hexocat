@@ -1,4 +1,4 @@
-query TrendingRepositories($query: String!, $number_of_repos: Int!) {
+query TrendingRepositories($query: String!, $number_of_repos: Int!, $repository_topics: Int!) {
   search(query: $query, type: REPOSITORY, first: $number_of_repos) {
     repositoryCount
     edges {
@@ -15,10 +15,7 @@ query TrendingRepositories($query: String!, $number_of_repos: Int!) {
             login
             avatarUrl
           }
-          stargazers {
-            totalCount
-          }
-          repositoryTopics(first: 4) {
+          repositoryTopics(first: $repository_topics) {
             edges {
               node {
                 topic {
@@ -27,13 +24,10 @@ query TrendingRepositories($query: String!, $number_of_repos: Int!) {
               }
             }
           }
-          languages(first: 4) {
-            edges {
-              node {
-                name
-                color
-              }
-            }
+          stargazerCount
+          primaryLanguage {
+            color
+            name
           }
         }
       }
