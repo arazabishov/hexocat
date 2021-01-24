@@ -52,23 +52,22 @@ class TrendingScreenTest {
       .thenReturnFile("response/search/repositories/200_trending.json")
 
     trendingScreen {
-      withRepository("AmnesiaTheDarkDescent") {
-        owner("FrictionalGames")
-        languages("CMake", "Objective-C", "Perl", "C")
+      withRepository("pdd_3years") {
+        owner("LeadroyaL")
+        description("我在拼多多的三年，以及网站崩溃时候的日志文件")
+        stars(1726)
       }
-
-      withRepository("kb") {
-        owner("gnebbia")
-        description("A minimalist command line knowledge base manager")
-        languages("Makefile", "Python", "Shell", "Ruby")
-        topics("knowledge", "cheatsheets", "procedures", "methodology")
+      withRepository("jd_scripts") {
+        owner("LXK9301")
+        primaryLanguage("JavaScript")
+        stars(1703)
       }
-
-      withRepository("fastmac") {
-        owner("fastai")
-        description("Get a MacOS or Linux shell, for free, in around 2 minutes")
-        languages("Shell")
-        topics("tmate", "ssh", "workflow", "macos")
+      withRepository("best-of-python") {
+        owner("ml-tooling")
+        description("🏆 A ranked list of awesome Python open-source libraries and tools.")
+        primaryLanguage("Python")
+        topics("best-of", "awesome")
+        stars(1297)
       }
     }
 
@@ -138,14 +137,14 @@ class TrendingScreenTest {
     )
 
     trendingScreen {
-      withRepository("AmnesiaTheDarkDescent") { clickOnRow() }
-      withRepository("kb") { clickOnRow() }
-      withRepository("fastmac") { clickOnRow() }
+      withRepository("pdd_3years") { clickOnRow() }
+      withRepository("jd_scripts") { clickOnRow() }
+      withRepository("best-of-python") { clickOnRow() }
     }
 
-    verifyClickedOn("https://github.com/FrictionalGames/AmnesiaTheDarkDescent")
-    verifyClickedOn("https://github.com/gnebbia/kb")
-    verifyClickedOn("https://github.com/fastai/fastmac")
+    verifyClickedOn("https://github.com/LeadroyaL/pdd_3years")
+    verifyClickedOn("https://github.com/LXK9301/jd_scripts")
+    verifyClickedOn("https://github.com/ml-tooling/best-of-python")
 
     verifyPOST(pathContains("graphql"))
   }

@@ -25,9 +25,11 @@ class RepositoryItemRobot(
 
   fun description(description: String) = withText(description)
 
-  fun languages(vararg languages: String) = languages.forEach { withText(it) }
+  fun primaryLanguage(language: String) = withText(language)
 
   fun topics(vararg topics: String) = topics.forEach { withText("#$it") }
+
+  fun stars(stars: Int) = withText(stars.toString())
 
   fun clickOnRow() {
     composeTestRule.onNodeWithText(

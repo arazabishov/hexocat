@@ -3,6 +3,7 @@ package com.abishov.hexocat.home.trending
 import assertk.assertThat
 import assertk.assertions.*
 import com.abishov.hexocat.common.schedulers.TrampolineSchedulersProvider
+import com.abishov.hexocat.composables.ContributorsViewModel
 import com.abishov.hexocat.composables.LanguageViewModel
 import com.abishov.hexocat.composables.RepositoryViewModel
 import com.abishov.hexocat.composables.TopicViewModel
@@ -50,6 +51,7 @@ class TrendingPresenterUnitTests {
     )
 
     val owner = Owner(
+      id = "test_owner_id",
       url = "test_html_url",
       login = "test_login",
       avatarUrl = "http://github.com/test_avatar_url"
@@ -62,37 +64,30 @@ class TrendingPresenterUnitTests {
       )
     )
 
-    val languages = Languages(
-      edges = listOf(
-        Edge2(node = Node1(name = "test_lang_1", color = "test_lang_color_1")),
-        Edge2(node = Node1(name = "test_lang_2", color = "test_lang_color_2"))
-      )
-    )
-
     repositories = listOf(
       AsRepository(
         name = "test_repository_one",
         url = "test_html_url_one",
-        forkCount = 5,
-        stargazers = Stargazers(totalCount = 10),
+        stargazerCount = 10,
         description = "test_description_one",
         openGraphImageUrl = "test_banner_url_one",
         usesCustomOpenGraphImage = true,
         owner = owner,
         repositoryTopics = topics,
-        languages = languages
+        primaryLanguage = PrimaryLanguage(name = "test_lang_1", color = "test_lang_color_1"),
+        mentionableUsers = MentionableUsers(nodes = listOf(), totalCount = 0)
       ),
       AsRepository(
         name = "test_repository_two",
         url = "test_html_url_two",
-        forkCount = 7,
-        stargazers = Stargazers(totalCount = 11),
+        stargazerCount = 11,
         description = "test_description_two",
         openGraphImageUrl = "test_banner_url_two",
         usesCustomOpenGraphImage = true,
         owner = owner,
         repositoryTopics = RepositoryTopics(edges = listOf()),
-        languages = Languages(edges = listOf())
+        primaryLanguage = PrimaryLanguage(name = "test_lang_2", color = "test_lang_color_2"),
+        mentionableUsers = MentionableUsers(nodes = listOf(), totalCount = 0)
       )
     )
 
@@ -100,34 +95,33 @@ class TrendingPresenterUnitTests {
       RepositoryViewModel(
         name = "test_repository_one",
         description = "test_description_one",
-        forks = "5",
         stars = "10",
         avatarUrl = "http://github.com/test_avatar_url?s=128",
         login = "test_login",
         url = "test_html_url_one",
         bannerUrl = "test_banner_url_one",
         usesBannerUrl = true,
+        ownerId = "test_owner_id",
         topics = listOf(
           TopicViewModel(name = "test_topic_1"),
           TopicViewModel(name = "test_topic_2")
         ),
-        languages = listOf(
-          LanguageViewModel(name = "test_lang_1", color = "test_lang_color_1"),
-          LanguageViewModel(name = "test_lang_2", color = "test_lang_color_2")
-        )
+        languages = listOf(LanguageViewModel(name = "test_lang_1", color = "test_lang_color_1")),
+        contributors = ContributorsViewModel(listOf(), 0)
       ),
       RepositoryViewModel(
         name = "test_repository_two",
         description = "test_description_two",
-        forks = "7",
         stars = "11",
         avatarUrl = "http://github.com/test_avatar_url?s=128",
         login = "test_login",
         url = "test_html_url_two",
         bannerUrl = "test_banner_url_two",
         usesBannerUrl = true,
+        ownerId = "test_owner_id",
         topics = listOf(),
-        languages = listOf()
+        languages = listOf(LanguageViewModel(name = "test_lang_2", color = "test_lang_color_2")),
+        contributors = ContributorsViewModel(listOf(), 0)
       )
     )
 

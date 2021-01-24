@@ -3,10 +3,8 @@ package com.abishov.hexocat.home.trending
 import com.abishov.hexocat.common.dagger.FragmentScope
 import com.abishov.hexocat.common.schedulers.SchedulerProvider
 import com.abishov.hexocat.common.utils.OnErrorHandler
-import com.abishov.hexocat.composables.LanguageViewModel
-import com.abishov.hexocat.composables.TopicViewModel
+import com.abishov.hexocat.composables.*
 import com.abishov.hexocat.github.filters.SearchQuery
-import com.abishov.hexocat.composables.RepositoryViewModel
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
@@ -37,16 +35,13 @@ internal class TrendingPresenter @Inject constructor(
           .map {
             val description = it.description ?: ""
 
-            val forks = it.forkCount.toString()
-            val stars = it.stargazers.totalCount.toString()
+            val stars = it.stargazerCount.toString()
             val avatarUrl = it.owner.avatarUrl.toString().toHttpUrlOrNull()?.newBuilder()
               ?.addQueryParameter("s", "128")?.build()
               ?.toString() ?: ""
 
-            val languages = it.languages?.edges?.mapNotNull { edge ->
-              edge?.node?.let { node ->
-                LanguageViewModel(node.name, node.color ?: "")
-              }
+            val languages = it.primaryLanguage?.let { language ->
+              listOf(LanguageViewModel(language.name, language.color ?: ""))
             } ?: listOf()
 
             val topics = it.repositoryTopics.edges?.mapNotNull { edge ->
@@ -55,15 +50,26 @@ internal class TrendingPresenter @Inject constructor(
               }
             } ?: listOf()
 
+            val contributors = it.mentionableUsers.nodes?.mapNotNull { node ->
+              node?.let { contributor ->
+                ContributorViewModel(
+                  contributor.id,
+                  contributor.avatarUrl.toString()
+                )
+              }
+            } ?: listOf()
+
             RepositoryViewModel(
-              it.name, description, forks, stars,
+              it.name, description, stars,
               avatarUrl,
               it.openGraphImageUrl.toString(),
               it.usesCustomOpenGraphImage,
+              it.owner.id,
               it.owner.login,
               it.url.toString(),
               languages,
-              topics
+              topics,
+              ContributorsViewModel(contributors, it.mentionableUsers.totalCount)
             )
           }
           .toList()

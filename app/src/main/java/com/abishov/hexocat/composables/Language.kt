@@ -38,10 +38,6 @@ fun LanguageColor(languageColor: String, modifier: Modifier = Modifier) {
 fun Language(language: LanguageViewModel, modifier: Modifier = Modifier) {
   Row(modifier = modifier, verticalAlignment = Alignment.CenterVertically) {
     LanguageColor(languageColor = language.color, modifier = Modifier.padding(end = 6.dp))
-
-    Text(
-      text = language.name,
-      style = MaterialTheme.typography.caption,
-    )
+    Text(text = language.name, style = MaterialTheme.typography.caption)
   }
 }
