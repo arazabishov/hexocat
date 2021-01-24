@@ -1,21 +1,28 @@
-query TrendingRepositories($query: String!, $number_of_repos: Int!, $repository_topics: Int!) {
-  search(query: $query, type: REPOSITORY, first: $number_of_repos) {
+query TrendingRepositories(
+  $query: String!,
+  $number_of_repositories: Int!,
+  $number_of_repository_topics: Int!,
+  $number_of_mentionable_users: Int!,
+  $owner_avatar_size: Int!,
+  $contributor_avatar_size: Int!
+) {
+  search(query: $query, type: REPOSITORY, first: $number_of_repositories) {
     repositoryCount
     edges {
       node {
         ... on Repository {
           url
           name
-          forkCount
           description
           openGraphImageUrl
           usesCustomOpenGraphImage
           owner {
+            id
             url
             login
-            avatarUrl
+            avatarUrl(size: $owner_avatar_size)
           }
-          repositoryTopics(first: $repository_topics) {
+          repositoryTopics(first: $number_of_repository_topics) {
             edges {
               node {
                 topic {
@@ -28,6 +35,13 @@ query TrendingRepositories($query: String!, $number_of_repos: Int!, $repository_
           primaryLanguage {
             color
             name
+          }
+          mentionableUsers(first: $number_of_mentionable_users) {
+            nodes {
+              id
+              avatarUrl(size: $contributor_avatar_size)
+            }
+            totalCount
           }
         }
       }

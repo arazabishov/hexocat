@@ -7,4 +7,7 @@
   <string name="home_item_search">Search</string>
   <string name="home_item_favorites">Favorites</string>
   <string name="home_action_retry">Retry</string>
+
+  <!-- Actions -->
+  <string name="star">Star</string>
 </resources>
