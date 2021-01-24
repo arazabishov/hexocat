@@ -120,6 +120,7 @@ fun RepositoryItem(
         }
 
         Tags(
+          repository.stars,
           languages = repository.languages,
           topics = repository.topics,
           modifier = Modifier.padding(
