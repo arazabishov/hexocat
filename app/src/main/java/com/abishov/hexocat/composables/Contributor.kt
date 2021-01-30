@@ -4,31 +4,29 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.preferredSize
-import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.CornerRadius
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.AmbientDensity
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import dev.chrisbanes.accompanist.coil.CoilImage
 
-private val CIRCLE_SIZE = 28.dp
+private val contributorAvatarSize = 28.dp
 
 @Composable
 fun Contributor(contributor: ContributorViewModel) {
-  CoilImage(
-    fadeIn = true,
-    data = contributor.avatarUrl,
-    contentScale = ContentScale.Fit,
-    modifier = Modifier
-      .preferredSize(CIRCLE_SIZE)
-      .clip(CircleShape)
+  Avatar(
+    url = contributor.avatarUrl,
+    Modifier.preferredSize(contributorAvatarSize),
+    AvatarCornerSize
   )
 }
 
@@ -36,26 +34,46 @@ fun Contributor(contributor: ContributorViewModel) {
 fun ContributorOverflow(contributorsOverflow: Int) {
 
   @Composable
-  fun Circle(color: Color, modifier: Modifier, content: @Composable BoxScope.() -> Unit) {
+  fun ContributorOutline(
+    color: Color,
+    avatarCornerSize: Dp,
+    modifier: Modifier,
+    content: @Composable BoxScope.() -> Unit
+  ) {
+    val contributorCornerRadius = with(AmbientDensity.current) {
+      val avatarSizePx = contributorAvatarSize.toPx()
+      val avatarSize = Size(avatarSizePx, avatarSizePx)
+      val cornerSize = CornerSize(avatarCornerSize).toPx(avatarSize, this)
+
+      CornerRadius(cornerSize)
+    }
+
     Box(
-      modifier = Modifier.preferredSize(CIRCLE_SIZE),
-      contentAlignment = Alignment.Center
+      modifier = modifier.then(
+        Modifier.preferredSize(contributorAvatarSize)
+      ), contentAlignment = Alignment.Center
     ) {
       Canvas(modifier = modifier, onDraw = {
-        drawCircle(color = color, style = Stroke(width = 1.dp.value))
+        drawRoundRect(
+          color = color,
+          style = Stroke(width = Dp.Hairline.value),
+          cornerRadius = contributorCornerRadius
+        )
       })
       content()
     }
   }
 
-  Circle(
+  ContributorOutline(
     MaterialTheme.colors.onSurface,
-    Modifier.preferredSize(CIRCLE_SIZE)
+    AvatarCornerSize,
+    Modifier.preferredSize(contributorAvatarSize)
   ) {
     val overflow = if (contributorsOverflow > 99)
-      "99+" else contributorsOverflow.toString()
+      99 else contributorsOverflow
+
     Text(
-      text = overflow,
+      text = "+${overflow}",
       style = MaterialTheme.typography.caption,
       fontWeight = FontWeight.Light
     )

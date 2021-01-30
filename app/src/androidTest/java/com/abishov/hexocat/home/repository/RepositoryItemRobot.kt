@@ -16,7 +16,8 @@ class RepositoryItemRobot(
 
   private fun withText(text: String) {
     composeTestRule.onNode(
-      matcher = hasAnySibling(hasText(name)).and(hasText(text)),
+      matcher = hasAnySibling(hasText(name)).and(hasText(text)
+        .or(hasAnyDescendant(hasText(text)))),
       useUnmergedTree = true
     ).assertExists()
   }
