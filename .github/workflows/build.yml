@@ -19,7 +19,6 @@ jobs:
         with:
           api-level: 29
           script: sh build.sh
-          arch: x86_64
         env:
           GITHUB_PAT: ${{ secrets.GH_PAT }}
       - name: Uploading test coverage reports
