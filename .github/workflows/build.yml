@@ -17,8 +17,8 @@ jobs:
       - name: Build with Gradle and run integration tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: 30
-          profile: Pixel_4_XL_API_30
+          api-level: 29
+          profile: Pixel_4_XL_API_29
           script: sh build.sh
           arch: x86_64
         env:
