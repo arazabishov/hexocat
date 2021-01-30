@@ -69,6 +69,7 @@ private fun Banner(url: String) {
     data = url,
     fadeIn = true,
     contentScale = ContentScale.Crop,
+    contentDescription = null,
     modifier = Modifier
       .fillMaxWidth()
       .height(194.dp)
@@ -83,6 +84,7 @@ fun StarButton(stars: String, modifier: Modifier = Modifier) {
         modifier = Modifier
           .padding(end = ButtonDefaults.IconSpacing)
           .preferredSize(ButtonDefaults.IconSize),
+        contentDescription = null,
         imageVector = Icons.Outlined.StarOutline,
         tint = MaterialTheme.colors.secondary,
       )

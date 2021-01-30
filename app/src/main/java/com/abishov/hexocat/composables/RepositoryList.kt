@@ -12,8 +12,10 @@ fun Repositories(
   onRepositoryClick: (RepositoryViewModel) -> Unit
 ) {
   LazyColumn(modifier = Modifier.padding(vertical = 4.dp)) {
-    items(repos) { item ->
-      RepositoryItem(repository = item, onRepositoryClick = onRepositoryClick)
+    items(repos.size) {
+      repos.forEach { item ->
+        RepositoryItem(repository = item, onRepositoryClick = onRepositoryClick)
+      }
     }
   }
 }

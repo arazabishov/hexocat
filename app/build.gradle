@@ -132,7 +132,7 @@ dependencies {
     // Material Design
     implementation "androidx.compose.material:material:$libraries.compose"
 
-    implementation "dev.chrisbanes.accompanist:accompanist-coil:0.4.2"
+    implementation "dev.chrisbanes.accompanist:accompanist-coil:0.5.0"
 
     // ReactiveX
     implementation "io.reactivex.rxjava2:rxandroid:${libraries.rxandroid}"
@@ -177,7 +177,7 @@ dependencies {
     androidTestImplementation "androidx.test.espresso:espresso-intents:3.3.0"
     androidTestImplementation "androidx.test.espresso:espresso-contrib:3.3.0"
     androidTestImplementation "androidx.ui:ui-test:1.0.0-alpha07"
-    androidTestImplementation "androidx.compose.ui:ui-test-junit4:1.0.0-alpha10"
+    androidTestImplementation "androidx.compose.ui:ui-test-junit4:${libraries.compose}"
 
     androidTestImplementation "com.github.andrzejchm.RESTMock:android:${libraries.restmock}"
     androidTestImplementation "com.squareup.okhttp3:mockwebserver:${libraries.okhttp}"
