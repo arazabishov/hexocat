@@ -10,7 +10,6 @@ import androidx.compose.ui.unit.dp
 @Composable
 @OptIn(ExperimentalLayout::class)
 fun Tags(
-  stars: String,
   languages: List<LanguageViewModel>,
   topics: List<TopicViewModel>,
   modifier: Modifier
@@ -18,7 +17,6 @@ fun Tags(
   Box(modifier = modifier) {
     FlowRow(mainAxisSpacing = 16.dp, crossAxisSpacing = 8.dp) {
       languages.forEach { Language(it) }
-      Stars(stars)
       topics.forEach { Topic(it) }
     }
   }
