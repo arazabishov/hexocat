@@ -17,6 +17,7 @@ fun Avatar(url: String, modifier: Modifier, cornerRadius: Dp) {
     data = url,
     fadeIn = true,
     contentScale = ContentScale.Fit,
+    contentDescription = null,
     modifier = modifier.then(
       Modifier.clip(RoundedCornerShape(cornerRadius))
     )
