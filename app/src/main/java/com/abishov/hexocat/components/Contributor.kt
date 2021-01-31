@@ -1,9 +1,8 @@
-package com.abishov.hexocat.composables
+package com.abishov.hexocat.components
 
+import android.net.Uri
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxScope
-import androidx.compose.foundation.layout.preferredSize
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -20,6 +19,13 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 private val contributorAvatarSize = 28.dp
+
+data class MentionableUsersViewModel(
+  val contributors: List<ContributorViewModel>,
+  val totalCount: Int
+)
+
+data class ContributorViewModel(val id: String, val avatarUrl: Uri)
 
 @Composable
 fun Contributor(contributor: ContributorViewModel) {
@@ -77,5 +83,27 @@ fun ContributorOverflow(contributorsOverflow: Int) {
       style = MaterialTheme.typography.caption,
       fontWeight = FontWeight.Light
     )
+  }
+}
+
+@Composable
+@OptIn(ExperimentalLayout::class)
+fun Contributors(owner: OwnerViewModel, users: MentionableUsersViewModel, modifier: Modifier) {
+  val topContributors = users.contributors
+  val isOwnerTheOnlyContributor = topContributors.size == 1 &&
+      topContributors.first().id == owner.id
+
+  if (!isOwnerTheOnlyContributor) {
+    val contributorsOverflow = users.totalCount - topContributors.size
+
+    Box(modifier) {
+      FlowRow(mainAxisSpacing = 4.dp, crossAxisSpacing = 8.dp) {
+        topContributors.forEach { Contributor(it) }
+
+        if (contributorsOverflow > 0) {
+          ContributorOverflow(contributorsOverflow)
+        }
+      }
+    }
   }
 }

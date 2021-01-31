@@ -2,15 +2,14 @@ package com.abishov.hexocat.home.trending
 
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.compose.ui.platform.ComposeView
 import com.abishov.hexocat.common.views.BaseFragment
+import com.abishov.hexocat.components.RepositoryViewModel
 import com.abishov.hexocat.github.filters.SearchQuery
-import com.abishov.hexocat.composables.RepositoryViewModel
 import dagger.android.support.AndroidSupportInjection
 import io.reactivex.Observable
 import io.reactivex.functions.Consumer
@@ -72,7 +71,7 @@ class TrendingFragment : BaseFragment(), TrendingContract.View {
 
     val onRepositoryClick: (RepositoryViewModel) -> Unit = { repository ->
       requireContext().startActivity(
-        Intent(Intent.ACTION_VIEW, Uri.parse(repository.url))
+        Intent(Intent.ACTION_VIEW, repository.url)
       )
     }
 

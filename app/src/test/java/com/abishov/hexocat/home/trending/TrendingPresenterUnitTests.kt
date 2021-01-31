@@ -1,24 +1,25 @@
 package com.abishov.hexocat.home.trending
 
+import android.net.Uri
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import assertk.assertThat
 import assertk.assertions.*
 import com.abishov.hexocat.common.schedulers.TrampolineSchedulersProvider
-import com.abishov.hexocat.composables.ContributorsViewModel
-import com.abishov.hexocat.composables.LanguageViewModel
-import com.abishov.hexocat.composables.RepositoryViewModel
-import com.abishov.hexocat.composables.TopicViewModel
+import com.abishov.hexocat.components.*
 import com.abishov.hexocat.github.filters.SearchQuery
 import com.github.TrendingRepositoriesQuery.*
 import com.nhaarman.mockitokotlin2.whenever
 import io.reactivex.subjects.BehaviorSubject
 import org.junit.Before
 import org.junit.Test
+import org.junit.runner.RunWith
 import org.mockito.*
 import org.mockito.Mockito.times
 import org.mockito.Mockito.verify
 import org.threeten.bp.LocalDate
 import java.util.*
 
+@RunWith(AndroidJUnit4::class)
 class TrendingPresenterUnitTests {
 
   @Mock(answer = Answers.RETURNS_DEEP_STUBS)
@@ -52,42 +53,55 @@ class TrendingPresenterUnitTests {
 
     val owner = Owner(
       id = "test_owner_id",
-      url = "test_html_url",
       login = "test_login",
-      avatarUrl = "http://github.com/test_avatar_url"
+      avatarUrl = Uri.parse("http://github.com/test_avatar_url")
     )
 
     val topics = RepositoryTopics(
-      edges = listOf(
-        Edge1(node = Node(topic = Topic(name = "test_topic_1"))),
-        Edge1(node = Node(topic = Topic(name = "test_topic_2")))
+      topics = listOf(
+        Topic(topic = Topic1(name = "test_topic_1")),
+        Topic(topic = Topic1(name = "test_topic_2"))
       )
     )
 
     repositories = listOf(
       AsRepository(
         name = "test_repository_one",
-        url = "test_html_url_one",
+        url = Uri.parse("http://github.com/test_html_url_one"),
         stargazerCount = 10,
         description = "test_description_one",
-        openGraphImageUrl = "test_banner_url_one",
+        openGraphImageUrl = Uri.parse("http://github.com/test_banner_url_one"),
         usesCustomOpenGraphImage = true,
         owner = owner,
         repositoryTopics = topics,
         primaryLanguage = PrimaryLanguage(name = "test_lang_1", color = "test_lang_color_1"),
-        mentionableUsers = MentionableUsers(nodes = listOf(), totalCount = 0)
+        mentionableUsers = MentionableUsers(
+          contributors = listOf(
+            Contributor(
+              id = "test_contrib_1",
+              avatarUrl = Uri.parse("http://github.com/test_avatar_url_contrib_1")
+            )
+          ), totalCount = 1
+        )
       ),
       AsRepository(
         name = "test_repository_two",
-        url = "test_html_url_two",
+        url = Uri.parse("http://github.com/test_html_url_two"),
         stargazerCount = 11,
         description = "test_description_two",
-        openGraphImageUrl = "test_banner_url_two",
+        openGraphImageUrl = Uri.parse("http://github.com/test_banner_url_two"),
         usesCustomOpenGraphImage = true,
         owner = owner,
-        repositoryTopics = RepositoryTopics(edges = listOf()),
+        repositoryTopics = RepositoryTopics(topics = listOf()),
         primaryLanguage = PrimaryLanguage(name = "test_lang_2", color = "test_lang_color_2"),
-        mentionableUsers = MentionableUsers(nodes = listOf(), totalCount = 0)
+        mentionableUsers = MentionableUsers(
+          contributors = listOf(
+            Contributor(
+              id = "test_contrib_2",
+              avatarUrl = Uri.parse("http://github.com/test_avatar_url_contrib_2")
+            )
+          ), totalCount = 1
+        )
       )
     )
 
@@ -95,33 +109,49 @@ class TrendingPresenterUnitTests {
       RepositoryViewModel(
         name = "test_repository_one",
         description = "test_description_one",
-        stars = "10",
-        avatarUrl = "http://github.com/test_avatar_url?s=128",
-        login = "test_login",
-        url = "test_html_url_one",
-        bannerUrl = "test_banner_url_one",
-        usesBannerUrl = true,
-        ownerId = "test_owner_id",
+        stars = 10,
+        owner = OwnerViewModel(
+          avatarUrl = Uri.parse("http://github.com/test_avatar_url"),
+          login = "test_login",
+          id = "test_owner_id"
+        ),
+        url = Uri.parse("http://github.com/test_html_url_one"),
+        bannerUrl = Uri.parse("http://github.com/test_banner_url_one"),
         topics = listOf(
           TopicViewModel(name = "test_topic_1"),
           TopicViewModel(name = "test_topic_2")
         ),
-        languages = listOf(LanguageViewModel(name = "test_lang_1", color = "test_lang_color_1")),
-        contributors = ContributorsViewModel(listOf(), 0)
+        primaryLanguage = LanguageViewModel(name = "test_lang_1", color = "test_lang_color_1"),
+        mentionableUsers = MentionableUsersViewModel(
+          listOf(
+            ContributorViewModel(
+              id = "test_contrib_1",
+              avatarUrl = Uri.parse("http://github.com/test_avatar_url_contrib_1")
+            )
+          ), 1
+        )
       ),
       RepositoryViewModel(
         name = "test_repository_two",
         description = "test_description_two",
-        stars = "11",
-        avatarUrl = "http://github.com/test_avatar_url?s=128",
-        login = "test_login",
-        url = "test_html_url_two",
-        bannerUrl = "test_banner_url_two",
-        usesBannerUrl = true,
-        ownerId = "test_owner_id",
+        stars = 11,
+        owner = OwnerViewModel(
+          avatarUrl = Uri.parse("http://github.com/test_avatar_url"),
+          login = "test_login",
+          id = "test_owner_id",
+        ),
+        url = Uri.parse("http://github.com/test_html_url_two"),
+        bannerUrl = Uri.parse("http://github.com/test_banner_url_two"),
         topics = listOf(),
-        languages = listOf(LanguageViewModel(name = "test_lang_2", color = "test_lang_color_2")),
-        contributors = ContributorsViewModel(listOf(), 0)
+        primaryLanguage = LanguageViewModel(name = "test_lang_2", color = "test_lang_color_2"),
+        mentionableUsers = MentionableUsersViewModel(
+          listOf(
+            ContributorViewModel(
+              id = "test_contrib_2",
+              avatarUrl = Uri.parse("http://github.com/test_avatar_url_contrib_2")
+            )
+          ), 1
+        )
       )
     )
 

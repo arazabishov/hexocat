@@ -1,7 +1,10 @@
 package com.abishov.hexocat.common.network
 
 import android.content.Context
+import android.net.Uri
 import com.apollographql.apollo.ApolloClient
+import com.apollographql.apollo.api.CustomTypeAdapter
+import com.github.type.CustomType
 import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoSet
@@ -69,8 +72,17 @@ class NetworkModule {
 
   @Provides
   @Singleton
-  fun apolloClient(baseUrl: HttpUrl, client: OkHttpClient): ApolloClient {
+  fun uriTypeAdapter(): CustomTypeAdapter<Uri> = UriTypeAdapter()
+
+  @Provides
+  @Singleton
+  fun apolloClient(
+    baseUrl: HttpUrl,
+    client: OkHttpClient,
+    uriTypeAdapter: CustomTypeAdapter<Uri>
+  ): ApolloClient {
     return ApolloClient.builder()
+      .addCustomTypeAdapter(CustomType.URI, uriTypeAdapter)
       .okHttpClient(client)
       .serverUrl(baseUrl)
       .build()

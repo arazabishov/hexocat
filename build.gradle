@@ -58,7 +58,7 @@ ext {
 
             // test dependencies
             espresso            : "3.0.1",
-            mockito             : "2.25.0",
+            mockito             : "3.7.7",
             mockitok            : "2.2.0",
             assertj             : "2.8.0",
             assertk             : "0.23",
