@@ -75,7 +75,14 @@ class TrendingPresenterUnitTests {
         owner = owner,
         repositoryTopics = topics,
         primaryLanguage = PrimaryLanguage(name = "test_lang_1", color = "test_lang_color_1"),
-        mentionableUsers = MentionableUsers(contributors = listOf(), totalCount = 0)
+        mentionableUsers = MentionableUsers(
+          contributors = listOf(
+            Contributor(
+              id = "test_contrib_1",
+              avatarUrl = Uri.parse("http://github.com/test_avatar_url_contrib_1")
+            )
+          ), totalCount = 1
+        )
       ),
       AsRepository(
         name = "test_repository_two",
@@ -87,7 +94,14 @@ class TrendingPresenterUnitTests {
         owner = owner,
         repositoryTopics = RepositoryTopics(topics = listOf()),
         primaryLanguage = PrimaryLanguage(name = "test_lang_2", color = "test_lang_color_2"),
-        mentionableUsers = MentionableUsers(contributors = listOf(), totalCount = 0)
+        mentionableUsers = MentionableUsers(
+          contributors = listOf(
+            Contributor(
+              id = "test_contrib_2",
+              avatarUrl = Uri.parse("http://github.com/test_avatar_url_contrib_2")
+            )
+          ), totalCount = 1
+        )
       )
     )
 
@@ -108,7 +122,14 @@ class TrendingPresenterUnitTests {
           TopicViewModel(name = "test_topic_2")
         ),
         primaryLanguage = LanguageViewModel(name = "test_lang_1", color = "test_lang_color_1"),
-        mentionableUsers = MentionableUsersViewModel(listOf(), 0)
+        mentionableUsers = MentionableUsersViewModel(
+          listOf(
+            ContributorViewModel(
+              id = "test_contrib_1",
+              avatarUrl = Uri.parse("http://github.com/test_avatar_url_contrib_1")
+            )
+          ), 1
+        )
       ),
       RepositoryViewModel(
         name = "test_repository_two",
@@ -123,7 +144,14 @@ class TrendingPresenterUnitTests {
         bannerUrl = Uri.parse("http://github.com/test_banner_url_two"),
         topics = listOf(),
         primaryLanguage = LanguageViewModel(name = "test_lang_2", color = "test_lang_color_2"),
-        mentionableUsers = MentionableUsersViewModel(listOf(), 0)
+        mentionableUsers = MentionableUsersViewModel(
+          listOf(
+            ContributorViewModel(
+              id = "test_contrib_2",
+              avatarUrl = Uri.parse("http://github.com/test_avatar_url_contrib_2")
+            )
+          ), 1
+        )
       )
     )
 
