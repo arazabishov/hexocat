@@ -1,8 +1,10 @@
-package com.abishov.hexocat.composables
+package com.abishov.hexocat.components
 
+import android.net.Uri
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -14,6 +16,24 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import dev.chrisbanes.accompanist.coil.CoilImage
+
+data class OwnerViewModel(
+  val avatarUrl: Uri,
+  val login: String,
+  val id: String,
+)
+
+data class RepositoryViewModel(
+  val name: String,
+  val description: String?,
+  val bannerUrl: Uri?,
+  val stars: Int,
+  val url: Uri,
+  val owner: OwnerViewModel,
+  val primaryLanguage: LanguageViewModel?,
+  val topics: List<TopicViewModel>?,
+  val mentionableUsers: MentionableUsersViewModel?
+)
 
 @Composable
 private fun Name(name: String) {
@@ -41,13 +61,13 @@ private fun Header(repository: RepositoryViewModel) {
     modifier = Modifier.padding(16.dp)
   ) {
     Avatar(
-      url = repository.avatarUrl,
+      url = repository.owner.avatarUrl,
       modifier = Modifier.preferredSize(40.dp),
       cornerRadius = AvatarCornerSize
     )
     Column(modifier = Modifier.padding(start = 16.dp)) {
       Name(name = repository.name)
-      Author(username = repository.login)
+      Author(username = repository.owner.login)
     }
   }
 }
@@ -64,7 +84,7 @@ private fun Description(description: String) {
 }
 
 @Composable
-private fun Banner(url: String) {
+private fun Banner(url: Uri) {
   CoilImage(
     data = url,
     fadeIn = true,
@@ -77,7 +97,7 @@ private fun Banner(url: String) {
 }
 
 @Composable
-fun StarButton(stars: String, modifier: Modifier = Modifier) {
+private fun StarButton(stars: Int, modifier: Modifier = Modifier) {
   Box(modifier = modifier.then(Modifier.fillMaxWidth())) {
     OutlinedButton(onClick = { /* TODO */ }, modifier = Modifier.align(Alignment.CenterEnd)) {
       Icon(
@@ -88,16 +108,31 @@ fun StarButton(stars: String, modifier: Modifier = Modifier) {
         imageVector = Icons.Outlined.StarOutline,
         tint = MaterialTheme.colors.secondary,
       )
-      Text(text = stars, color = MaterialTheme.colors.secondary)
+      Text(text = stars.toString(), color = MaterialTheme.colors.secondary)
     }
   }
 }
 
 @Composable
 @OptIn(ExperimentalLayout::class)
-fun RepositoryItem(
+private fun Tags(
+  primaryLanguage: LanguageViewModel?,
+  topics: List<TopicViewModel>?,
+  modifier: Modifier
+) {
+  Box(modifier = modifier) {
+    FlowRow(mainAxisSpacing = 16.dp, crossAxisSpacing = 8.dp) {
+      primaryLanguage?.let { Language(it) }
+      topics?.forEach { Topic(it) }
+    }
+  }
+}
+
+@Composable
+private fun RepositoryCard(
   repository: RepositoryViewModel,
-  onRepositoryClick: (repository: RepositoryViewModel) -> Unit
+  onRepositoryClick: (repository: RepositoryViewModel) -> Unit,
+  content: @Composable ColumnScope.() -> Unit
 ) {
   Box(
     modifier = Modifier
@@ -118,39 +153,61 @@ fun RepositoryItem(
       border = cardBorderStroke
     ) {
       Column {
-        if (repository.usesBannerUrl) {
-          Banner(url = repository.bannerUrl)
-        }
+        content()
+      }
+    }
+  }
+}
 
-        Header(repository)
+@Composable
+@OptIn(ExperimentalLayout::class)
+fun Repository(
+  repository: RepositoryViewModel,
+  onRepositoryClick: (repository: RepositoryViewModel) -> Unit
+) {
+  RepositoryCard(repository, onRepositoryClick) {
+    if (repository.bannerUrl != null) {
+      Banner(url = repository.bannerUrl)
+    }
 
-        if (repository.description.isNotEmpty()) {
-          Description(description = repository.description)
-        }
+    Header(repository)
 
-        Tags(
-          languages = repository.languages,
-          topics = repository.topics,
-          modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
-        )
+    if (repository.description != null && repository.description.isNotEmpty()) {
+      Description(description = repository.description)
+    }
 
-        val topContributors = repository.contributors.contributors
-        val isOwnerTheOnlyContributor = topContributors.size == 1 &&
-            topContributors.first().id == repository.ownerId
+    Tags(
+      primaryLanguage = repository.primaryLanguage,
+      topics = repository.topics,
+      modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
+    )
 
-        if (!isOwnerTheOnlyContributor) {
-          Contributors(
-            users = repository.contributors,
-            modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
-          )
-        }
+    if (repository.mentionableUsers != null) {
+      Contributors(
+        owner = repository.owner,
+        users = repository.mentionableUsers,
+        modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
+      )
+    }
 
-        StarButton(
-          repository.stars,
-          modifier = Modifier
-            .padding(8.dp)
-            .wrapContentSize()
-        )
+    StarButton(
+      repository.stars,
+      modifier = Modifier
+        .padding(8.dp)
+        .wrapContentSize()
+    )
+  }
+}
+
+@Composable
+fun Repositories(
+  repos: List<RepositoryViewModel>,
+  onRepositoryClick: (RepositoryViewModel) -> Unit
+) {
+  LazyColumn(modifier = Modifier.padding(vertical = 4.dp)) {
+    items(repos.size) {
+      repos.forEach { item ->
+        Repository(repository = item, onRepositoryClick = onRepositoryClick)
       }
     }
   }

@@ -1,4 +1,4 @@
-package com.abishov.hexocat.composables
+package com.abishov.hexocat.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -16,9 +16,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import android.graphics.Color as GraphicsColor
 
+data class LanguageViewModel(
+  val name: String,
+  val color: String?
+)
+
 @Composable
-fun LanguageColor(languageColor: String, modifier: Modifier = Modifier) {
-  val color = if (languageColor.isEmpty()) {
+fun LanguageColor(languageColor: String?, modifier: Modifier = Modifier) {
+  val color = if (languageColor != null) {
     MaterialTheme.colors.onSurface
   } else {
     Color(GraphicsColor.parseColor(languageColor))

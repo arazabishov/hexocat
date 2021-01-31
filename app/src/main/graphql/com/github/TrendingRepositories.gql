@@ -8,41 +8,36 @@ query TrendingRepositories(
 ) {
   search(query: $query, type: REPOSITORY, first: $number_of_repositories) {
     repositoryCount
-    edges {
-      node {
-        ... on Repository {
-          url
+    items: nodes {
+      ... on Repository {
+        url
+        name
+        description
+        openGraphImageUrl
+        usesCustomOpenGraphImage
+        owner {
+          id
+          login
+          avatarUrl(size: $owner_avatar_size)
+        }
+        repositoryTopics(first: $number_of_repository_topics) {
+          topics: nodes {
+            topic {
+              name
+            }
+          }
+        }
+        stargazerCount
+        primaryLanguage {
+          color
           name
-          description
-          openGraphImageUrl
-          usesCustomOpenGraphImage
-          owner {
+        }
+        mentionableUsers(first: $number_of_mentionable_users) {
+          contributors: nodes {
             id
-            url
-            login
-            avatarUrl(size: $owner_avatar_size)
+            avatarUrl(size: $contributor_avatar_size)
           }
-          repositoryTopics(first: $number_of_repository_topics) {
-            edges {
-              node {
-                topic {
-                  name
-                }
-              }
-            }
-          }
-          stargazerCount
-          primaryLanguage {
-            color
-            name
-          }
-          mentionableUsers(first: $number_of_mentionable_users) {
-            nodes {
-              id
-              avatarUrl(size: $contributor_avatar_size)
-            }
-            totalCount
-          }
+          totalCount
         }
       }
     }
