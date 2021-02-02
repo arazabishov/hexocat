@@ -77,7 +77,6 @@ android {
         exclude "META-INF/AL2.0"
         exclude "META-INF/LGPL2.1"
         exclude "META-INF/LICENSE"
-        exclude "META-INF/rxjava.properties"
         exclude "META-INF/licenses/ASM"
     }
 
@@ -113,7 +112,7 @@ apollo {
 
 dependencies {
     implementation "com.apollographql.apollo:apollo-runtime:$libraries.apollo"
-    implementation "com.apollographql.apollo:apollo-rx2-support:$libraries.apollo"
+    implementation "com.apollographql.apollo:apollo-coroutines-support:$libraries.apollo"
 
     implementation "androidx.core:core-ktx:$libraries.ktx"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$rootProject.ext.kotlin"
@@ -133,15 +132,15 @@ dependencies {
     // Foundation (Border, Background, Box, Image, Scroll, shapes, animations, etc.)
     implementation "androidx.compose.foundation:foundation:$libraries.compose"
     implementation "androidx.compose.material:material-icons-extended:$libraries.compose"
-
-    // Material Design
     implementation "androidx.compose.material:material:$libraries.compose"
+    implementation "dev.chrisbanes.accompanist:accompanist-coil:0.4.2"
 
-    implementation "dev.chrisbanes.accompanist:accompanist-coil:0.5.0"
+    implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.2.0"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0"
 
-    // ReactiveX
-    implementation "io.reactivex.rxjava2:rxandroid:${libraries.rxandroid}"
-    implementation "io.reactivex.rxjava2:rxjava:${libraries.rxjava}"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.2"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.2"
 
     // Google
     kapt "com.google.dagger:dagger-compiler:${libraries.dagger}"
@@ -156,10 +155,6 @@ dependencies {
     debugImplementation "com.squareup.leakcanary:leakcanary-android:${libraries.leakcanary}"
     releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:${libraries.leakcanary}"
 
-    // Jake Wharton libraries
-    implementation "com.jakewharton.rxbinding2:rxbinding:${libraries.rxbindings}"
-    implementation "com.jakewharton.rxbinding2:rxbinding-support-v4:${libraries.rxbindings}"
-    implementation "com.jakewharton.rxbinding2:rxbinding-appcompat-v7:${libraries.rxbindings}"
     implementation "com.jakewharton.timber:timber:${libraries.timber}"
     implementation "com.jakewharton.threetenabp:threetenabp:${libraries.threetenabp}"
 
@@ -169,10 +164,12 @@ dependencies {
     testImplementation "org.mockito:mockito-core:${libraries.mockito}"
     testImplementation "com.squareup.leakcanary:leakcanary-android-no-op:${libraries.leakcanary}"
 
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.4.2"
     testImplementation "com.willowtreeapps.assertk:assertk:${libraries.assertk}"
     testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:${libraries.mockitok}"
     testImplementation "org.robolectric:robolectric:4.5"
     testImplementation "androidx.test.ext:junit:1.1.2"
+    testImplementation "android.arch.core:core-testing:1.1.1"
 
     // Android test dependencies
     androidTestUtil "androidx.test:orchestrator:1.3.0"
@@ -188,6 +185,5 @@ dependencies {
     androidTestImplementation "com.github.andrzejchm.RESTMock:android:${libraries.restmock}"
     androidTestImplementation "com.squareup.okhttp3:mockwebserver:${libraries.okhttp}"
     androidTestImplementation "org.mockito:mockito-android:${libraries.mockito}"
-    androidTestImplementation "com.squareup.rx.idler:rx2-idler:${libraries.rxidler}"
     androidTestImplementation "com.jakewharton.espresso:okhttp3-idling-resource:${libraries.okhttpIdlingResource}"
 }

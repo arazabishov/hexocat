@@ -1,54 +1,56 @@
 package com.abishov.hexocat.home.trending
 
 import android.net.Uri
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import assertk.assertThat
-import assertk.assertions.*
-import com.abishov.hexocat.common.schedulers.TrampolineSchedulersProvider
+import assertk.assertions.isEmpty
+import assertk.assertions.isEqualTo
+import assertk.assertions.isInstanceOf
+import com.abishov.hexocat.common.dispatcher.TestDispatcherProvider
+import com.abishov.hexocat.common.livedata.captureValues
+import com.abishov.hexocat.common.rule.TestCoroutineScopeRule
 import com.abishov.hexocat.components.*
 import com.abishov.hexocat.github.filters.SearchQuery
 import com.github.TrendingRepositoriesQuery.*
 import com.nhaarman.mockitokotlin2.whenever
-import io.reactivex.subjects.BehaviorSubject
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.*
-import org.mockito.Mockito.times
-import org.mockito.Mockito.verify
+import org.mockito.Mock
+import org.mockito.MockitoAnnotations
 import org.threeten.bp.LocalDate
-import java.util.*
 
 @RunWith(AndroidJUnit4::class)
-class TrendingPresenterUnitTests {
+@ExperimentalCoroutinesApi
+class TrendingViewModelUnitTest {
 
-  @Mock(answer = Answers.RETURNS_DEEP_STUBS)
-  private lateinit var trendingView: TrendingContract.View
+  @get:Rule
+  val instantTaskExecutorRule = InstantTaskExecutorRule()
+
+  @get:Rule
+  val coroutineScope = TestCoroutineScopeRule()
 
   @Mock
   private lateinit var trendingService: TrendingService
-
-  @Captor
-  private lateinit var repositoriesConsumer: ArgumentCaptor<TrendingViewState>
-
-  private lateinit var viewQueries: BehaviorSubject<SearchQuery>
-  private lateinit var listResults: BehaviorSubject<List<AsRepository>>
   private lateinit var searchQuery: SearchQuery
 
   private lateinit var repositories: List<AsRepository>
   private lateinit var repositoryViewModels: List<RepositoryViewModel>
 
-  private lateinit var trendingPresenter: TrendingPresenter
+  private lateinit var trendingViewModel: TrendingViewModel
 
   @Before
   fun setUp() {
-    MockitoAnnotations.initMocks(this)
+    MockitoAnnotations.openMocks(this).close()
 
-    viewQueries = BehaviorSubject.create()
-    listResults = BehaviorSubject.create()
-
-    trendingPresenter = TrendingPresenter(
-      TrampolineSchedulersProvider(), trendingService
+    trendingViewModel = TrendingViewModel(
+      TestDispatcherProvider, trendingService
     )
 
     val owner = Owner(
@@ -156,85 +158,61 @@ class TrendingPresenterUnitTests {
     )
 
     searchQuery = SearchQuery(LocalDate.parse("2017-08-10"))
-    whenever(trendingView.searchQueries()).thenReturn(viewQueries)
-    whenever(trendingService.search(searchQuery, 32)).thenReturn(
-      listResults
-    )
   }
 
   @Test
-  @Throws(Exception::class)
-  fun `presenter must propagate correct states on success`() {
-    trendingPresenter.onAttach(trendingView)
-    assertThat(viewQueries.hasObservers()).isTrue()
+  fun `view model must propagate correct states on success`() = coroutineScope.runBlockingTest {
+    whenever(trendingService.search(searchQuery, 32))
+      .thenReturn(flowOf(repositories))
 
-    viewQueries.onNext(searchQuery)
-    listResults.onNext(repositories)
-    listResults.onComplete()
+    trendingViewModel.screenState.captureValues {
+      trendingViewModel.fetchRepositories(searchQuery)
+      assertThat(values.size).isEqualTo(2)
 
-    verify(trendingView.bindTo(), times(2))
-      .accept(repositoriesConsumer.capture())
+      val viewStateProgress = values[0]
+      assertThat(viewStateProgress!!).isInstanceOf(TrendingViewState.InProgress::class)
 
-    val viewStateProgress = repositoriesConsumer.allValues[0]
-    assertThat(viewStateProgress).isInstanceOf(TrendingViewState.InProgress::class)
-
-    val viewStateSuccess = repositoriesConsumer.allValues[1]
-    assertThat(viewStateSuccess).isInstanceOf(TrendingViewState.Success::class)
-    assertThat((viewStateSuccess as TrendingViewState.Success).items).isEqualTo(repositoryViewModels)
+      val viewStateSuccess = values[1]
+      assertThat(viewStateSuccess!!).isInstanceOf(TrendingViewState.Success::class)
+      assertThat((viewStateSuccess as TrendingViewState.Success).items).isEqualTo(
+        repositoryViewModels
+      )
+    }
   }
 
   @Test
-  @Throws(Exception::class)
-  fun `presenter must propagate correct states on failure`() {
-    trendingPresenter.onAttach(trendingView)
-    assertThat(viewQueries.hasObservers()).isTrue()
+  fun `view model must propagate correct states on failure`() = coroutineScope.runBlockingTest {
+    whenever(trendingService.search(searchQuery, 32))
+      .thenReturn(flow { error("test_message") })
 
-    viewQueries.onNext(searchQuery)
-    listResults.onError(Throwable("test_message"))
-    listResults.onComplete()
+    trendingViewModel.screenState.captureValues {
+      trendingViewModel.fetchRepositories(searchQuery)
+      assertThat(values.size).isEqualTo(2)
 
-    verify(trendingView.bindTo(), times(2))
-      .accept(repositoriesConsumer.capture())
+      val viewStateProgress = values[0]
+      assertThat(viewStateProgress!!).isInstanceOf(TrendingViewState.InProgress::class)
 
-    val viewStateProgress = repositoriesConsumer.allValues[0]
-    assertThat(viewStateProgress).isInstanceOf(TrendingViewState.InProgress::class)
-
-    val viewStateFailure = repositoriesConsumer.allValues[1]
-    assertThat(viewStateFailure).isInstanceOf(TrendingViewState.Failure::class)
+      val viewStateFailure = values[1]
+      assertThat(viewStateFailure!!).isInstanceOf(TrendingViewState.Failure::class)
+      assertThat((viewStateFailure as TrendingViewState.Failure).error).isEqualTo("test_message")
+    }
   }
 
   @Test
-  @Throws(Exception::class)
-  fun `presenter must propagate correct states when no items`() {
-    trendingPresenter.onAttach(trendingView)
-    assertThat(viewQueries.hasObservers()).isTrue()
+  fun `view model must propagate correct states when no items`() = coroutineScope.runBlockingTest {
+    whenever(trendingService.search(searchQuery, 32))
+      .thenReturn(flowOf(listOf()))
 
-    viewQueries.onNext(searchQuery)
-    listResults.onNext(ArrayList())
-    listResults.onComplete()
+    trendingViewModel.screenState.captureValues {
+      trendingViewModel.fetchRepositories(searchQuery)
+      assertThat(values.size).isEqualTo(2)
 
-    verify(trendingView.bindTo(), times(2))
-      .accept(repositoriesConsumer.capture())
+      val viewStateProgress = values[0]
+      assertThat(viewStateProgress!!).isInstanceOf(TrendingViewState.InProgress::class)
 
-    val viewStateProgress = repositoriesConsumer.allValues[0]
-    assertThat(viewStateProgress).isInstanceOf(TrendingViewState.InProgress::class)
-
-    val viewStateSuccess = repositoriesConsumer.allValues[1]
-    assertThat(viewStateSuccess).isInstanceOf(TrendingViewState.Success::class)
-    assertThat((viewStateSuccess as TrendingViewState.Success).items).isEmpty()
-  }
-
-  @Test
-  fun `presenter must unsubscribe from view on detach`() {
-    assertThat(listResults.hasObservers()).isFalse()
-    assertThat(viewQueries.hasObservers()).isFalse()
-
-    trendingPresenter.onAttach(trendingView)
-    assertThat(listResults.hasObservers()).isFalse()
-    assertThat(viewQueries.hasObservers()).isTrue()
-
-    trendingPresenter.onDetach()
-    assertThat(listResults.hasObservers()).isFalse()
-    assertThat(viewQueries.hasObservers()).isFalse()
+      val viewStateSuccess = values[1]
+      assertThat(viewStateSuccess!!).isInstanceOf(TrendingViewState.Success::class)
+      assertThat((viewStateSuccess as TrendingViewState.Success).items).isEmpty()
+    }
   }
 }

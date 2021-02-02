@@ -2,6 +2,7 @@ package com.abishov.hexocat
 
 import android.app.Application
 import android.os.StrictMode
+import com.abishov.hexocat.common.dispatcher.DefaultDispatcherProvider
 import com.abishov.hexocat.common.utils.CrashReportingTree
 import com.jakewharton.threetenabp.AndroidThreeTen
 import com.squareup.leakcanary.LeakCanary
@@ -10,7 +11,7 @@ import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import hu.supercluster.paperwork.Paperwork
-import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
+import okhttp3.HttpUrl.Companion.toHttpUrl
 import org.threeten.bp.Clock
 import timber.log.Timber
 import javax.inject.Inject
@@ -88,7 +89,8 @@ open class Hexocat : Application(), HasAndroidInjector {
 
   protected open fun prepareAppComponent(): AppComponent {
     return DaggerAppComponent.builder()
-      .baseUrl("https://api.github.com/graphql".toHttpUrlOrNull()!!)
+      .baseUrl("https://api.github.com/graphql".toHttpUrl())
+      .dispatcherProvider(DefaultDispatcherProvider())
       .clock(Clock.systemDefaultZone())
       .application(this)
       .build()

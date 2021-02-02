@@ -10,6 +10,6 @@ import dagger.android.ContributesAndroidInjector
 abstract class HomeBindings {
 
   @FragmentScope
-  @ContributesAndroidInjector(modules = arrayOf(TrendingModule::class))
+  @ContributesAndroidInjector(modules = [TrendingModule::class])
   internal abstract fun contributesTrendingFragmentInjector(): TrendingFragment
 }

@@ -89,7 +89,6 @@ private fun Banner(url: Uri) {
     data = url,
     fadeIn = true,
     contentScale = ContentScale.Crop,
-    contentDescription = null,
     modifier = Modifier
       .fillMaxWidth()
       .height(194.dp)
@@ -104,7 +103,6 @@ private fun StarButton(stars: Int, modifier: Modifier = Modifier) {
         modifier = Modifier
           .padding(end = ButtonDefaults.IconSpacing)
           .preferredSize(ButtonDefaults.IconSize),
-        contentDescription = null,
         imageVector = Icons.Outlined.StarOutline,
         tint = MaterialTheme.colors.secondary,
       )
@@ -205,10 +203,8 @@ fun Repositories(
   onRepositoryClick: (RepositoryViewModel) -> Unit
 ) {
   LazyColumn(modifier = Modifier.padding(vertical = 4.dp)) {
-    items(repos.size) {
-      repos.forEach { item ->
-        Repository(repository = item, onRepositoryClick = onRepositoryClick)
-      }
+    items(repos) {
+      Repository(repository = it, onRepositoryClick = onRepositoryClick)
     }
   }
 }
