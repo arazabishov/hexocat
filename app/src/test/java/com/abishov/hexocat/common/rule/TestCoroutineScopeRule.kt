@@ -16,7 +16,6 @@
 
 package com.abishov.hexocat.common.rule
 
-import com.abishov.hexocat.common.dispatcher.TestDispatcherProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestCoroutineDispatcher
@@ -64,7 +63,7 @@ import org.junit.runner.Description
  */
 @ExperimentalCoroutinesApi
 class TestCoroutineScopeRule(
-  private val dispatcher: TestCoroutineDispatcher = TestCoroutineDispatcher()
+  val dispatcher: TestCoroutineDispatcher = TestCoroutineDispatcher()
 ) : TestWatcher(), TestCoroutineScope by TestCoroutineScope(dispatcher) {
   override fun starting(description: Description?) {
     super.starting(description)
@@ -74,15 +73,12 @@ class TestCoroutineScopeRule(
     //
     // All injected dispatchers in a test should point to a single instance of
     // TestCoroutineDispatcher.
-    TestDispatcherProvider.setIo(dispatcher)
     Dispatchers.setMain(dispatcher)
   }
 
   override fun finished(description: Description?) {
     super.finished(description)
     cleanupTestCoroutines()
-
-    TestDispatcherProvider.resetIo()
     Dispatchers.resetMain()
   }
 }

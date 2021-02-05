@@ -12,11 +12,6 @@ import io.appflate.restmock.android.AndroidLogger
 
 class HexocatTestRunner : AndroidJUnitRunner() {
 
-  @Throws(
-    InstantiationException::class,
-    IllegalAccessException::class,
-    ClassNotFoundException::class
-  )
   override fun newApplication(cl: ClassLoader, className: String, context: Context): Application {
     return Instrumentation.newApplication(HexocatTestApp::class.java, context)
   }

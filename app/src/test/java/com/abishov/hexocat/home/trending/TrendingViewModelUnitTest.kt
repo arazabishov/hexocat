@@ -49,9 +49,8 @@ class TrendingViewModelUnitTest {
   fun setUp() {
     MockitoAnnotations.openMocks(this).close()
 
-    trendingViewModel = TrendingViewModel(
-      TestDispatcherProvider, trendingService
-    )
+    val testDispatcherProvider = TestDispatcherProvider(coroutineScope.dispatcher)
+    trendingViewModel = TrendingViewModel(testDispatcherProvider, trendingService)
 
     val owner = Owner(
       id = "test_owner_id",
