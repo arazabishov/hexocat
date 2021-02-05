@@ -4,7 +4,7 @@ import androidx.test.espresso.IdlingRegistry
 import com.abishov.hexocat.HexocatTestApp
 import com.jakewharton.espresso.OkHttp3IdlingResource
 import io.appflate.restmock.RESTMockServer
-import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
+import okhttp3.HttpUrl.Companion.toHttpUrl
 import org.junit.rules.TestRule
 import org.junit.runner.Description
 import org.junit.runners.model.Statement
@@ -16,9 +16,10 @@ class MockWebServerRule : TestRule {
 
       @Throws(Throwable::class)
       override fun evaluate() {
-        val baseUrl = RESTMockServer.getUrl().toHttpUrlOrNull()?.newBuilder()
-          ?.addPathSegment("graphql")
-          ?.build() ?: throw IllegalStateException("MockWebServer failed to initialise")
+        val baseUrl = RESTMockServer.getUrl().toHttpUrl()
+          .newBuilder()
+          .addPathSegment("graphql")
+          .build()
 
         HexocatTestApp.overrideBaseUrl(baseUrl)
         RESTMockServer.reset()

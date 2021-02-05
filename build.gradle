@@ -12,7 +12,7 @@ buildscript {
         classpath "com.github.ben-manes:gradle-versions-plugin:0.28.0"
         classpath "hu.supercluster:paperwork-plugin:1.2.7"
         classpath "org.jacoco:org.jacoco.core:0.8.6"
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.21-2"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.21"
     }
 }
 
@@ -32,7 +32,7 @@ task clean(type: Delete) {
 }
 
 ext {
-    kotlin = "1.4.21-2"
+    kotlin = "1.4.21"
 
     versions = [
             sdk   : 30,
@@ -42,16 +42,12 @@ ext {
 
     libraries = [
             ktx                 : "1.3.1",
-            compose             : "1.0.0-alpha11",
+            compose             : "1.0.0-alpha10",
             dagger              : "2.28.3",
             support             : "28.0.0",
             paperwork           : "1.2.7",
             timber              : "4.7.1",
             leakcanary          : "1.5.4",
-            rxjava              : "2.1.6",
-            rxidler             : "0.9.0",
-            rxandroid           : "2.0.2",
-            rxbindings          : "2.0.0",
             okhttp              : "4.7.2",
             threetenabp         : "1.2.4",
             apollo              : "2.2.3",
@@ -62,7 +58,7 @@ ext {
             mockitok            : "2.2.0",
             assertj             : "2.8.0",
             assertk             : "0.23",
-            junit               : "4.13",
+            junit               : "4.13.1",
             restmock            : "0.4.1",
             okhttpIdlingResource: "1.0.0",
             testingsupport      : "1.0.1",

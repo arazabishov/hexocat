@@ -1,8 +1,8 @@
 package com.abishov.hexocat
 
 import android.app.Application
+import com.abishov.hexocat.common.dispatcher.DispatcherProvider
 import com.abishov.hexocat.common.network.NetworkModule
-import com.abishov.hexocat.common.schedulers.SchedulerModule
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjectionModule
@@ -18,7 +18,6 @@ import javax.net.ssl.X509TrustManager
   modules = [
     AppModule::class,
     NetworkModule::class,
-    SchedulerModule::class,
     AndroidInjectionModule::class,
     AppBindings::class
   ]
@@ -46,6 +45,9 @@ interface AppComponent {
 
     @BindsInstance
     fun trustManager(trustManager: X509TrustManager?): Builder
+
+    @BindsInstance
+    fun dispatcherProvider(dispatcherProvider: DispatcherProvider): Builder
 
     fun build(): AppComponent
   }
