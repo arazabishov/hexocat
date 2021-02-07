@@ -1,0 +1,45 @@
+query TrendingRepositories(
+  $query: String!,
+  $number_of_repositories: Int!,
+  $number_of_repository_topics: Int!,
+  $number_of_mentionable_users: Int!,
+  $owner_avatar_size: Int!,
+  $contributor_avatar_size: Int!
+) {
+  search(query: $query, type: REPOSITORY, first: $number_of_repositories) {
+    repositoryCount
+    items: nodes {
+      ... on Repository {
+        url
+        name
+        description
+        openGraphImageUrl
+        usesCustomOpenGraphImage
+        owner {
+          id
+          login
+          avatarUrl(size: $owner_avatar_size)
+        }
+        repositoryTopics(first: $number_of_repository_topics) {
+          topics: nodes {
+            topic {
+              name
+            }
+          }
+        }
+        stargazerCount
+        primaryLanguage {
+          color
+          name
+        }
+        mentionableUsers(first: $number_of_mentionable_users) {
+          contributors: nodes {
+            id
+            avatarUrl(size: $contributor_avatar_size)
+          }
+          totalCount
+        }
+      }
+    }
+  }
+}
