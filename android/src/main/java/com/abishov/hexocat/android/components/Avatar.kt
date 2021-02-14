@@ -14,12 +14,12 @@ val AvatarCornerSize = 4.dp
 
 @Composable
 fun Avatar(url: Uri, modifier: Modifier, cornerRadius: Dp) {
-  CoilImage(
-    data = url,
-    fadeIn = true,
-    contentScale = ContentScale.Fit,
-    modifier = modifier.then(
-      Modifier.clip(RoundedCornerShape(cornerRadius))
+    CoilImage(
+        data = url,
+        fadeIn = true,
+        contentScale = ContentScale.Fit,
+        modifier = modifier.then(
+            Modifier.clip(RoundedCornerShape(cornerRadius))
+        )
     )
-  )
 }

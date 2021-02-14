@@ -6,24 +6,24 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlin.coroutines.CoroutineContext
 
 class EspressoTrackedDispatcher(
-  private val wrappedCoroutineDispatcher: CoroutineDispatcher
+    private val wrappedCoroutineDispatcher: CoroutineDispatcher
 ) : CoroutineDispatcher() {
-  private val counter: CountingIdlingResource =
-    CountingIdlingResource("EspressoTrackedDispatcher for $wrappedCoroutineDispatcher")
+    private val counter: CountingIdlingResource =
+        CountingIdlingResource("EspressoTrackedDispatcher for $wrappedCoroutineDispatcher")
 
-  init {
-    IdlingRegistry.getInstance().register(counter)
-  }
-
-  override fun dispatch(context: CoroutineContext, block: Runnable) {
-    counter.increment()
-    val blockWithDecrement = Runnable {
-      try {
-        block.run()
-      } finally {
-        counter.decrement()
-      }
+    init {
+        IdlingRegistry.getInstance().register(counter)
     }
-    wrappedCoroutineDispatcher.dispatch(context, blockWithDecrement)
-  }
+
+    override fun dispatch(context: CoroutineContext, block: Runnable) {
+        counter.increment()
+        val blockWithDecrement = Runnable {
+            try {
+                block.run()
+            } finally {
+                counter.decrement()
+            }
+        }
+        wrappedCoroutineDispatcher.dispatch(context, blockWithDecrement)
+    }
 }

@@ -1,7 +1,7 @@
 package com.abishov.hexocat.shared.filters
 
 enum class Order(val value: String) {
-  ASC("asc"), DESC("desc");
+    ASC("asc"), DESC("desc");
 
-  override fun toString() = value
+    override fun toString() = value
 }

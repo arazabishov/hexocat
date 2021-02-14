@@ -9,7 +9,7 @@ import dagger.android.ContributesAndroidInjector
 @Module
 internal abstract class AppBindings {
 
-  @ActivityScope
-  @ContributesAndroidInjector(modules = [HomeBindings::class])
-  internal abstract fun contributeHomeActivityInjector(): HomeActivity
+    @ActivityScope
+    @ContributesAndroidInjector(modules = [HomeBindings::class])
+    internal abstract fun contributeHomeActivityInjector(): HomeActivity
 }

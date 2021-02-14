@@ -43,7 +43,7 @@ class TrendingFragment : BaseFragment() {
     }
 
     override fun onCreateView(
-      layoutInflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+        layoutInflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ) = ComposeView(requireContext())
 
     override fun onViewCreated(trendingView: View, savedInstanceState: Bundle?) {
@@ -59,7 +59,7 @@ class TrendingFragment : BaseFragment() {
 
             val onRepositoryClick: (RepositoryViewModel) -> Unit = { repository ->
                 requireContext().startActivity(
-                  Intent(Intent.ACTION_VIEW, repository.url)
+                    Intent(Intent.ACTION_VIEW, repository.url)
                 )
             }
 

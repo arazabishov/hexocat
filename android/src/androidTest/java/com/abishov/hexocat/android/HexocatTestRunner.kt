@@ -12,18 +12,18 @@ import io.appflate.restmock.android.AndroidLogger
 
 class HexocatTestRunner : AndroidJUnitRunner() {
 
-  override fun newApplication(cl: ClassLoader, className: String, context: Context): Application {
-    return Instrumentation.newApplication(HexocatTestApp::class.java, context)
-  }
+    override fun newApplication(cl: ClassLoader, className: String, context: Context): Application {
+        return Instrumentation.newApplication(HexocatTestApp::class.java, context)
+    }
 
-  override fun onCreate(arguments: Bundle) {
-    super.onCreate(arguments)
+    override fun onCreate(arguments: Bundle) {
+        super.onCreate(arguments)
 
-    val parser = AndroidAssetsFileParser(context)
-    val options = RESTMockOptions.Builder()
-      .useHttps(true)
-      .build()
+        val parser = AndroidAssetsFileParser(context)
+        val options = RESTMockOptions.Builder()
+            .useHttps(true)
+            .build()
 
-    RESTMockServerStarter.startSync(parser, AndroidLogger(), options)
-  }
+        RESTMockServerStarter.startSync(parser, AndroidLogger(), options)
+    }
 }

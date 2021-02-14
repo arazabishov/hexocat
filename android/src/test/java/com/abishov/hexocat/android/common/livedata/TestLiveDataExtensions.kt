@@ -23,17 +23,17 @@ import androidx.lifecycle.Observer
  * Represents a list of capture values from a LiveData.
  */
 class LiveDataValueCapture<T> {
-  private val lock = Any()
-  private val _values = mutableListOf<T?>()
+    private val lock = Any()
+    private val _values = mutableListOf<T?>()
 
-  val values: List<T?>
-    get() = synchronized(lock) {
-      _values.toList() // copy to avoid returning reference to mutable list
+    val values: List<T?>
+        get() = synchronized(lock) {
+            _values.toList() // copy to avoid returning reference to mutable list
+        }
+
+    fun addValue(value: T?) = synchronized(lock) {
+        _values += value
     }
-
-  fun addValue(value: T?) = synchronized(lock) {
-    _values += value
-  }
 }
 
 /**
@@ -43,15 +43,15 @@ class LiveDataValueCapture<T> {
  * @param block a lambda that will
  */
 inline fun <T> LiveData<T>.captureValues(block: LiveDataValueCapture<T>.() -> Unit) {
-  val capture = LiveDataValueCapture<T>()
-  val observer = Observer<T> {
-    capture.addValue(it)
-  }
+    val capture = LiveDataValueCapture<T>()
+    val observer = Observer<T> {
+        capture.addValue(it)
+    }
 
-  observeForever(observer)
-  try {
-    capture.block()
-  } finally {
-    removeObserver(observer)
-  }
+    observeForever(observer)
+    try {
+        capture.block()
+    } finally {
+        removeObserver(observer)
+    }
 }

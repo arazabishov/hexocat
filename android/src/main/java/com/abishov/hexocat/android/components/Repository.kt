@@ -18,9 +18,9 @@ import androidx.compose.ui.unit.dp
 import dev.chrisbanes.accompanist.coil.CoilImage
 
 data class OwnerViewModel(
-  val avatarUrl: Uri,
-  val login: String,
-  val id: String,
+    val avatarUrl: Uri,
+    val login: String,
+    val id: String,
 )
 
 data class RepositoryViewModel(
@@ -37,78 +37,78 @@ data class RepositoryViewModel(
 
 @Composable
 private fun Name(name: String) {
-  Text(
-    text = name,
-    maxLines = 1,
-    overflow = TextOverflow.Ellipsis,
-    style = MaterialTheme.typography.subtitle1,
-  )
+    Text(
+        text = name,
+        maxLines = 1,
+        overflow = TextOverflow.Ellipsis,
+        style = MaterialTheme.typography.subtitle1,
+    )
 }
 
 @Composable
 private fun Author(username: String) {
-  Text(
-    text = username,
-    maxLines = 1,
-    overflow = TextOverflow.Ellipsis,
-    style = MaterialTheme.typography.subtitle2
-  )
+    Text(
+        text = username,
+        maxLines = 1,
+        overflow = TextOverflow.Ellipsis,
+        style = MaterialTheme.typography.subtitle2
+    )
 }
 
 @Composable
 private fun Header(repository: RepositoryViewModel) {
-  Row(
-    modifier = Modifier.padding(16.dp)
-  ) {
-    Avatar(
-      url = repository.owner.avatarUrl,
-      modifier = Modifier.preferredSize(40.dp),
-      cornerRadius = AvatarCornerSize
-    )
-    Column(modifier = Modifier.padding(start = 16.dp)) {
-      Name(name = repository.name)
-      Author(username = repository.owner.login)
+    Row(
+        modifier = Modifier.padding(16.dp)
+    ) {
+        Avatar(
+            url = repository.owner.avatarUrl,
+            modifier = Modifier.preferredSize(40.dp),
+            cornerRadius = AvatarCornerSize
+        )
+        Column(modifier = Modifier.padding(start = 16.dp)) {
+            Name(name = repository.name)
+            Author(username = repository.owner.login)
+        }
     }
-  }
 }
 
 @Composable
 private fun Description(description: String) {
-  Text(
-    text = description,
-    style = MaterialTheme.typography.body2,
-    modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp),
-    overflow = TextOverflow.Ellipsis,
-    maxLines = 3,
-  )
+    Text(
+        text = description,
+        style = MaterialTheme.typography.body2,
+        modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp),
+        overflow = TextOverflow.Ellipsis,
+        maxLines = 3,
+    )
 }
 
 @Composable
 private fun Banner(url: Uri) {
-  CoilImage(
-    data = url,
-    fadeIn = true,
-    contentScale = ContentScale.Crop,
-    modifier = Modifier
-      .fillMaxWidth()
-      .height(194.dp)
-  )
+    CoilImage(
+        data = url,
+        fadeIn = true,
+        contentScale = ContentScale.Crop,
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(194.dp)
+    )
 }
 
 @Composable
 private fun StarButton(stars: Int, modifier: Modifier = Modifier) {
-  Box(modifier = modifier.then(Modifier.fillMaxWidth())) {
-    OutlinedButton(onClick = { /* TODO */ }, modifier = Modifier.align(Alignment.CenterEnd)) {
-      Icon(
-        modifier = Modifier
-          .padding(end = ButtonDefaults.IconSpacing)
-          .preferredSize(ButtonDefaults.IconSize),
-        imageVector = Icons.Outlined.StarOutline,
-        tint = MaterialTheme.colors.secondary,
-      )
-      Text(text = stars.toString(), color = MaterialTheme.colors.secondary)
+    Box(modifier = modifier.then(Modifier.fillMaxWidth())) {
+        OutlinedButton(onClick = { /* TODO */ }, modifier = Modifier.align(Alignment.CenterEnd)) {
+            Icon(
+                modifier = Modifier
+                    .padding(end = ButtonDefaults.IconSpacing)
+                    .preferredSize(ButtonDefaults.IconSize),
+                imageVector = Icons.Outlined.StarOutline,
+                tint = MaterialTheme.colors.secondary,
+            )
+            Text(text = stars.toString(), color = MaterialTheme.colors.secondary)
+        }
     }
-  }
 }
 
 @Composable
@@ -118,12 +118,12 @@ private fun Tags(
     topics: List<TopicViewModel>?,
     modifier: Modifier
 ) {
-  Box(modifier = modifier) {
-    FlowRow(mainAxisSpacing = 16.dp, crossAxisSpacing = 8.dp) {
-      primaryLanguage?.let { Language(it) }
-      topics?.forEach { Topic(it) }
+    Box(modifier = modifier) {
+        FlowRow(mainAxisSpacing = 16.dp, crossAxisSpacing = 8.dp) {
+            primaryLanguage?.let { Language(it) }
+            topics?.forEach { Topic(it) }
+        }
     }
-  }
 }
 
 @Composable
@@ -132,29 +132,29 @@ private fun RepositoryCard(
     onRepositoryClick: (repository: RepositoryViewModel) -> Unit,
     content: @Composable ColumnScope.() -> Unit
 ) {
-  Box(
-    modifier = Modifier
-      .fillMaxWidth()
-      .fillMaxWidth()
-      .padding(horizontal = 8.dp, vertical = 4.dp),
-  ) {
-    val cardBorderStroke = BorderStroke(
-      1.dp, MaterialTheme.colors.onSurface.copy(alpha = 0.12f)
-    )
-
-    Card(
-      elevation = 0.dp,
-      modifier = Modifier
-        .fillMaxWidth()
-        .clickable(onClick = { onRepositoryClick(repository) }),
-      shape = CutCornerShape(4.dp),
-      border = cardBorderStroke
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .fillMaxWidth()
+            .padding(horizontal = 8.dp, vertical = 4.dp),
     ) {
-      Column {
-        content()
-      }
+        val cardBorderStroke = BorderStroke(
+            1.dp, MaterialTheme.colors.onSurface.copy(alpha = 0.12f)
+        )
+
+        Card(
+            elevation = 0.dp,
+            modifier = Modifier
+                .fillMaxWidth()
+                .clickable(onClick = { onRepositoryClick(repository) }),
+            shape = CutCornerShape(4.dp),
+            border = cardBorderStroke
+        ) {
+            Column {
+                content()
+            }
+        }
     }
-  }
 }
 
 @Composable
@@ -163,38 +163,38 @@ fun Repository(
     repository: RepositoryViewModel,
     onRepositoryClick: (repository: RepositoryViewModel) -> Unit
 ) {
-  RepositoryCard(repository, onRepositoryClick) {
-    if (repository.bannerUrl != null) {
-      Banner(url = repository.bannerUrl)
+    RepositoryCard(repository, onRepositoryClick) {
+        if (repository.bannerUrl != null) {
+            Banner(url = repository.bannerUrl)
+        }
+
+        Header(repository)
+
+        if (repository.description != null && repository.description.isNotEmpty()) {
+            Description(description = repository.description)
+        }
+
+        Tags(
+            primaryLanguage = repository.primaryLanguage,
+            topics = repository.topics,
+            modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
+        )
+
+        if (repository.mentionableUsers != null) {
+            Contributors(
+                owner = repository.owner,
+                users = repository.mentionableUsers,
+                modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
+            )
+        }
+
+        StarButton(
+            repository.stars,
+            modifier = Modifier
+                .padding(8.dp)
+                .wrapContentSize()
+        )
     }
-
-    Header(repository)
-
-    if (repository.description != null && repository.description.isNotEmpty()) {
-      Description(description = repository.description)
-    }
-
-    Tags(
-      primaryLanguage = repository.primaryLanguage,
-      topics = repository.topics,
-      modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
-    )
-
-    if (repository.mentionableUsers != null) {
-      Contributors(
-        owner = repository.owner,
-        users = repository.mentionableUsers,
-        modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
-      )
-    }
-
-    StarButton(
-      repository.stars,
-      modifier = Modifier
-        .padding(8.dp)
-        .wrapContentSize()
-    )
-  }
 }
 
 @Composable
@@ -202,9 +202,9 @@ fun Repositories(
     repos: List<RepositoryViewModel>,
     onRepositoryClick: (RepositoryViewModel) -> Unit
 ) {
-  LazyColumn(modifier = Modifier.padding(vertical = 4.dp)) {
-    items(repos) {
-      Repository(repository = it, onRepositoryClick = onRepositoryClick)
+    LazyColumn(modifier = Modifier.padding(vertical = 4.dp)) {
+        items(repos) {
+            Repository(repository = it, onRepositoryClick = onRepositoryClick)
+        }
     }
-  }
 }

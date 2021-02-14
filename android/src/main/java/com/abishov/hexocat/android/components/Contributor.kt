@@ -29,81 +29,81 @@ data class ContributorViewModel(val id: String, val avatarUrl: Uri)
 
 @Composable
 fun Contributor(contributor: ContributorViewModel) {
-  Avatar(
-    url = contributor.avatarUrl,
-    Modifier.preferredSize(contributorAvatarSize),
-    AvatarCornerSize
-  )
+    Avatar(
+        url = contributor.avatarUrl,
+        Modifier.preferredSize(contributorAvatarSize),
+        AvatarCornerSize
+    )
 }
 
 @Composable
 fun ContributorOverflow(contributorsOverflow: Int) {
 
-  @Composable
-  fun ContributorOutline(
-    color: Color,
-    avatarCornerSize: Dp,
-    modifier: Modifier,
-    content: @Composable BoxScope.() -> Unit
-  ) {
-    val contributorCornerRadius = with(AmbientDensity.current) {
-      val avatarSizePx = contributorAvatarSize.toPx()
-      val avatarSize = Size(avatarSizePx, avatarSizePx)
-      val cornerSize = CornerSize(avatarCornerSize).toPx(avatarSize, this)
-
-      CornerRadius(cornerSize)
-    }
-
-    Box(
-      modifier = modifier.then(
-        Modifier.preferredSize(contributorAvatarSize)
-      ), contentAlignment = Alignment.Center
+    @Composable
+    fun ContributorOutline(
+        color: Color,
+        avatarCornerSize: Dp,
+        modifier: Modifier,
+        content: @Composable BoxScope.() -> Unit
     ) {
-      Canvas(modifier = modifier, onDraw = {
-        drawRoundRect(
-          color = color,
-          style = Stroke(width = Dp.Hairline.value),
-          cornerRadius = contributorCornerRadius
-        )
-      })
-      content()
+        val contributorCornerRadius = with(AmbientDensity.current) {
+            val avatarSizePx = contributorAvatarSize.toPx()
+            val avatarSize = Size(avatarSizePx, avatarSizePx)
+            val cornerSize = CornerSize(avatarCornerSize).toPx(avatarSize, this)
+
+            CornerRadius(cornerSize)
+        }
+
+        Box(
+            modifier = modifier.then(
+                Modifier.preferredSize(contributorAvatarSize)
+            ), contentAlignment = Alignment.Center
+        ) {
+            Canvas(modifier = modifier, onDraw = {
+                drawRoundRect(
+                    color = color,
+                    style = Stroke(width = Dp.Hairline.value),
+                    cornerRadius = contributorCornerRadius
+                )
+            })
+            content()
+        }
     }
-  }
 
-  ContributorOutline(
-    MaterialTheme.colors.onSurface,
-    AvatarCornerSize,
-    Modifier.preferredSize(contributorAvatarSize)
-  ) {
-    val overflow = if (contributorsOverflow > 99)
-      99 else contributorsOverflow
+    ContributorOutline(
+        MaterialTheme.colors.onSurface,
+        AvatarCornerSize,
+        Modifier.preferredSize(contributorAvatarSize)
+    ) {
+        val overflow = if (contributorsOverflow > 99)
+            99 else contributorsOverflow
 
-    Text(
-      text = "+${overflow}",
-      style = MaterialTheme.typography.caption,
-      fontWeight = FontWeight.Light
-    )
-  }
+        Text(
+            text = "+${overflow}",
+            style = MaterialTheme.typography.caption,
+            fontWeight = FontWeight.Light
+        )
+    }
 }
 
 @Composable
 @OptIn(ExperimentalLayout::class)
 fun Contributors(owner: OwnerViewModel, users: MentionableUsersViewModel, modifier: Modifier) {
-  val topContributors = users.contributors
-  val isOwnerTheOnlyContributor = topContributors.size == 1 &&
-      topContributors.first().id == owner.id
+    val topContributors = users.contributors
+    val isOwnerTheOnlyContributor = topContributors.size == 1 &&
+            topContributors.first().id == owner.id
 
-  if (!isOwnerTheOnlyContributor) {
-    val contributorsOverflow = users.totalCount - topContributors.size
+    if (!isOwnerTheOnlyContributor) {
+        val contributorsOverflow = users.totalCount - topContributors.size
 
-    Box(modifier) {
-      FlowRow(mainAxisSpacing = 4.dp, crossAxisSpacing = 8.dp) {
-        topContributors.forEach { Contributor(it) }
+        Box(modifier) {
+            FlowRow(mainAxisSpacing = 4.dp, crossAxisSpacing = 8.dp) {
+                topContributors.forEach { Contributor(it) }
 
-        if (contributorsOverflow > 0) {
-          ContributorOverflow(contributorsOverflow)
+                if (contributorsOverflow > 0) {
+                    ContributorOverflow(contributorsOverflow)
+                }
+            }
         }
-      }
     }
-  }
 }

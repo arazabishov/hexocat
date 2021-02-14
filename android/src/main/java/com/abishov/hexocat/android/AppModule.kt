@@ -10,11 +10,11 @@ import javax.inject.Singleton
 @Module
 internal class AppModule {
 
-  @Provides
-  @Singleton
-  internal fun context(app: Application): Context = app
+    @Provides
+    @Singleton
+    internal fun context(app: Application): Context = app
 
-  @Provides
-  @Singleton
-  internal fun paperwork(context: Context) = Paperwork(context)
+    @Provides
+    @Singleton
+    internal fun paperwork(context: Context) = Paperwork(context)
 }

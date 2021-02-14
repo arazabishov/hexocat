@@ -18,89 +18,89 @@ import javax.inject.Inject
 
 open class Hexocat : Application(), HasAndroidInjector {
 
-  protected lateinit var appComponent: AppComponent
-  protected lateinit var refWatcher: RefWatcher
+    protected lateinit var appComponent: AppComponent
+    protected lateinit var refWatcher: RefWatcher
 
-  @Inject
-  internal lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Any>
+    @Inject
+    internal lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Any>
 
-  @Inject
-  internal lateinit var paperwork: Paperwork
+    @Inject
+    internal lateinit var paperwork: Paperwork
 
-  override fun onCreate() {
-    super.onCreate()
+    override fun onCreate() {
+        super.onCreate()
 
-    if (LeakCanary.isInAnalyzerProcess(this)) {
-      // this process is going to be used to
-      // analyze heap dumps by LeakCanary
-      return
+        if (LeakCanary.isInAnalyzerProcess(this)) {
+            // this process is going to be used to
+            // analyze heap dumps by LeakCanary
+            return
+        }
+
+        AndroidThreeTen.init(this)
+
+        setupAppComponent()
+        setUpLeakCanary()
+        setUpTimber()
+
+        // Do not allow to do any work on the
+        // main thread. Detect activity leaks.
+        setupStrictMode()
     }
 
-    AndroidThreeTen.init(this)
+    override fun androidInjector(): AndroidInjector<Any> = dispatchingAndroidInjector
 
-    setupAppComponent()
-    setUpLeakCanary()
-    setUpTimber()
-
-    // Do not allow to do any work on the
-    // main thread. Detect activity leaks.
-    setupStrictMode()
-  }
-
-  override fun androidInjector(): AndroidInjector<Any> = dispatchingAndroidInjector
-
-  private fun setupStrictMode() {
-    if (BuildConfig.DEBUG) {
-      StrictMode.setThreadPolicy(
-        StrictMode.ThreadPolicy.Builder()
-          .detectAll()
-          .penaltyLog()
-          .build()
-      )
-      StrictMode.setVmPolicy(
-        StrictMode.VmPolicy.Builder()
-          .detectAll()
-          .penaltyLog()
-          .build()
-      )
+    private fun setupStrictMode() {
+        if (BuildConfig.DEBUG) {
+            StrictMode.setThreadPolicy(
+                StrictMode.ThreadPolicy.Builder()
+                    .detectAll()
+                    .penaltyLog()
+                    .build()
+            )
+            StrictMode.setVmPolicy(
+                StrictMode.VmPolicy.Builder()
+                    .detectAll()
+                    .penaltyLog()
+                    .build()
+            )
+        }
     }
-  }
 
-  protected fun setupAppComponent() {
-    appComponent = prepareAppComponent()
-    appComponent.inject(this)
-  }
-
-  private fun setUpLeakCanary() {
-    refWatcher = if (BuildConfig.DEBUG) {
-      LeakCanary.install(this)
-    } else {
-      RefWatcher.DISABLED
+    protected fun setupAppComponent() {
+        appComponent = prepareAppComponent()
+        appComponent.inject(this)
     }
-  }
 
-  private fun setUpTimber() {
-    if (BuildConfig.DEBUG) {
-      Timber.plant(Timber.DebugTree())
-    } else {
-      Timber.plant(CrashReportingTree(paperwork))
+    private fun setUpLeakCanary() {
+        refWatcher = if (BuildConfig.DEBUG) {
+            LeakCanary.install(this)
+        } else {
+            RefWatcher.DISABLED
+        }
     }
-  }
 
-  protected open fun prepareAppComponent(): AppComponent {
-    return DaggerAppComponent.builder()
-      .baseUrl("https://api.github.com/graphql".toHttpUrl())
-      .dispatcherProvider(DefaultDispatcherProvider())
-      .clock(Clock.systemDefaultZone())
-      .application(this)
-      .build()
-  }
+    private fun setUpTimber() {
+        if (BuildConfig.DEBUG) {
+            Timber.plant(Timber.DebugTree())
+        } else {
+            Timber.plant(CrashReportingTree(paperwork))
+        }
+    }
 
-  fun appComponent(): AppComponent {
-    return appComponent
-  }
+    protected open fun prepareAppComponent(): AppComponent {
+        return DaggerAppComponent.builder()
+            .baseUrl("https://api.github.com/graphql".toHttpUrl())
+            .dispatcherProvider(DefaultDispatcherProvider())
+            .clock(Clock.systemDefaultZone())
+            .application(this)
+            .build()
+    }
 
-  fun refWatcher(): RefWatcher {
-    return refWatcher
-  }
+    fun appComponent(): AppComponent {
+        return appComponent
+    }
+
+    fun refWatcher(): RefWatcher {
+        return refWatcher
+    }
 }

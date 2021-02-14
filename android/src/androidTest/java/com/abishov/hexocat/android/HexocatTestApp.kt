@@ -15,44 +15,44 @@ import org.threeten.bp.format.DateTimeFormatter
 const val TEST_BASE_DATE = "2017-08-30T00:00:00+00:00"
 
 class HexocatTestApp : Hexocat() {
-  private var baseUrl: HttpUrl? = null
+    private var baseUrl: HttpUrl? = null
 
-  override fun prepareAppComponent(): AppComponent {
-    if (baseUrl == null) {
-      return super.prepareAppComponent()
+    override fun prepareAppComponent(): AppComponent {
+        if (baseUrl == null) {
+            return super.prepareAppComponent()
+        }
+
+        val testDispatcherProvider = object : DispatcherProvider {
+            override val io: CoroutineDispatcher = EspressoTrackedDispatcher(Dispatchers.IO)
+        }
+
+        return DaggerAppComponent.builder()
+            .sslSocketFactory(RESTMockServer.getSSLSocketFactory())
+            .trustManager(RESTMockServer.getTrustManager())
+            .clock(createFixedClockInstance(TEST_BASE_DATE))
+            .dispatcherProvider(testDispatcherProvider)
+            .application(this)
+            .baseUrl(baseUrl!!)
+            .build()
     }
 
-    val testDispatcherProvider = object : DispatcherProvider {
-      override val io: CoroutineDispatcher = EspressoTrackedDispatcher(Dispatchers.IO)
+    companion object {
+        val instance: HexocatTestApp
+            get() {
+                val instrumentation = InstrumentationRegistry.getInstrumentation()
+                return instrumentation.targetContext.applicationContext as HexocatTestApp
+            }
+
+        fun overrideBaseUrl(baseUrl: HttpUrl) {
+            instance.baseUrl = baseUrl
+            instance.setupAppComponent()
+        }
+
+        private fun createFixedClockInstance(dateTime: String): Clock {
+            val dateTimeInstant = LocalDateTime.parse(dateTime, DateTimeFormatter.ISO_DATE_TIME)
+                .atZone(ZoneOffset.UTC)
+                .toInstant()
+            return Clock.fixed(dateTimeInstant, ZoneOffset.UTC)
+        }
     }
-
-    return DaggerAppComponent.builder()
-      .sslSocketFactory(RESTMockServer.getSSLSocketFactory())
-      .trustManager(RESTMockServer.getTrustManager())
-      .clock(createFixedClockInstance(TEST_BASE_DATE))
-      .dispatcherProvider(testDispatcherProvider)
-      .application(this)
-      .baseUrl(baseUrl!!)
-      .build()
-  }
-
-  companion object {
-    val instance: HexocatTestApp
-      get() {
-        val instrumentation = InstrumentationRegistry.getInstrumentation()
-        return instrumentation.targetContext.applicationContext as HexocatTestApp
-      }
-
-    fun overrideBaseUrl(baseUrl: HttpUrl) {
-      instance.baseUrl = baseUrl
-      instance.setupAppComponent()
-    }
-
-    private fun createFixedClockInstance(dateTime: String): Clock {
-      val dateTimeInstant = LocalDateTime.parse(dateTime, DateTimeFormatter.ISO_DATE_TIME)
-        .atZone(ZoneOffset.UTC)
-        .toInstant()
-      return Clock.fixed(dateTimeInstant, ZoneOffset.UTC)
-    }
-  }
 }
