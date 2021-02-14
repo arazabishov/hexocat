@@ -1,0 +1,49 @@
+query SearchRepositories(
+  $query: String!,
+  $repositoriesCount: Int!,
+  $repositoryTopicsCount: Int!,
+  $mentionableUsersCount: Int!,
+  $ownerAvatarSize: Int!,
+  $contributorAvatarSize: Int!
+) {
+  search(
+    query: $query,
+    type: REPOSITORY,
+    first: $repositoriesCount
+  ) {
+    repositoryCount
+    items: nodes {
+      ... on Repository {
+        url
+        name
+        description
+        openGraphImageUrl
+        usesCustomOpenGraphImage
+        owner {
+          id
+          login
+          avatarUrl(size: $ownerAvatarSize)
+        }
+        repositoryTopics(first: $repositoryTopicsCount) {
+          topics: nodes {
+            topic {
+              name
+            }
+          }
+        }
+        stargazerCount
+        primaryLanguage {
+          color
+          name
+        }
+        mentionableUsers(first: $mentionableUsersCount) {
+          contributors: nodes {
+            id
+            avatarUrl(size: $contributorAvatarSize)
+          }
+          totalCount
+        }
+      }
+    }
+  }
+}
