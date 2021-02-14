@@ -11,20 +11,29 @@ buildscript {
     val kotlin = com.abishov.hexocat.buildsrc.Libraries.kotlin
     val apollo = com.abishov.hexocat.buildsrc.Libraries.apollo
     val paperwork = com.abishov.hexocat.buildsrc.Libraries.paperwork
+    val androidGradlePlugin = com.abishov.hexocat.buildsrc.Libraries.androidGradlePlugin
+    val buildKonfig = com.abishov.hexocat.buildsrc.Libraries.buildKonfig
+    val gradleVersions = com.abishov.hexocat.buildsrc.Libraries.gradleVersions
 
     dependencies {
         classpath("com.apollographql.apollo:apollo-gradle-plugin:$apollo")
-        classpath("com.android.tools.build:gradle:4.2.0-beta04")
+        classpath("com.android.tools.build:gradle:$androidGradlePlugin")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin")
-        classpath("com.github.ben-manes:gradle-versions-plugin:0.36.0")
+        classpath("com.github.ben-manes:gradle-versions-plugin:$gradleVersions")
         classpath("hu.supercluster:paperwork-plugin:$paperwork")
+        classpath("com.codingfeline.buildkonfig:buildkonfig-gradle-plugin:$buildKonfig")
     }
 }
 
 allprojects {
+    val jitpackUri = java.net.URI.create("https://jitpack.io")
+
     repositories {
         google()
         jcenter()
         mavenCentral()
+        maven {
+            url = jitpackUri
+        }
     }
 }

@@ -1,12 +1,16 @@
-query TrendingRepositories(
+query SearchRepositories(
   $query: String!,
-  $number_of_repositories: Int!,
-  $number_of_repository_topics: Int!,
-  $number_of_mentionable_users: Int!,
-  $owner_avatar_size: Int!,
-  $contributor_avatar_size: Int!
+  $repositoriesCount: Int!,
+  $repositoryTopicsCount: Int!,
+  $mentionableUsersCount: Int!,
+  $ownerAvatarSize: Int!,
+  $contributorAvatarSize: Int!
 ) {
-  search(query: $query, type: REPOSITORY, first: $number_of_repositories) {
+  search(
+    query: $query,
+    type: REPOSITORY,
+    first: $repositoriesCount
+  ) {
     repositoryCount
     items: nodes {
       ... on Repository {
@@ -18,9 +22,9 @@ query TrendingRepositories(
         owner {
           id
           login
-          avatarUrl(size: $owner_avatar_size)
+          avatarUrl(size: $ownerAvatarSize)
         }
-        repositoryTopics(first: $number_of_repository_topics) {
+        repositoryTopics(first: $repositoryTopicsCount) {
           topics: nodes {
             topic {
               name
@@ -32,10 +36,10 @@ query TrendingRepositories(
           color
           name
         }
-        mentionableUsers(first: $number_of_mentionable_users) {
+        mentionableUsers(first: $mentionableUsersCount) {
           contributors: nodes {
             id
-            avatarUrl(size: $contributor_avatar_size)
+            avatarUrl(size: $contributorAvatarSize)
           }
           totalCount
         }

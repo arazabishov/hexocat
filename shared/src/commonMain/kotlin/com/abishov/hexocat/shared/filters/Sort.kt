@@ -1,4 +1,4 @@
-package com.abishov.hexocat.github.filters
+package com.abishov.hexocat.shared.filters
 
 enum class Sort(private val value: String) {
   STARS("stars"), FORKS("forks");

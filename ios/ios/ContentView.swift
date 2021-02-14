@@ -1,13 +1,17 @@
 import SwiftUI
 import shared
 
-func greet() -> String {
-    return Greeting().greeting()
-}
-
 struct ContentView: View {
+    @ObservedObject var viewModel = TrendingViewModel()
+
     var body: some View {
-        Text(greet())
+        let repositories = viewModel.repositories ?? Array()
+
+        List(repositories, id: \.self) { repository in
+            Text(repository.name)
+        }.onAppear {
+            viewModel.fetch()
+        }
     }
 }
 
