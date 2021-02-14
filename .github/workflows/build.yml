@@ -17,6 +17,8 @@ jobs:
       - name: Clean and build the project
         run: |
           ./gradlew --no-daemon clean build
+        env:
+          GITHUB_PAT: ${{ secrets.GH_PAT }}
       - name: Run UI and integration tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
