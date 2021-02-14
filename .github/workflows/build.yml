@@ -14,12 +14,15 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 11
-      - name: Build with Gradle and run integration tests
+      - name: Clean and build the project
+        run: |
+          ./gradlew --no-daemon clean build
+      - name: Run UI and integration tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 29
           profile: pixel_4_xl
-          script: sh build.sh
+          script: ./gradlew --no-daemon :android:connectedCheck
         env:
           GITHUB_PAT: ${{ secrets.GH_PAT }}
       - name: Uploading test coverage reports

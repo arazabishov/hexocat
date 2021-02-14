@@ -15,7 +15,4 @@ fi
 # check the code quality and run tests on the device/emulator.
 "$PROJECT_DIR"/gradlew $GRADLE_ARGUMENTS clean
 "$PROJECT_DIR"/gradlew $GRADLE_ARGUMENTS build
-
-# Retry running instrumentation tests in case of spontaneous failure
-"$PROJECT_DIR"/gradlew $GRADLE_ARGUMENTS :android:connectedCheck ||
-    "$PROJECT_DIR"/gradlew $GRADLE_ARGUMENTS :android:connectedCheck
+"$PROJECT_DIR"/gradlew $GRADLE_ARGUMENTS :android:connectedCheck
