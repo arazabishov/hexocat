@@ -10,7 +10,6 @@ object AndroidSdk {
 object Libraries {
     const val kotlin = "1.4.21"
     const val compose = "1.0.0-alpha10"
-    const val composeUiTest = "1.0.0-alpha07"
     const val apollo = "2.5.3"
     const val lifecycle = "2.2.0"
     const val coroutines = "1.4.2"

@@ -144,7 +144,7 @@ dependencies {
     androidTestUtil("androidx.test:orchestrator:${Libraries.orchestrator}")
     androidTestImplementation("androidx.test:rules:${Libraries.testRules}")
 
-    androidTestImplementation("androidx.ui:ui-test:${Libraries.composeUiTest}")
+    androidTestImplementation("androidx.compose.ui:ui-test:${Libraries.compose}")
     androidTestImplementation("androidx.test.espresso:espresso-idling-resource:${Libraries.espresso}")
     androidTestImplementation("androidx.test.espresso:espresso-core:${Libraries.espresso}")
     androidTestImplementation("androidx.test.espresso:espresso-intents:${Libraries.espresso}")
