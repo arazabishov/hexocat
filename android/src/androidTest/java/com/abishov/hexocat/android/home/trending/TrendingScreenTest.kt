@@ -4,12 +4,13 @@ import android.app.Activity
 import android.app.Instrumentation
 import android.content.Context
 import android.content.Intent
-import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.compose.ui.test.junit4.AndroidComposeTestRule
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.Intents.intended
 import androidx.test.espresso.intent.Intents.intending
 import androidx.test.espresso.intent.matcher.IntentMatchers.*
 import com.abishov.hexocat.android.HexocatTestApp
+import com.abishov.hexocat.android.common.rule.CustomActivityRule
 import com.abishov.hexocat.android.common.rule.MockWebServerRule
 import com.abishov.hexocat.android.home.HomeActivity
 import io.appflate.restmock.RESTMockServer.whenPOST
@@ -25,7 +26,10 @@ import org.junit.rules.RuleChain
 
 class TrendingScreenTest {
     private lateinit var context: Context
-    private val composeTestRule = createAndroidComposeRule<HomeActivity>()
+    private val composeTestRule = AndroidComposeTestRule(
+        activityRule = CustomActivityRule(HomeActivity::class.java),
+        activityProvider = { it.activity }
+    )
 
     @get:Rule
     val chainedRule: RuleChain = RuleChain.outerRule(MockWebServerRule())
@@ -50,6 +54,8 @@ class TrendingScreenTest {
     fun mustRenderTrendingRepositoriesForToday() {
         whenPOST(pathContains("graphql"))
             .thenReturnFile("response/search/repositories/200_trending.json")
+
+        composeTestRule.activityRule.launch()
 
         trendingScreen {
             withRepository("pdd_3years") {
@@ -79,6 +85,8 @@ class TrendingScreenTest {
         whenPOST(pathContains("graphql"))
             .thenReturnEmpty(400)
 
+        composeTestRule.activityRule.launch()
+
         trendingScreen {
             errorMessage("400")
             retryButtonIsVisible()
@@ -92,6 +100,8 @@ class TrendingScreenTest {
         whenPOST(pathContains("graphql"))
             .thenReturnEmpty(500)
 
+        composeTestRule.activityRule.launch()
+
         trendingScreen {
             errorMessage("500")
             retryButtonIsVisible()
@@ -104,6 +114,8 @@ class TrendingScreenTest {
     fun mustRequestBackendAfterRetryButtonClicked() {
         whenPOST(pathContains("graphql"))
             .thenReturnEmpty(400)
+
+        composeTestRule.activityRule.launch()
 
         trendingScreen {
             errorMessage("400")
@@ -128,6 +140,8 @@ class TrendingScreenTest {
 
         whenPOST(pathContains("graphql"))
             .thenReturnFile("response/search/repositories/200_trending.json")
+
+        composeTestRule.activityRule.launch()
 
         intending(not(isInternal())).respondWith(
             Instrumentation.ActivityResult(
