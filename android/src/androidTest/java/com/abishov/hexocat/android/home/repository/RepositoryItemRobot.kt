@@ -11,7 +11,7 @@ class RepositoryItemRobot(
     init {
         composeTestRule.onNodeWithText(
             text = name, ignoreCase = false, useUnmergedTree = true
-        ).assertExists()
+        ).assertExists().printToLog("xcat: repo-name")
     }
 
     private fun withText(text: String) {
@@ -21,7 +21,7 @@ class RepositoryItemRobot(
                     .or(hasAnyDescendant(hasText(text)))
             ),
             useUnmergedTree = true
-        ).assertExists()
+        ).assertExists().printToLog("xcat: $text")
     }
 
     fun owner(name: String) = withText(name)
@@ -37,6 +37,6 @@ class RepositoryItemRobot(
     fun clickOnRow() {
         composeTestRule.onNodeWithText(
             text = name, ignoreCase = false, useUnmergedTree = true
-        ).onParent().performClick()
+        ).onParent().performClick().printToLog("xcat: click")
     }
 }

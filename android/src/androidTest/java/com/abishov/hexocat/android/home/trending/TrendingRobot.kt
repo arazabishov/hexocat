@@ -36,7 +36,7 @@ class TrendingRobot(
         return composeTestRule.onNodeWithText(
             text = context.getString(R.string.home_action_retry),
             useUnmergedTree = true
-        )
+        ).also { it.printToLog("xcat: retry-button") }
     }
 
     fun retry() {
@@ -47,6 +47,7 @@ class TrendingRobot(
     fun errorMessage(error: String) {
         composeTestRule.onNode(hasSubstring(error), useUnmergedTree = true)
             .assertIsDisplayed()
+            .printToLog("xcat: error-message")
     }
 
     fun retryButtonIsVisible() {
