@@ -33,10 +33,11 @@ class TrendingRobot(
     private val context: Context
 ) {
     private fun retryButton(): SemanticsNodeInteraction {
+        composeTestRule.onRoot().printToLog("xcat: retryButton()")
         return composeTestRule.onNodeWithText(
             text = context.getString(R.string.home_action_retry),
             useUnmergedTree = true
-        ).also { it.printToLog("xcat: retry-button") }
+        )
     }
 
     fun retry() {
@@ -45,6 +46,7 @@ class TrendingRobot(
     }
 
     fun errorMessage(error: String) {
+        composeTestRule.onRoot().printToLog("xcat: errorMessage")
         composeTestRule.onNode(hasSubstring(error), useUnmergedTree = true)
             .assertIsDisplayed()
             .printToLog("xcat: error-message")
