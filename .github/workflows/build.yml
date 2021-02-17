@@ -26,7 +26,7 @@ jobs:
           profile: pixel_4_xl
           script: |
             adb logcat -c
-            adb logcat *:E &
+            adb logcat *:V &
             ./gradlew --no-daemon :android:connectedCheck
         env:
           GITHUB_PAT: ${{ secrets.GH_PAT }}
