@@ -9,14 +9,12 @@ class RepositoryItemRobot(
 ) {
 
     init {
-        composeTestRule.onRoot().printToLog("xcat: repoName={$name}")
         composeTestRule.onNodeWithText(
             text = name, ignoreCase = false, useUnmergedTree = true
         ).assertExists()
     }
 
     private fun withText(text: String) {
-        composeTestRule.onRoot().printToLog("xcat: withText={$text}")
         composeTestRule.onNode(
             matcher = hasAnySibling(hasText(name)).and(
                 hasText(text)
@@ -37,7 +35,6 @@ class RepositoryItemRobot(
     fun stars(stars: Int) = withText(stars.toString())
 
     fun clickOnRow() {
-        composeTestRule.onRoot().printToLog("xcat: clickOnRow")
         composeTestRule.onNodeWithText(
             text = name, ignoreCase = false, useUnmergedTree = true
         ).onParent().performClick()
