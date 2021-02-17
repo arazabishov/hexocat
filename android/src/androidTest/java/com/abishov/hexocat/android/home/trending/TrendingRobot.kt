@@ -47,7 +47,6 @@ class TrendingRobot(
     fun errorMessage(error: String) {
         composeTestRule.onNode(hasSubstring(error), useUnmergedTree = true)
             .assertIsDisplayed()
-            .printToLog("xcat: error-message")
     }
 
     fun retryButtonIsVisible() {
