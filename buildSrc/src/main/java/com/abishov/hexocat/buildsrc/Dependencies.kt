@@ -14,7 +14,7 @@ object Libraries {
     const val lifecycle = "2.2.0"
     const val coroutines = "1.4.2"
     const val dagger = "2.28.3"
-    const val okhttp = "4.7.2"
+    const val okhttp = "4.9.1"
     const val leakcanary = "1.5.4"
     const val threetenabp = "1.2.4"
     const val timber = "4.7.1"
@@ -23,7 +23,7 @@ object Libraries {
     const val junit = "4.13.1"
     const val androidJunit = "1.1.2"
     const val assertj = "2.8.0";
-    const val restmock = "0.4.1"
+    const val restmock = "0.4.3"
     const val mockito = "3.7.7"
     const val mockitok = "2.2.0"
     const val assertk = "0.23"
