@@ -24,7 +24,10 @@ jobs:
         with:
           api-level: 29
           profile: pixel_4_xl
-          script: ./gradlew --no-daemon :android:connectedCheck
+          script: |
+            adb logcat -c
+            adb logcat *:E &
+            ./gradlew --no-daemon :android:connectedCheck
         env:
           GITHUB_PAT: ${{ secrets.GH_PAT }}
       - name: Uploading test coverage reports

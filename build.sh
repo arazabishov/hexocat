@@ -14,4 +14,4 @@ fi
 # This will: compile the project, run lint, run tests under JVM, package apk,
 # check the code quality and run tests on the device/emulator.
 "$PROJECT_DIR"/gradlew $GRADLE_ARGUMENTS clean build
-"$PROJECT_DIR"/gradlew $GRADLE_ARGUMENTS :android:connectedCheck --info
+"$PROJECT_DIR"/gradlew $GRADLE_ARGUMENTS :android:connectedCheck
