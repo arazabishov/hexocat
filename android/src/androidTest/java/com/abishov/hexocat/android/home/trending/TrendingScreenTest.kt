@@ -4,14 +4,14 @@ import android.app.Activity
 import android.app.Instrumentation
 import android.content.Context
 import android.content.Intent
-import androidx.compose.ui.test.junit4.AndroidComposeTestRule
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.Intents.intended
 import androidx.test.espresso.intent.Intents.intending
 import androidx.test.espresso.intent.matcher.IntentMatchers.*
 import com.abishov.hexocat.android.HexocatTestApp
-import com.abishov.hexocat.android.common.rule.CustomActivityRule
 import com.abishov.hexocat.android.common.rule.MockWebServerRule
+import com.abishov.hexocat.android.common.rule.createDelayedActivityComposeRule
+import com.abishov.hexocat.android.common.rule.launch
 import com.abishov.hexocat.android.home.HomeActivity
 import io.appflate.restmock.RESTMockServer.whenPOST
 import io.appflate.restmock.RequestsVerifier.verifyPOST
@@ -26,10 +26,7 @@ import org.junit.rules.RuleChain
 
 class TrendingScreenTest {
     private lateinit var context: Context
-    private val composeTestRule = AndroidComposeTestRule(
-        activityRule = CustomActivityRule(HomeActivity::class.java),
-        activityProvider = { it.activity }
-    )
+    private val composeTestRule = createDelayedActivityComposeRule<HomeActivity>()
 
     @get:Rule
     val chainedRule: RuleChain = RuleChain.outerRule(MockWebServerRule())
@@ -55,7 +52,7 @@ class TrendingScreenTest {
         whenPOST(pathContains("graphql"))
             .thenReturnFile("response/search/repositories/200_trending.json")
 
-        composeTestRule.activityRule.launch()
+        composeTestRule.launch()
 
         trendingScreen {
             withRepository("pdd_3years") {
@@ -85,7 +82,7 @@ class TrendingScreenTest {
         whenPOST(pathContains("graphql"))
             .thenReturnEmpty(400)
 
-        composeTestRule.activityRule.launch()
+        composeTestRule.launch()
 
         trendingScreen {
             errorMessage("400")
@@ -100,7 +97,7 @@ class TrendingScreenTest {
         whenPOST(pathContains("graphql"))
             .thenReturnEmpty(500)
 
-        composeTestRule.activityRule.launch()
+        composeTestRule.launch()
 
         trendingScreen {
             errorMessage("500")
@@ -115,7 +112,7 @@ class TrendingScreenTest {
         whenPOST(pathContains("graphql"))
             .thenReturnEmpty(400)
 
-        composeTestRule.activityRule.launch()
+        composeTestRule.launch()
 
         trendingScreen {
             errorMessage("400")
@@ -141,7 +138,7 @@ class TrendingScreenTest {
         whenPOST(pathContains("graphql"))
             .thenReturnFile("response/search/repositories/200_trending.json")
 
-        composeTestRule.activityRule.launch()
+        composeTestRule.launch()
 
         intending(not(isInternal())).respondWith(
             Instrumentation.ActivityResult(
