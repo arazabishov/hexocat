@@ -7,7 +7,7 @@ buildscript {
     }
 
     dependencies {
-        classpath "com.android.tools.build:gradle:7.0.0-alpha05"
+        classpath "com.android.tools.build:gradle:4.2.1"
         classpath "com.apollographql.apollo:apollo-gradle-plugin:2.2.3"
         classpath "com.github.ben-manes:gradle-versions-plugin:0.28.0"
         classpath "hu.supercluster:paperwork-plugin:1.2.7"
