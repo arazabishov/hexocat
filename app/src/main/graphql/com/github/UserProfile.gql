@@ -1,5 +1,0 @@
-query UserProfile {
-  viewer {
-    name
-   }
-}
