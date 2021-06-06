@@ -22,7 +22,7 @@ object Libraries {
     const val espresso = "3.3.0"
     const val junit = "4.13.1"
     const val androidJunit = "1.1.2"
-    const val assertj = "2.8.0";
+    const val assertj = "2.8.0"
     const val restmock = "0.4.3"
     const val mockito = "3.7.7"
     const val mockitok = "2.2.0"
@@ -36,7 +36,7 @@ object Libraries {
     const val roboelectric = "4.5"
     const val orchestrator = "1.3.0"
     const val testRules = "1.3.0"
-    const val androidGradlePlugin = "4.2.0-beta04"
+    const val androidGradlePlugin = "4.2.1"
     const val buildKonfig = "0.7.0"
     const val gradleVersions = "0.36.0"
 }
