@@ -15,4 +15,4 @@ fi
 # check the code quality and run tests on the device/emulator.
 "$PROJECT_DIR"/gradlew $GRADLE_ARGUMENTS clean
 "$PROJECT_DIR"/gradlew $GRADLE_ARGUMENTS build
-"$PROJECT_DIR"/gradlew $GRADLE_ARGUMENTS connectedCheck
+"$PROJECT_DIR"/gradlew $GRADLE_ARGUMENTS :android:connectedCheck
