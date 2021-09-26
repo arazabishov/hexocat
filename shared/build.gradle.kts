@@ -59,11 +59,11 @@ android {
     sourceSets["main"].manifest
         .srcFile("src/androidMain/AndroidManifest.xml")
 
-    compileSdkVersion(AndroidSdk.Version.compile)
+    compileSdk = AndroidSdk.Version.compile
 
     defaultConfig {
-        targetSdkVersion(AndroidSdk.Version.compile)
-        minSdkVersion(AndroidSdk.Version.min)
+        targetSdk = AndroidSdk.Version.compile
+        minSdk = AndroidSdk.Version.min
     }
 }
 
@@ -77,7 +77,7 @@ apollo {
 
 fun Project.properties(path: String): Properties? {
     val properties = Properties()
-    val localProperties = rootProject.file(path)
+    val localProperties = file(path)
 
     if (localProperties.exists()) {
         return properties.also { it.load(localProperties.inputStream()) }
@@ -99,7 +99,7 @@ fun getGithubPat(): String {
         return githubPat
     }
 
-    throw InvalidUserDataException(
+    throw IllegalArgumentException(
         "Neither 'githubPat' property " +
                 "in the 'local.properties' file or 'GITHUB_PAT' environment variable was set."
     )

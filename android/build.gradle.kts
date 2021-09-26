@@ -1,5 +1,7 @@
 import com.abishov.hexocat.buildsrc.AndroidSdk
 import com.abishov.hexocat.buildsrc.Libraries
+import com.abishov.hexocat.buildsrc.AndroidX
+import com.abishov.hexocat.buildsrc.Jetpack
 
 plugins {
     id("com.android.application")
@@ -22,12 +24,18 @@ object Version {
         get() = "${versionMajor}.${versionMinor}.${versionPatch}"
 }
 
+kotlin {
+    sourceSets.all {
+        languageSettings.useExperimentalAnnotation("kotlin.RequiresOptIn")
+    }
+}
+
 android {
-    compileSdkVersion(AndroidSdk.Version.compile)
+    compileSdk = AndroidSdk.Version.compile
 
     defaultConfig {
-        targetSdkVersion(AndroidSdk.Version.compile)
-        minSdkVersion(AndroidSdk.Version.min)
+        targetSdk = AndroidSdk.Version.compile
+        minSdk = AndroidSdk.Version.min
 
         applicationId = "com.abishov.hexocat.android"
         versionCode = Version.code
@@ -42,7 +50,7 @@ android {
 
     composeOptions {
         kotlinCompilerVersion = Libraries.kotlin
-        kotlinCompilerExtensionVersion = Libraries.compose
+        kotlinCompilerExtensionVersion = Jetpack.Compose.version
     }
 
     compileOptions {
@@ -53,6 +61,10 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
         useIR = true
+    }
+
+    testCoverage {
+        jacocoVersion = "0.8.7"
     }
 
     buildTypes {
@@ -66,11 +78,17 @@ android {
     }
 
     packagingOptions {
-        exclude("**/attach_hotspot_windows.dll")
-        exclude("META-INF/AL2.0")
-        exclude("META-INF/LGPL2.1")
-        exclude("META-INF/LICENSE")
-        exclude("META-INF/licenses/ASM")
+        resources {
+            excludes.addAll(
+                setOf(
+                    "**/attach_hotspot_windows.dll",
+                    "META-INF/AL2.0",
+                    "META-INF/LGPL2.1",
+                    "META-INF/LICENSE",
+                    "META-INF/licenses/ASM",
+                )
+            )
+        }
     }
 
     testOptions {
@@ -90,26 +108,47 @@ paperwork {
     )
 }
 
+fun DependencyHandlerScope.androidx() {
+    implementation(AndroidX.Lifecycle.viewmodel)
+    implementation(AndroidX.Lifecycle.livedata)
+
+    implementation(AndroidX.annotation)
+    implementation(AndroidX.appcompat)
+
+    testImplementation(AndroidX.Test.androidJUnit)
+    testImplementation(AndroidX.Test.archCoreTesting)
+
+    androidTestUtil(AndroidX.Test.orchestrator)
+    androidTestImplementation(AndroidX.Test.rules)
+    androidTestImplementation(AndroidX.Test.Espresso.core)
+    androidTestImplementation(AndroidX.Test.Espresso.intents)
+    androidTestImplementation(AndroidX.Test.Espresso.contrib)
+    androidTestImplementation(AndroidX.Test.Espresso.idlingResource)
+}
+
+fun DependencyHandlerScope.jetpack() {
+    implementation(Jetpack.material)
+    implementation(Jetpack.Compose.ui)
+    implementation(Jetpack.Compose.uiTooling)
+    implementation(Jetpack.Compose.foundation)
+    implementation(Jetpack.Compose.material)
+    implementation(Jetpack.Compose.icons)
+
+    androidTestImplementation(Jetpack.Compose.Test.uiTest)
+    androidTestImplementation(Jetpack.Compose.Test.uiTestJUnit)
+}
+
 dependencies {
     implementation(project(":shared"))
+
+    androidx()
+    jetpack()
 
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Libraries.kotlin}")
     implementation("hu.supercluster:paperwork:${Libraries.paperwork}")
 
-    implementation("com.google.android.material:material:${Libraries.material}")
-    implementation("androidx.appcompat:appcompat:${Libraries.appcompat}")
-    implementation("androidx.annotation:annotation:${Libraries.annotation}")
-
-    implementation("androidx.compose.ui:ui:${Libraries.compose}")
-    implementation("androidx.compose.ui:ui-tooling:${Libraries.compose}")
-    implementation("androidx.compose.foundation:foundation:${Libraries.compose}")
-    implementation("androidx.compose.material:material-icons-extended:${Libraries.compose}")
-    implementation("androidx.compose.material:material:${Libraries.compose}")
-    implementation("dev.chrisbanes.accompanist:accompanist-coil:${Libraries.accompanist}")
-
-    implementation("androidx.lifecycle:lifecycle-extensions:${Libraries.lifecycle}")
-    implementation("androidx.lifecycle:lifecycle-livedata-ktx:${Libraries.lifecycle}")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:${Libraries.lifecycle}")
+    implementation(Libraries.coil)
+    implementation(Libraries.flowlayout)
 
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:${Libraries.coroutines}")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:${Libraries.coroutines}")
@@ -137,19 +176,7 @@ dependencies {
     testImplementation("com.willowtreeapps.assertk:assertk:${Libraries.assertk}")
     testImplementation("com.nhaarman.mockitokotlin2:mockito-kotlin:${Libraries.mockitok}")
     testImplementation("org.robolectric:robolectric:${Libraries.roboelectric}")
-    testImplementation("androidx.test.ext:junit:${Libraries.androidJunit}")
-    testImplementation("android.arch.core:core-testing:${Libraries.archTesting}")
     testImplementation("com.apollographql.apollo:apollo-api:${Libraries.apollo}")
-
-    androidTestUtil("androidx.test:orchestrator:${Libraries.orchestrator}")
-    androidTestImplementation("androidx.test:rules:${Libraries.testRules}")
-
-    androidTestImplementation("androidx.compose.ui:ui-test:${Libraries.compose}")
-    androidTestImplementation("androidx.test.espresso:espresso-idling-resource:${Libraries.espresso}")
-    androidTestImplementation("androidx.test.espresso:espresso-core:${Libraries.espresso}")
-    androidTestImplementation("androidx.test.espresso:espresso-intents:${Libraries.espresso}")
-    androidTestImplementation("androidx.test.espresso:espresso-contrib:${Libraries.espresso}")
-    androidTestImplementation("androidx.compose.ui:ui-test-junit4:${Libraries.compose}")
 
     androidTestImplementation("com.github.andrzejchm.RESTMock:android:${Libraries.restmock}")
     androidTestImplementation("com.squareup.okhttp3:mockwebserver:${Libraries.okhttp}")

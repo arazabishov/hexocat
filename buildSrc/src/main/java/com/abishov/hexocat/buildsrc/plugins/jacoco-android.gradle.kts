@@ -5,7 +5,7 @@ plugins {
 }
 
 jacoco {
-    toolVersion = "0.8.6"
+    toolVersion = "0.8.7"
 }
 
 tasks.withType<Test> {
@@ -18,7 +18,7 @@ tasks.withType<Test> {
 val debugCoverageSourceDirs = files(listOf("src/main/java", "src/debug/java"))
 
 val debugExecutionData = fileTree(baseDir = "$buildDir") {
-    include("jacoco/testDebugUnitTest.exec", "outputs/code-coverage/connected/*coverage.ec")
+    include("jacoco/testDebugUnitTest.exec", "outputs/code_coverage/debugAndroidTest/connected/**/*.ec")
 }
 
 val debugClassDirectories = fileTree(baseDir = "${project.buildDir}/intermediates/classes/debug") {
@@ -75,7 +75,7 @@ if (tasks.findByName("jacocoAndroidCoverageVerification") == null) {
         violationRules {
             rule {
                 limit {
-                    minimum = 0.6.toBigDecimal()
+                    minimum = "0.6".toBigDecimal()
                 }
             }
         }

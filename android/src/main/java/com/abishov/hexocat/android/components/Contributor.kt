@@ -13,10 +13,11 @@ import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.platform.AmbientDensity
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.google.accompanist.flowlayout.FlowRow
 
 private val contributorAvatarSize = 28.dp
 
@@ -31,7 +32,7 @@ data class ContributorViewModel(val id: String, val avatarUrl: Uri)
 fun Contributor(contributor: ContributorViewModel) {
     Avatar(
         url = contributor.avatarUrl,
-        Modifier.preferredSize(contributorAvatarSize),
+        Modifier.size(contributorAvatarSize),
         AvatarCornerSize
     )
 }
@@ -46,7 +47,7 @@ fun ContributorOverflow(contributorsOverflow: Int) {
         modifier: Modifier,
         content: @Composable BoxScope.() -> Unit
     ) {
-        val contributorCornerRadius = with(AmbientDensity.current) {
+        val contributorCornerRadius = with(LocalDensity.current) {
             val avatarSizePx = contributorAvatarSize.toPx()
             val avatarSize = Size(avatarSizePx, avatarSizePx)
             val cornerSize = CornerSize(avatarCornerSize).toPx(avatarSize, this)
@@ -56,7 +57,7 @@ fun ContributorOverflow(contributorsOverflow: Int) {
 
         Box(
             modifier = modifier.then(
-                Modifier.preferredSize(contributorAvatarSize)
+                Modifier.size(contributorAvatarSize)
             ), contentAlignment = Alignment.Center
         ) {
             Canvas(modifier = modifier, onDraw = {
@@ -73,7 +74,7 @@ fun ContributorOverflow(contributorsOverflow: Int) {
     ContributorOutline(
         MaterialTheme.colors.onSurface,
         AvatarCornerSize,
-        Modifier.preferredSize(contributorAvatarSize)
+        Modifier.size(contributorAvatarSize)
     ) {
         val overflow = if (contributorsOverflow > 99)
             99 else contributorsOverflow
@@ -87,7 +88,6 @@ fun ContributorOverflow(contributorsOverflow: Int) {
 }
 
 @Composable
-@OptIn(ExperimentalLayout::class)
 fun Contributors(owner: OwnerViewModel, users: MentionableUsersViewModel, modifier: Modifier) {
     val topContributors = users.contributors
     val isOwnerTheOnlyContributor = topContributors.size == 1 &&

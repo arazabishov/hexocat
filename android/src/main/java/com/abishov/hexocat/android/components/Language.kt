@@ -1,10 +1,7 @@
 package com.abishov.hexocat.android.components
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.preferredSize
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -33,7 +30,7 @@ fun LanguageColor(languageColor: String?, modifier: Modifier = Modifier) {
         modifier = modifier.then(
             Modifier
                 .clip(CircleShape)
-                .preferredSize(10.dp)
+                .size(10.dp)
                 .background(color)
         ),
     )

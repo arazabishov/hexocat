@@ -2,16 +2,16 @@ package com.abishov.hexocat.android.common.theme
 
 import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.font.font
-import androidx.compose.ui.text.font.fontFamily
 import androidx.compose.ui.unit.sp
 import com.abishov.hexocat.android.R
 
-private val RobotoMonoFontFamily = fontFamily(
-    font(R.font.robotomono_light, FontWeight.Light),
-    font(R.font.robotomono_medium, FontWeight.Medium),
-    font(R.font.robotomono_regular, FontWeight.Normal),
+private val RobotoMonoFontFamily = FontFamily(
+    Font(R.font.robotomono_light, FontWeight.Light),
+    Font(R.font.robotomono_medium, FontWeight.Medium),
+    Font(R.font.robotomono_regular, FontWeight.Normal),
 )
 
 val HexocatTypography = Typography(
