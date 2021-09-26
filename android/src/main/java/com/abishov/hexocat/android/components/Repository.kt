@@ -15,7 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import dev.chrisbanes.accompanist.coil.CoilImage
+import com.google.accompanist.flowlayout.FlowRow
 
 data class OwnerViewModel(
     val avatarUrl: Uri,
@@ -62,7 +62,7 @@ private fun Header(repository: RepositoryViewModel) {
     ) {
         Avatar(
             url = repository.owner.avatarUrl,
-            modifier = Modifier.preferredSize(40.dp),
+            modifier = Modifier.size(40.dp),
             cornerRadius = AvatarCornerSize
         )
         Column(modifier = Modifier.padding(start = 16.dp)) {
@@ -85,9 +85,9 @@ private fun Description(description: String) {
 
 @Composable
 private fun Banner(url: Uri) {
-    CoilImage(
-        data = url,
-        fadeIn = true,
+    RemoteImage(
+        url = url,
+        contentDescription = "",
         contentScale = ContentScale.Crop,
         modifier = Modifier
             .fillMaxWidth()
@@ -102,7 +102,8 @@ private fun StarButton(stars: Int, modifier: Modifier = Modifier) {
             Icon(
                 modifier = Modifier
                     .padding(end = ButtonDefaults.IconSpacing)
-                    .preferredSize(ButtonDefaults.IconSize),
+                    .size(ButtonDefaults.IconSize),
+                contentDescription = "",
                 imageVector = Icons.Outlined.StarOutline,
                 tint = MaterialTheme.colors.secondary,
             )
@@ -112,7 +113,6 @@ private fun StarButton(stars: Int, modifier: Modifier = Modifier) {
 }
 
 @Composable
-@OptIn(ExperimentalLayout::class)
 private fun Tags(
     primaryLanguage: LanguageViewModel?,
     topics: List<TopicViewModel>?,
@@ -158,7 +158,6 @@ private fun RepositoryCard(
 }
 
 @Composable
-@OptIn(ExperimentalLayout::class)
 fun Repository(
     repository: RepositoryViewModel,
     onRepositoryClick: (repository: RepositoryViewModel) -> Unit
@@ -203,8 +202,8 @@ fun Repositories(
     onRepositoryClick: (RepositoryViewModel) -> Unit
 ) {
     LazyColumn(modifier = Modifier.padding(vertical = 4.dp)) {
-        items(repos) {
-            Repository(repository = it, onRepositoryClick = onRepositoryClick)
+        items(repos.size, { index -> repos[index].url }) { index ->
+            Repository(repository = repos[index], onRepositoryClick = onRepositoryClick)
         }
     }
 }

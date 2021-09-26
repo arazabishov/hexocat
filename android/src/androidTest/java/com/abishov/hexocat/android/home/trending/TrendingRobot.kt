@@ -1,8 +1,11 @@
 package com.abishov.hexocat.android.home.trending
 
 import android.content.Context
-import androidx.compose.ui.test.*
+import androidx.compose.ui.test.SemanticsNodeInteraction
+import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.ComposeTestRule
+import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.performClick
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
@@ -45,8 +48,11 @@ class TrendingRobot(
     }
 
     fun errorMessage(error: String) {
-        composeTestRule.onNode(hasSubstring(error), useUnmergedTree = true)
-            .assertIsDisplayed()
+        composeTestRule.onNodeWithText(
+            text = error,
+            substring = true,
+            useUnmergedTree = true
+        ).assertIsDisplayed()
     }
 
     fun retryButtonIsVisible() {

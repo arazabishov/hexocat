@@ -22,7 +22,7 @@ object BottomNavigationViewMatcher {
             }
 
             override fun matchesSafely(item: BottomNavigationItemView): Boolean {
-                return isChecked.matches(item.itemData.isChecked)
+                return isChecked.matches(item.itemData?.isChecked)
             }
         }
     }

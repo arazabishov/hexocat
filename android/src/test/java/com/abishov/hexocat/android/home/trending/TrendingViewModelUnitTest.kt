@@ -221,7 +221,6 @@ class TrendingViewModelUnitTest {
 
                 val viewStateSuccess = values[1]
                 assertThat(viewStateSuccess!!).isInstanceOf(TrendingViewState.Success::class)
-                // assertThat((viewStateSuccess as TrendingViewState.Success).items).isEmpty()
             }
         }
 }

@@ -8,15 +8,14 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import dev.chrisbanes.accompanist.coil.CoilImage
 
 val AvatarCornerSize = 4.dp
 
 @Composable
 fun Avatar(url: Uri, modifier: Modifier, cornerRadius: Dp) {
-    CoilImage(
-        data = url,
-        fadeIn = true,
+    RemoteImage(
+        url = url,
+        contentDescription = "",
         contentScale = ContentScale.Fit,
         modifier = modifier.then(
             Modifier.clip(RoundedCornerShape(cornerRadius))
