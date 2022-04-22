@@ -15,12 +15,12 @@ import androidx.compose.ui.unit.dp
 import com.abishov.hexocat.android.R
 import com.abishov.hexocat.android.common.theme.HexocatTheme
 import com.abishov.hexocat.android.components.Repositories
-import com.abishov.hexocat.android.components.RepositoryViewModel
+import com.abishov.hexocat.shared.models.RepositoryModel
 
 @Composable
 fun Trending(
     state: TrendingViewState,
-    onRepositoryClick: (RepositoryViewModel) -> Unit,
+    onRepositoryClick: (RepositoryModel) -> Unit,
     onRetry: () -> Unit
 ) {
     HexocatTheme {

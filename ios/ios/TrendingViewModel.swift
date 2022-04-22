@@ -9,12 +9,17 @@
 import Foundation
 import shared
 
+enum EncryptionError: Error {
+    case empty
+    case short
+}
+
 class TrendingViewModel: ObservableObject {
-    @Published var repositories: Array<SearchRepositoriesQuery.AsRepository>? = nil
+    @Published var repositories: Array<RepositoryModel>? = nil
     private let service: GithubService = GithubServiceFactory().create()
 
     func fetch() {
-        let searchQuery = SearchQuery(dateString: "2021-01-25", sort: .stars, order: .desc)
+        let searchQuery = SearchQuery(dateString: "2021-02-05", sort: .stars, order: .desc)
 
         service.search(
             query: searchQuery,
@@ -23,7 +28,7 @@ class TrendingViewModel: ObservableObject {
             mentionableUsersCount: 4,
             ownerAvatarSize: 256,
             contributorAvatarSize: 128
-        ) { (repositories: Array<SearchRepositoriesQuery.AsRepository>?, error: Error?) in
+        ) { (repositories: Array<RepositoryModel>?, error: Error?) in
             self.repositories = repositories
         }
     }

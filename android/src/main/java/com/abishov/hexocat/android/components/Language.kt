@@ -14,12 +14,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.abishov.hexocat.shared.models.LanguageModel
 import android.graphics.Color as GraphicsColor
-
-data class LanguageViewModel(
-    val name: String,
-    val color: String?
-)
 
 @Composable
 fun LanguageColor(languageColor: String?, modifier: Modifier = Modifier) {
@@ -40,7 +36,7 @@ fun LanguageColor(languageColor: String?, modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun Language(language: LanguageViewModel, modifier: Modifier = Modifier) {
+fun Language(language: LanguageModel, modifier: Modifier = Modifier) {
     Row(modifier = modifier, verticalAlignment = Alignment.CenterVertically) {
         LanguageColor(languageColor = language.color, modifier = Modifier.padding(end = 6.dp))
         Text(text = language.name, style = MaterialTheme.typography.caption)

@@ -1,6 +1,5 @@
 package com.abishov.hexocat.android.components
 
-import android.net.Uri
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CornerSize
@@ -17,18 +16,14 @@ import androidx.compose.ui.platform.AmbientDensity
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.abishov.hexocat.shared.models.ContributorModel
+import com.abishov.hexocat.shared.models.MentionableUsersModel
+import com.abishov.hexocat.shared.models.OwnerModel
 
 private val contributorAvatarSize = 28.dp
 
-data class MentionableUsersViewModel(
-    val contributors: List<ContributorViewModel>,
-    val totalCount: Int
-)
-
-data class ContributorViewModel(val id: String, val avatarUrl: Uri)
-
 @Composable
-fun Contributor(contributor: ContributorViewModel) {
+fun Contributor(contributor: ContributorModel) {
     Avatar(
         url = contributor.avatarUrl,
         Modifier.preferredSize(contributorAvatarSize),
@@ -88,7 +83,7 @@ fun ContributorOverflow(contributorsOverflow: Int) {
 
 @Composable
 @OptIn(ExperimentalLayout::class)
-fun Contributors(owner: OwnerViewModel, users: MentionableUsersViewModel, modifier: Modifier) {
+fun Contributors(owner: OwnerModel, users: MentionableUsersModel, modifier: Modifier) {
     val topContributors = users.contributors
     val isOwnerTheOnlyContributor = topContributors.size == 1 &&
             topContributors.first().id == owner.id

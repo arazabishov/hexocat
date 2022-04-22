@@ -1,6 +1,5 @@
 package com.abishov.hexocat.android.components
 
-import android.net.Uri
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -13,7 +12,7 @@ import dev.chrisbanes.accompanist.coil.CoilImage
 val AvatarCornerSize = 4.dp
 
 @Composable
-fun Avatar(url: Uri, modifier: Modifier, cornerRadius: Dp) {
+fun Avatar(url: String, modifier: Modifier, cornerRadius: Dp) {
     CoilImage(
         data = url,
         fadeIn = true,

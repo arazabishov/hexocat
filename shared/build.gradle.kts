@@ -29,9 +29,7 @@ kotlin {
             dependencies {
                 implementation("com.apollographql.apollo:apollo-runtime-kotlin:${Libraries.apollo}")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${Libraries.coroutines}-native-mt") {
-                    version {
-                        strictly(Libraries.coroutines)
-                    }
+                    isForce = true
                 }
             }
         }

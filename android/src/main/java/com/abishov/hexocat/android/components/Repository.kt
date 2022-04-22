@@ -1,6 +1,5 @@
 package com.abishov.hexocat.android.components
 
-import android.net.Uri
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -15,25 +14,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.abishov.hexocat.shared.models.LanguageModel
+import com.abishov.hexocat.shared.models.RepositoryModel
+import com.abishov.hexocat.shared.models.TopicModel
 import dev.chrisbanes.accompanist.coil.CoilImage
-
-data class OwnerViewModel(
-    val avatarUrl: Uri,
-    val login: String,
-    val id: String,
-)
-
-data class RepositoryViewModel(
-    val name: String,
-    val description: String?,
-    val bannerUrl: Uri?,
-    val stars: Int,
-    val url: Uri,
-    val owner: OwnerViewModel,
-    val primaryLanguage: LanguageViewModel?,
-    val topics: List<TopicViewModel>?,
-    val mentionableUsers: MentionableUsersViewModel?
-)
 
 @Composable
 private fun Name(name: String) {
@@ -56,7 +40,7 @@ private fun Author(username: String) {
 }
 
 @Composable
-private fun Header(repository: RepositoryViewModel) {
+private fun Header(repository: RepositoryModel) {
     Row(
         modifier = Modifier.padding(16.dp)
     ) {
@@ -84,7 +68,7 @@ private fun Description(description: String) {
 }
 
 @Composable
-private fun Banner(url: Uri) {
+private fun Banner(url: String) {
     CoilImage(
         data = url,
         fadeIn = true,
@@ -114,8 +98,8 @@ private fun StarButton(stars: Int, modifier: Modifier = Modifier) {
 @Composable
 @OptIn(ExperimentalLayout::class)
 private fun Tags(
-    primaryLanguage: LanguageViewModel?,
-    topics: List<TopicViewModel>?,
+    primaryLanguage: LanguageModel?,
+    topics: List<TopicModel>?,
     modifier: Modifier
 ) {
     Box(modifier = modifier) {
@@ -128,8 +112,8 @@ private fun Tags(
 
 @Composable
 private fun RepositoryCard(
-    repository: RepositoryViewModel,
-    onRepositoryClick: (repository: RepositoryViewModel) -> Unit,
+    repository: RepositoryModel,
+    onRepositoryClick: (repository: RepositoryModel) -> Unit,
     content: @Composable ColumnScope.() -> Unit
 ) {
     Box(
@@ -160,18 +144,20 @@ private fun RepositoryCard(
 @Composable
 @OptIn(ExperimentalLayout::class)
 fun Repository(
-    repository: RepositoryViewModel,
-    onRepositoryClick: (repository: RepositoryViewModel) -> Unit
+    repository: RepositoryModel,
+    onRepositoryClick: (repository: RepositoryModel) -> Unit
 ) {
     RepositoryCard(repository, onRepositoryClick) {
-        if (repository.bannerUrl != null) {
-            Banner(url = repository.bannerUrl)
+        val bannerUrl = repository.bannerUrl
+        if (bannerUrl != null) {
+            Banner(url = bannerUrl)
         }
 
         Header(repository)
 
-        if (repository.description != null && repository.description.isNotEmpty()) {
-            Description(description = repository.description)
+        val description = repository.overview
+        if (description != null && description.isNotEmpty()) {
+            Description(description = description)
         }
 
         Tags(
@@ -180,10 +166,11 @@ fun Repository(
             modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
         )
 
-        if (repository.mentionableUsers != null) {
+        val mentionableUsers = repository.mentionableUsers
+        if (mentionableUsers != null) {
             Contributors(
                 owner = repository.owner,
-                users = repository.mentionableUsers,
+                users = mentionableUsers,
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
             )
         }
@@ -199,8 +186,8 @@ fun Repository(
 
 @Composable
 fun Repositories(
-    repos: List<RepositoryViewModel>,
-    onRepositoryClick: (RepositoryViewModel) -> Unit
+    repos: List<RepositoryModel>,
+    onRepositoryClick: (RepositoryModel) -> Unit
 ) {
     LazyColumn(modifier = Modifier.padding(vertical = 4.dp)) {
         items(repos) {

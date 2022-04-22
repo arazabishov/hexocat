@@ -2,6 +2,7 @@ package com.abishov.hexocat.android.home.trending
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,8 +11,8 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.get
 import com.abishov.hexocat.android.common.views.BaseFragment
-import com.abishov.hexocat.android.components.RepositoryViewModel
 import com.abishov.hexocat.shared.filters.SearchQuery
+import com.abishov.hexocat.shared.models.RepositoryModel
 import dagger.android.support.AndroidSupportInjection
 import org.threeten.bp.Clock
 import org.threeten.bp.LocalDate
@@ -57,9 +58,9 @@ class TrendingFragment : BaseFragment() {
         viewModel.screenState.observe(viewLifecycleOwner) {
             val rootView = view
 
-            val onRepositoryClick: (RepositoryViewModel) -> Unit = { repository ->
+            val onRepositoryClick: (RepositoryModel) -> Unit = { repository ->
                 requireContext().startActivity(
-                    Intent(Intent.ACTION_VIEW, repository.url)
+                    Intent(Intent.ACTION_VIEW, Uri.parse(repository.url))
                 )
             }
 
